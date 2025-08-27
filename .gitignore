@@ -3,3 +3,4 @@ build/*
 dist/*
 __pycache__/*
 tmp_pics/*
+models/best.pt
