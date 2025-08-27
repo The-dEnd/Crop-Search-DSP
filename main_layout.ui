@@ -1,0 +1,1999 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Poincons_selector</class>
+ <widget class="QDialog" name="Poincons_selector">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1497</width>
+    <height>884</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Classement motifs poinçons</string>
+  </property>
+  <property name="accessibleName">
+   <string/>
+  </property>
+  <widget class="QTableView" name="die_findings">
+   <property name="geometry">
+    <rect>
+     <x>1040</x>
+     <y>10</y>
+     <width>441</width>
+     <height>821</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="die_picture">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>85</y>
+     <width>680</width>
+     <height>680</height>
+    </rect>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>680</width>
+     <height>680</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>680</width>
+     <height>680</height>
+    </size>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap>resources/media/empty.png</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>1050</x>
+     <y>20</y>
+     <width>418</width>
+     <height>801</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="die_grid">
+    <property name="verticalSpacing">
+     <number>6</number>
+    </property>
+    <item row="8" column="0">
+     <widget class="QRadioButton" name="force">
+      <property name="text">
+       <string>Forcer</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="2">
+     <widget class="QLabel" name="option3_percent">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INI</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1">
+     <widget class="QComboBox" name="force_type">
+      <property name="currentText">
+       <string>Sélectioner un motif</string>
+      </property>
+      <property name="placeholderText" stdset="0">
+       <string/>
+      </property>
+      <item>
+       <property name="text">
+        <string>Sélectioner un motif</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rouelle</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Palmette</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Géométrique</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Colonette</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Arceau</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>S-serpentin</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Figuratif</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QLabel" name="option2_percent">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INI</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QLineEdit" name="force_number">
+      <property name="maximumSize">
+       <size>
+        <width>82</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="placeholderText">
+       <string>Taper n° ici</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2">
+     <widget class="QLabel" name="option4_percent">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INI</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="3">
+     <widget class="QRadioButton" name="option4">
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="2">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>ou</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="QRadioButton" name="option1">
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QLabel" name="option1_model">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>resources/media/empty.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLabel" name="option4_model">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>resources/media/empty.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="option4_name">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INIT</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="0" colspan="2">
+     <widget class="QPushButton" name="false_neg">
+      <property name="text">
+       <string>Un motif n'est pas détecté?</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="option1_name">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INIT</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1">
+     <widget class="QLabel" name="option2_model">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>resources/media/empty.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QRadioButton" name="new_radio">
+      <property name="text">
+       <string>Inédit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="option2_name">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INIT</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1">
+     <widget class="QLabel" name="option3_model">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="pixmap">
+       <pixmap>resources/media/empty.png</pixmap>
+      </property>
+      <property name="scaledContents">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="3">
+     <widget class="QRadioButton" name="option2">
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="option3_name">
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>150</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INIT</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="4">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="3">
+     <widget class="QRadioButton" name="option3">
+      <property name="maximumSize">
+       <size>
+        <width>30</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0" colspan="4">
+     <widget class="Line" name="line_4">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="3">
+     <widget class="QRadioButton" name="false_pos">
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <italic>false</italic>
+       </font>
+      </property>
+      <property name="text">
+       <string>Pas un motif</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="4">
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="2">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>ou</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="3">
+     <widget class="QRadioButton" name="unknown">
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <italic>false</italic>
+       </font>
+      </property>
+      <property name="text">
+       <string>Indéterminé</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0" colspan="4">
+     <widget class="Line" name="line_3">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QLabel" name="option1_percent">
+      <property name="maximumSize">
+       <size>
+        <width>50</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INI</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QComboBox" name="new_type">
+      <property name="currentText">
+       <string>Sélectionner un motif</string>
+      </property>
+      <property name="placeholderText" stdset="0">
+       <string>Select a die type</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>Sélectionner un motif</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Rouelle</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Palmette</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Géométrique</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Colonette</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Arceau</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>S-serpentin</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Figuratif</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <widget class="QPushButton" name="HelpForce">
+      <property name="icon">
+       <iconset>
+        <normaloff>resources/media/magnifier.png</normaloff>resources/media/magnifier.png</iconset>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="0" colspan="3">
+     <widget class="QLineEdit" name="author">
+      <property name="placeholderText">
+       <string>Auteur des identifications</string>
+      </property>
+     </widget>
+    </item>
+    <item row="12" column="3">
+     <widget class="QComboBox" name="recentChoices">
+      <item>
+       <property name="text">
+        <string>Récents</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QSplitter" name="splitter_buttons">
+   <property name="geometry">
+    <rect>
+     <x>1080</x>
+     <y>850</y>
+     <width>401</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <widget class="QPushButton" name="exit">
+    <property name="text">
+     <string>Quitter</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="skip">
+    <property name="text">
+     <string>Passer</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="next">
+    <property name="text">
+     <string>Suivant</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QTableView" name="type_findings">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>311</width>
+     <height>511</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_2">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>-10</y>
+     <width>297</width>
+     <height>531</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="type_grid">
+    <item row="10" column="0">
+     <widget class="QLabel" name="fait">
+      <property name="text">
+       <string>Fait n°</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_site">
+      <property name="text">
+       <string>Site</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="municipality">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>Fanjeaux</string>
+      </property>
+      <property name="placeholderText">
+       <string>Commune</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="country">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>France</string>
+      </property>
+      <property name="placeholderText">
+       <string>Pays</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="lambert_Y">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>6231754</string>
+      </property>
+      <property name="placeholderText">
+       <string>Lambert 93 - Y</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="0">
+     <widget class="QLabel" name="us">
+      <property name="text">
+       <string>US n°</string>
+      </property>
+     </widget>
+    </item>
+    <item row="11" column="1" colspan="2">
+     <widget class="QTextEdit" name="numUs">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="placeholderText">
+       <string>Taper n° d'US</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_X">
+      <property name="text">
+       <string>X</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <widget class="QLabel" name="label_spot">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Localisation</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0">
+     <widget class="QLabel" name="label_Y">
+      <property name="text">
+       <string>Y</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="department">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>Aude</string>
+      </property>
+      <property name="placeholderText">
+       <string>Département</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="region">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>Occitanie</string>
+      </property>
+      <property name="placeholderText">
+       <string>Région</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="lambert_Z">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>259</string>
+      </property>
+      <property name="placeholderText">
+       <string>Lambert 93 - Z</string>
+      </property>
+     </widget>
+    </item>
+    <item row="10" column="1" colspan="2">
+     <widget class="QTextEdit" name="numFait">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="placeholderText">
+       <string>Taper n° de fait</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="site">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>Las Cravieros</string>
+      </property>
+      <property name="placeholderText">
+       <string>Lieu-dit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="9" column="0">
+     <widget class="QLabel" name="label_Z">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Z</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1" colspan="2">
+     <widget class="QPlainTextEdit" name="lambert_X">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="plainText">
+       <string>622242.08</string>
+      </property>
+      <property name="placeholderText">
+       <string>Lambert 93 - X</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QCheckBox" name="force_location">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Forcer nouvelle localisation
+ par défaut?</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTableView" name="tableView">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>540</y>
+     <width>311</width>
+     <height>301</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>550</y>
+     <width>293</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="2" column="2" colspan="2">
+     <widget class="QComboBox" name="mode_CRA">
+      <property name="currentText">
+       <string>A</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>A</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>B</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>Indéterminé</string>
+       </property>
+      </item>
+     </widget>
+    </item>
+    <item row="9" column="0" colspan="4">
+     <widget class="QPushButton" name="display_types">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Afficher les types</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="2">
+     <widget class="QCheckBox" name="checkBox_belly">
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Panse</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_CRA">
+      <property name="text">
+       <string>CRA de mode</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0" colspan="4">
+     <widget class="QLabel" name="label_type">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Données céramologiques</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" colspan="2">
+     <widget class="QCheckBox" name="checkBox_edge">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Bord</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="2">
+     <widget class="QPlainTextEdit" name="rig_num">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="placeholderText">
+       <string>Taper numéro ici</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0" colspan="4">
+     <widget class="QLabel" name="label_location">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Emplacement du fragment</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="3">
+     <widget class="QCheckBox" name="checkBox_bottom">
+      <property name="minimumSize">
+       <size>
+        <width>100</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>100</width>
+        <height>16777215</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>Fond</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="3">
+     <widget class="QCheckBox" name="unknownCRA">
+      <property name="text">
+       <string>Autre/Inédit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="4">
+     <widget class="QLabel" name="label_location_2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>40</height>
+       </size>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Forme</string>
+      </property>
+     </widget>
+    </item>
+    <item row="8" column="0" colspan="2">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Type n°</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0" colspan="4">
+     <widget class="QLabel" name="label_3">
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Catégorie</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLabel" name="LegalMentions">
+   <property name="geometry">
+    <rect>
+     <x>16</x>
+     <y>840</y>
+     <width>181</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>6</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>INIT</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="licenses">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>850</y>
+     <width>91</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Afficher licenses</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="comment_box">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>780</y>
+     <width>701</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="placeholderText">
+    <string>Taper commentaire ici</string>
+   </property>
+  </widget>
+  <widget class="QTableView" name="tableView_2">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>10</y>
+     <width>701</width>
+     <height>761</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="switch_theme">
+   <property name="geometry">
+    <rect>
+     <x>300</x>
+     <y>850</y>
+     <width>21</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>☀️</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="gridLayoutWidget_4">
+   <property name="geometry">
+    <rect>
+     <x>340</x>
+     <y>10</y>
+     <width>671</width>
+     <height>92</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout_2">
+    <item row="0" column="1" rowspan="2">
+     <widget class="QGroupBox" name="measureGroup">
+      <property name="minimumSize">
+       <size>
+        <width>150</width>
+        <height>90</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>150</width>
+        <height>50</height>
+       </size>
+      </property>
+      <property name="title">
+       <string/>
+      </property>
+      <widget class="QPushButton" name="setScaleButton">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>0</y>
+         <width>92</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <pointsize>1</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>Donner échelle</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="returnSizeButton">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>30</y>
+         <width>92</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Mesurer longueur</string>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="reference2">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INIT INIT INIT INIT INIT INIT</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="2">
+     <widget class="QTextEdit" name="returnSize">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>20</height>
+       </size>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QPlainTextEdit" name="setScale">
+      <property name="maximumSize">
+       <size>
+        <width>200</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="placeholderText">
+       <string>Tapez ici la longueur connue</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="reference1">
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="text">
+       <string>INIT INIT INIT INIT INIT INIT</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QLineEdit" name="sherdTxtId">
+   <property name="geometry">
+    <rect>
+     <x>420</x>
+     <y>850</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="dieTxtId">
+   <property name="geometry">
+    <rect>
+     <x>690</x>
+     <y>850</y>
+     <width>113</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="sherdId">
+   <property name="geometry">
+    <rect>
+     <x>330</x>
+     <y>850</y>
+     <width>55</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>INIT</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="dieId">
+   <property name="geometry">
+    <rect>
+     <x>610</x>
+     <y>850</y>
+     <width>55</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>INIT</string>
+   </property>
+  </widget>
+  <zorder>tableView_2</zorder>
+  <zorder>tableView</zorder>
+  <zorder>type_findings</zorder>
+  <zorder>die_findings</zorder>
+  <zorder>splitter_buttons</zorder>
+  <zorder>die_picture</zorder>
+  <zorder>gridLayoutWidget</zorder>
+  <zorder>gridLayoutWidget_2</zorder>
+  <zorder>gridLayoutWidget_3</zorder>
+  <zorder>LegalMentions</zorder>
+  <zorder>licenses</zorder>
+  <zorder>comment_box</zorder>
+  <zorder>switch_theme</zorder>
+  <zorder>gridLayoutWidget_4</zorder>
+  <zorder>sherdTxtId</zorder>
+  <zorder>dieTxtId</zorder>
+  <zorder>sherdId</zorder>
+  <zorder>dieId</zorder>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>next</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>next_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1351</x>
+     <y>850</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exit</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>exit_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1080</x>
+     <y>850</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>skip</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>skip_clicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1215</x>
+     <y>850</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>unknown</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radioboxUnk_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1466</x>
+     <y>683</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>force</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radioboxFor_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1051</x>
+     <y>722</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>new_radio</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radioboxNew_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1051</x>
+     <y>683</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>option1</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radiobox1_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1414</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>option2</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radiobox2_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1414</x>
+     <y>270</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>option3</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radiobox3_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1414</x>
+     <y>428</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>option4</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>radiobox4_ticked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1414</x>
+     <y>586</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>new_type</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>new_changed_type()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1173</x>
+     <y>685</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>force_type</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>force_changed_type()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1173</x>
+     <y>724</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>force_number</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>force_changed_number()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1378</x>
+     <y>726</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>551</x>
+     <y>409</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>display_types</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>show_types()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>829</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>mode_CRA</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>cra_changed_type()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>647</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rig_num</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>cra_changed_number()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>203</x>
+     <y>783</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>country</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>country_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lambert_X</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>x_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>319</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lambert_Z</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>z_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>409</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lambert_Y</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>y_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>364</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_belly</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>location_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>197</x>
+     <y>709</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_bottom</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>location_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>709</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBox_edge</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>location_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>709</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>716</x>
+     <y>438</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>region</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>region_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>231</x>
+     <y>139</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>department</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>department_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>184</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>municipality</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>municipality_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>229</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>site</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>site_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>274</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>741</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>unknownCRA</sender>
+   <signal>stateChanged(int)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>unknownCRA_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>309</x>
+     <y>776</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>310</x>
+     <y>852</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>author</sender>
+   <signal>textEdited(QString)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>author_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1243</x>
+     <y>805</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>799</x>
+     <y>758</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>licenses</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>popup_license()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>290</x>
+     <y>850</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1340</x>
+     <y>840</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>numFait</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>fait_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>150</x>
+     <y>447</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>699</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>numUs</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>us_changed()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>214</x>
+     <y>477</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>589</x>
+     <y>682</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>comment_box</sender>
+   <signal>textChanged()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>comment_edited()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>625</x>
+     <y>760</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>727</x>
+     <y>431</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>false_neg</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>false_negative()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1114</x>
+     <y>765</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1572</x>
+     <y>741</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>false_pos</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>false_positive()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1425</x>
+     <y>755</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>748</x>
+     <y>441</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>HelpForce</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>force_finder()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1439</x>
+     <y>714</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1489</x>
+     <y>726</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>switch_theme</sender>
+   <signal>clicked()</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>popup_theme()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>862</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>353</x>
+     <y>899</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>recentChoices</sender>
+   <signal>currentIndexChanged(QString)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>history_force()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1414</x>
+     <y>806</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1404</x>
+     <y>908</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>setScaleButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>set_scale()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>847</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>858</x>
+     <y>-39</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>returnSizeButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Poincons_selector</receiver>
+   <slot>retrieve_scale()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>764</x>
+     <y>70</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>756</x>
+     <y>-24</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>next_clicked()</slot>
+  <slot>skip_clicked()</slot>
+  <slot>exit_clicked()</slot>
+  <slot>radiobox1_ticked()</slot>
+  <slot>comment_edited()</slot>
+  <slot>new_changed_type()</slot>
+  <slot>force_changed_type()</slot>
+  <slot>force_changed_number()</slot>
+  <slot>show_types()</slot>
+  <slot>radiobox2_ticked()</slot>
+  <slot>radiobox3_ticked()</slot>
+  <slot>radiobox4_ticked()</slot>
+  <slot>radioboxNew_ticked()</slot>
+  <slot>radioboxFor_ticked()</slot>
+  <slot>radioboxUnk_ticked()</slot>
+  <slot>cra_changed_type()</slot>
+  <slot>cra_changed_number()</slot>
+  <slot>site_changed()</slot>
+  <slot>x_changed()</slot>
+  <slot>y_changed()</slot>
+  <slot>z_changed()</slot>
+  <slot>baking_changed_ox()</slot>
+  <slot>baking_changed_red()</slot>
+  <slot>baking_changed_unk()</slot>
+  <slot>country_changed()</slot>
+  <slot>region_changed()</slot>
+  <slot>department_changed()</slot>
+  <slot>municipality_changed()</slot>
+  <slot>location_changed()</slot>
+  <slot>unknownCRA_changed()</slot>
+  <slot>author_changed()</slot>
+  <slot>popup_license()</slot>
+  <slot>fait_changed()</slot>
+  <slot>us_changed()</slot>
+  <slot>false_negative()</slot>
+  <slot>false_positive()</slot>
+  <slot>force_finder()</slot>
+  <slot>popup_theme()</slot>
+  <slot>history_force()</slot>
+  <slot>set_scale()</slot>
+  <slot>retrieve_scale()</slot>
+ </slots>
+</ui>

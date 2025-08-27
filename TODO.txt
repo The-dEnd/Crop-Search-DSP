@@ -1,0 +1,26 @@
+
+
+
+
+refaire toute la doc et compléter la doc pas faite
+
+
+
+
+retester la compil
+
+
+
+
+
+compléter la doc pour la partie cosmétiques (load_stylesshets, load_fonts)
+
+
+
+
+résolution d'écran (ou a minima expliquer comment on peut l'adapter dans la doc: crer avec pyqt un nouveau layout aux bonnes dimensions, l'exporter dans un .py bis, et recopier les coordonnées)
+
+
+ 
+ 
+

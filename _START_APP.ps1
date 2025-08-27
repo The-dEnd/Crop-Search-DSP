@@ -1,0 +1,1 @@
+py.exe .\display.py > crashlogs.txt

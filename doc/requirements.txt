@@ -1,0 +1,20 @@
+dask
+torch
+joblib
+scikit-learn
+opencv-python
+torchvision
+numpy
+pillow
+pyqt5
+
+#in case you encoutered a compatibility issue, FYI the following versions were used during development:
+#opencv-python             4.11.0.86
+#scikit-learn              1.7.0
+#joblib                    1.5.1
+#pillow                    11.1.0
+#torch                     2.7.1
+#torchvision               0.22.1
+#numpy                     2.1.2
+#pillow                    11.1.0
+#PyQt5                     5.15.9

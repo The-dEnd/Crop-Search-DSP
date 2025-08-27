@@ -1,0 +1,51 @@
+[version française en fin de document]
+
+
+EN
+
+
+This document covers user instructions to handle (the compiled version of) the application. Its targeted audience is standard user with no expected IT knowledge/skill.
+
+WARNING: if you are using some anti-malware (such as Avast), the file may be labelled as malicious and deleted. You will need to whitelist the folder e.g. following these instructions: https://support.avast.com/en-us/article/Antivirus-scan-exclusions/#pc
+Should you have doubts about potential malware in the file, you can scan it using Windows Defender, or try to upload it to https://www.virustotal.com/gui/home/upload
+To give a quick explanation, the application has been developed and compiled without being signed (without having an official certification, which costs money that we cannot afford), and is thus labelled as untrusted by some antimalware.
+
+
+To start the application:
+1) on Windows, double click on the .exe file, with a "fox head" icon
+2) on Linux, mark the file as executable and run it
+
+If you already started working on files, and you did not finish your work during your last session, you will be asked whether you want to continue where you left, or if you want to open a new session. If you want to open a new session, you will be asked to select the folder containing the sherd pictures to review. Pick the folder.
+Following a few seconds/minutes (depending on the number of pictures to review), you will be prompted with one of the pictures. Detected dies are circled in blue, and the current one is circled in red.
+
+Data on the sherd can be inputed on the left. On the right panel is a suggestion of die types assessed as most likely to fit the picture. If the die is not matching one of the assessed types, you can manually force its type.
+If one die is not identified (not circled in blue/red), you can click on the "undetected die?" button, and manually set the bouding boxes of the sherd (by clicking in two corners of the die on the picture), and setting the type.
+
+When a die is finished, click "next".
+If you are unsure, you can click "skip", and the die will be offered again after having looped through all pictures.
+
+
+==================================================
+
+
+FR
+
+
+Ce document couvre les instructions d'utilisation pour manipuler (la version compilée) de l'application. Son public cible est l'utilisateur standard sans connaissance/compétence spécifiques en informatique.
+
+AVERTISSEMENT: Si vous utilisez un logiciel antivirus (comme Avast), le fichier peut être marqué comme malveillant et supprimé. Vous devrez ajouter l'emplacement à la liste blanche de l'antivirus, par exemple en suivant ces instructions: https://support.avast.com/en-us/article/Antivirus-scan-exclusions/#pc
+Si vous avez des doutes sur un éventuel logiciel malveillant dans le fichier, vous pouvez l'analyser avec Windows Defender ou essayer de l'uploader sur https://www.virustotal.com/gui/home/upload
+Pour simplifier, l'application a été développée et compilée sans être signée (sans avoir une certification officielle, qui coûte de l'argent), et est donc étiquetée comme non fiable par certains antivirus.
+
+Pour démarrer l'application:
+1) sur Windows double-cliquez sur le fichier .exe avec la "tête de renard". 
+2) sur Linux, marquez le fichier comme executable, puis lancez-le
+
+Si vous avez déjà commencé à travailler sur des fichiers et que vous n'avez pas terminé votre travail lors de la dernière session, vous serez demandé si vous voulez reprendre où vous en étiez ou si vous voulez ouvrir une nouvelle session. Si vous souhaitez ouvrir une nouvelle session, il vous sera demandé de sélectionner le dossier contenant les photos à examiner. Choisissez le dossier.
+Après quelques secondes/minutes (en fonction du nombre d'images à analyser), vous serez invité à analyser l'une des images. Les poinçons détectés sont encadrés en bleu, et le motif à analyser à l'instant T est encadré en rouge.
+
+Les informations sur le tesson (localisation géographique, données céramologiques, ...) peuvent être saisies sur le côté gauche. Le panneau de droite propose une suggestion de types de motifs qui ont été désignés automatiquement comme étant les plus susceptibles de correspondre à l'image. Si le motif e correspond pas à l'un des types évalués, vous pouvez forcer manuellement son type.
+Si un motif n'est pas identifié (pas encadré en bleu/rouge), vous pouvez cliquer sur le bouton "Un motif n'est pas détecté?", et définir manuellement les coins du contour (en cliquant sur deux coins du rectangle circonscrit au motif sur l'image), et en définir le type.
+
+Quand vous avez fini un des motifs de poinçons, cliquer sur "suivant". Si vous n'êtes pas sûr de la valeur du poinçon, cliquez "passer". Le motif sera proposé de nouveau après avoir itéré au travers de toutes les images de poinçons.
+
