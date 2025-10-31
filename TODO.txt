@@ -1,19 +1,23 @@
 
 
+handle log.txt access right issues with a ppopup and a silent fail.
 
 
-refaire toute la doc et compléter la doc pas faite
-
-
-
-
-retester la compil
+Update and rework documentation
 
 
 
 
+change layout (see Benoit's email)
 
-compléter la doc pour la partie cosmétiques (load_stylesshets, load_fonts)
+
+retry compilation
+
+
+
+
+
+fill documentation for cosmetic parts of frontend (load_stylesshets, load_fonts)
 
 
 

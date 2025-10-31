@@ -2,17 +2,22 @@
 import time
 from datetime import datetime
 
-with open("resources/data/language.conf", "r") as f: #retrieve languages
-    for line in f:
-        line = line.strip()
-        if "=" in line:
-            var, value = line.split("=", 1)
-            var = var.strip()
-            value = value.split("#")[0].strip().replace('"','')
-            if var == "current_language":
-                current_language = value
-            if var == "default_language":
-                default_language = value
+try:
+    with open("resources/data/language.conf", "r") as f: #retrieve languages
+        for line in f:
+            line = line.strip()
+            if "=" in line:
+                var, value = line.split("=", 1)
+                var = var.strip()
+                value = value.split("#")[0].strip().replace('"','')
+                if var == "current_language":
+                    current_language = value
+                if var == "default_language":
+                    default_language = value
+except: #it seems that sometims there are access rights issues on the language.conf file (unknozn reason); hence, this failsafe loop defaults languages to English if this happens
+    current_language = "en"
+    default_language = "en"
+    pass
 
 
 # Dictionary of messages per language

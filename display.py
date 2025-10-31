@@ -44,6 +44,24 @@ sizeSherd = {} #dictionnary containing (existing) sizes of sherds
 currentPicture = None #path to the current picture under review; used to check whether one should increas the sherd ID or not
 decoRegStatus = {} #for current picture, dictionnary that contains the # of occurences of/decorative registries of a die; if die is not seen yet, it is not present; first time is 0; any number other than 0 means the number of decorative registries for this die (the number of different lines/circlesspirales/... with the same die on the sherd).
 
+alternativeLogFile = "" #if main log file has a right access issue, create a specific alternative log file
+
+
+def writeLogs(stringToLog): #will handle most of the logging
+    global alternativeLogFile
+    try:
+        with open("logs.txt", "a") as logFile:
+            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+stringToLog)
+    except: #if there is an error with the normal log file
+        if alternativeLogFile == "": #create the alternative log file if it doesn't exist already
+            alternativeLogFile = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"logs.txt"
+            with open(alternativeLogFile, "w") as logFile:
+                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"Error writing to main file (to be investigated); resorting to alternative logFile")
+        with open(alternativeLogFile, "a") as logFile:
+            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+stringToLog)
+
+
+
 class TerminateExeption(Exception): #custom error class to be triggered in order to easiily catch and cancel functions that triger the error (e.g. the user clicks next without selecting a sherd type)
     pass
 
@@ -63,8 +81,7 @@ class Selector_Main(QWidget):
         shortcut.activated.connect(self.search)
         self.show() #show the window
         self.data = [rawData[0][0][0], rawData[0][0][1], rawData[0][0][2], rawData[0][0][3]] #minimum data necessary for child window (e.g. Undetected_Die)
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Application started successfully\n")
+        writeLogs("    Application started successfully\n")
 
     def get_values(self): #retrieves the data from users input in the GUI
         option1 = self.ui.option1.isChecked()
@@ -115,8 +132,7 @@ class Selector_Main(QWidget):
         match option:
             case None:#there is no ticked radio button
                 basicWarning(tr("noRadio"))
-                with open("logs.txt", "a") as logFile:
-                    logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Next button clicked without any radio button on sherd type selected\n")
+                writeLogs("    Next button clicked without any radio button on sherd type selected\n")
                 raise TerminateExeption("No sherd type")
             case 1:
                 typeDie = self.ui.option1_name.text().split(" ")[0]
@@ -180,10 +196,9 @@ class Selector_Main(QWidget):
         if self.ui.dieTxtId.text() != "":
             numDie = self.ui.dieTxtId.text()
         self.checkDecorativeRegister(output[0]+output[1], namePhoto) #checkDecorativeRegister checks whether there are multiple decorative registers for the same die, and updates the comment field accordinglydecoRegStatus
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Next\" clicked\n")
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    line to write:\n"+str([output,numDie,numDecor,numPhoto,namePhoto,fold,[x1,y1,x2,y2]])+"\n")
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Status of index: "+str(currentIndex)+" out of "+str(len(rawData))+"\n")
+        writeLogs("    Button \"Next\" clicked\n")
+        writeLogs("    line to write:\n"+str([output,numDie,numDecor,numPhoto,namePhoto,fold,[x1,y1,x2,y2]])+"\n")
+        writeLogs("    Status of index: "+str(currentIndex)+" out of "+str(len(rawData))+"\n")
         output_application_files(output,numDie,numDecor,numPhoto,namePhoto)
         output_application_csv(output,numDie,numDecor,numPhoto,namePhoto,fold,[x1,y1,x2,y2])
         if self.ui.force_location.isChecked():
@@ -198,28 +213,23 @@ class Selector_Main(QWidget):
         currentIndex += 1 #do not erase the list, but ignore its index
         if self.ui.force_location.isChecked():
             self.set_location()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Skip\" clicked\n")
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Status of index: "+str(currentIndex)+" out of "+str(len(rawData))+"\n")
+        writeLogs("    Button \"Skip\" clicked\n")
+        writeLogs("    Status of index: "+str(currentIndex)+" out of "+str(len(rawData))+"\n")
         self.newPart() #call next sherd
 
     def exit_clicked(self): #handles the "exit" button: logs the action and closes the application
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Exit\" clicked\n")
+        writeLogs("    Button \"Exit\" clicked\n")
         app.quit()
 
     def newPart(self):#initialization of a new die/sherd to review in the GUI
         global currentIndex, rawData, currentPicture, decoRegStatus
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Status of index:"+str(currentIndex)+"out of "+str(rawData)+"\n")
+        writeLogs("    Status of index:"+str(currentIndex)+"out of "+str(rawData)+"\n")
         if len(rawData)==currentIndex: #check if the end of pictures list has been reached
-            with open("logs.txt", "a") as logFile:
-                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    End of pictures round, "+str(len(rawData))+"remaining to be resent\n")
+            writeLogs("    End of pictures round, "+str(len(rawData))+"remaining to be resent\n")
             if len(rawData)>0:
                 currentIndex = 0 #restart from beginning, to resend the skipped items
             else:
-                with open("logs.txt", "a") as logFile:
-                    logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    All data reviewed! End of batch.\n")
+                writeLogs("    All data reviewed! End of batch.\n")
                 warning_end_of_data = QMessageBox()
                 warning_end_of_data.setText("Toutes les images dans le dossier sélectionné ont été traitées. L'application va se fermer.")
                 warning_end_of_data.exec()
@@ -228,14 +238,12 @@ class Selector_Main(QWidget):
         sherdNum, dieNum, numPic, picture, option1id, option1, option1model, proba1, option2id, option2, option2model, proba2, option3id, option3, option3model, proba3, option4id, option4, option4model, proba4, commentML, xLeft, yBot, xRight, yTop, aux1 = prepareData()
         self.data = [sherdNum, dieNum, numPic, picture]
         self.picture = picture
-        with open("logs.txt", "a") as logFile:
-            logFile.write("=======================================\n")
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    New picture loading:"+"tmp/"+os.path.basename(picture)+"\n")
+        writeLogs("=======================================\n")
+        writeLogs("    New picture loading:"+"tmp/"+os.path.basename(picture)+"\n")
         try:
             setCurrent("tmp/"+os.path.basename(picture),(xLeft, yBot, xRight, yTop)) #the picture displayed is not the OG picture, but a version altered to contain all sherds cornered
         except: #in case of a rollback of an "old" picture, it may not be in tmp anymore; in that case, we use the default pic
-            with open("logs.txt", "a") as logFile:
-                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    The picture was not found in tmp folder, defaulting to OG picture:"+picture+"\n")
+            writeLogs("    The picture was not found in tmp folder, defaulting to OG picture:"+picture+"\n")
             setCurrent(picture,(xLeft, yBot, xRight, yTop))
             pass
         self.ui.die_picture.setPixmap(QtGui.QPixmap("tmp/current.png"))
@@ -325,18 +333,15 @@ class Selector_Main(QWidget):
 
     
     def show_types(self):#open the popup with types/shapes of pottery (RIG/CRAV)
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Display Types\" clicked\n")
+        writeLogs("    Button \"Display Types\" clicked\n")
         self.popupTypology = Display_Types(self)
         
     def force_RIG_type(self, typ): #a user clicked a text/picture in the Display_Types window; set the RIG type to it
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Display_Types windows sends a message to change RIG/CRAV type to "+typ+"\n")
+        writeLogs("    Display_Types windows sends a message to change RIG/CRAV type to "+typ+"\n")
         self.ui.rig_num.setPlainText(typ)
     
     def popup_license(self):#open the popup with licenses
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Show license\" clicked\n")
+        writeLogs("    Button \"Show license\" clicked\n")
         self.licensePopup = License_Popup()
         with open("resources/data/licenses.conf", "r", encoding='utf-8') as license_file:
             lic = license_file.read()
@@ -344,13 +349,11 @@ class Selector_Main(QWidget):
         self.licensePopup.show()
         
     def popup_theme(self):#open the popup with theme picker
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Theme picker\" clicked\n")
+        writeLogs("    Button \"Theme picker\" clicked\n")
         self.themePopup = Theme_Popup()
         
     def false_negative(self):#open the popup to report an undetected sherd
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Undetected die\" clicked\n")
+        writeLogs("    Button \"Undetected die\" clicked\n")
         self.undetectedPopup = Undetected_Die(self.picture, parent=self)
         self.undetectedPopup.show()
 
@@ -367,8 +370,7 @@ class Selector_Main(QWidget):
         self.ui.lambert_Z.setPlainText(loc[7])
     
     def set_location(self):#overwrites the geographical location of reviewed site
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    New default location saved.")
+        writeLogs("    New default location saved.")
         ctry = self.ui.country.toPlainText()
         rg = self.ui.region.toPlainText()
         dpt = self.ui.department.toPlainText()
@@ -383,8 +385,7 @@ class Selector_Main(QWidget):
     def history_force(self): #the user uses an historical items from recent history list
         new_value = self.ui.recentChoices.currentText()
         if new_value != tr("recent"):
-            with open("logs.txt", "a") as logFile:
-                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    User picked an historical value "+new_value+"\n")
+            writeLogs("    User picked an historical value "+new_value+"\n")
             rigNum = new_value.split(" ")[-1]
             rigType = " ".join(new_value.split(" ")[:-1])
             self.ui.force_number.setText(rigNum)
@@ -404,8 +405,7 @@ class Selector_Main(QWidget):
         MeasureState.getMeasureState = False
         self.ui.returnSizeButton.blockSignals(False)
         self.ui.setScaleButton.blockSignals(False)
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Set scale button clicked; status is GET "+str(MeasureState.getMeasureState)+"; SET "+str(MeasureState.setMeasureState)+"\n")
+        writeLogs("    Set scale button clicked; status is GET "+str(MeasureState.getMeasureState)+"; SET "+str(MeasureState.setMeasureState)+"\n")
         
     def retrieve_scale(self): #manage the measurement ruler on the picture
         self.ui.returnSizeButton.blockSignals(True) #prevent recursive signals while playing with checked/unchecked status
@@ -420,8 +420,7 @@ class Selector_Main(QWidget):
         MeasureState.setMeasureState = False
         self.ui.returnSizeButton.blockSignals(False)
         self.ui.setScaleButton.blockSignals(False)
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Set scale button clicked; status is GET "+str(MeasureState.getMeasureState)+"; SET "+str(MeasureState.setMeasureState)+"\n")
+        writeLogs("    Set scale button clicked; status is GET "+str(MeasureState.getMeasureState)+"; SET "+str(MeasureState.setMeasureState)+"\n")
 
     def edit_scale(self): #refreshes the display when scale value is updated
         self.ui.overlay.refresh_length()
@@ -484,141 +483,113 @@ class Selector_Main(QWidget):
 
     def force_finder(self): #the user clicks on the magnifier
         value = self.ui.force_type.currentText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Force type popup opened with category \""+value+"\"\n")
+        writeLogs("    Force type popup opened with category \""+value+"\"\n")
         self.popupForceType = Force_Type_Class(self, value)
 
     def new_changed_type(self):#function to log user actions, and automatically switch radiobox accordingly
         value = self.ui.new_type.currentText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Type of section \"inedit\" changed to \""+value+"\"\n")
+        writeLogs("    Type of section \"inedit\" changed to \""+value+"\"\n")
         self.ui.new_radio.setChecked(True)
 
     def force_changed_type(self):#function to log user actions, and automatically switch radiobox accordingly
         value = self.ui.force_type.currentText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Type of section \"force\" changed to \""+value+"\"\n")
+        writeLogs("    Type of section \"force\" changed to \""+value+"\"\n")
         self.ui.force.setChecked(True)
 
     def force_changed_number(self):#function to log user actions, and automatically switch radiobox accordingly
         value = self.ui.force_number.text()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Number of section \"force\" changed to \""+value+"\"\n")
+        writeLogs("    Number of section \"force\" changed to \""+value+"\"\n")
         self.ui.force.setChecked(True)
 
     def comment_edited(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.comment_box.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Comment box changed to \""+value+"\"\n")
+        writeLogs("    Comment box changed to \""+value+"\"\n")
             
     def false_positive(self):#open the popup to report an undetected sherd
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Button \"Not a die\" clicked\n")
+        writeLogs("    Button \"Not a die\" clicked\n")
             
     def radioboxUnk_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Unkown radio button ticked\n")
+        writeLogs("    Unkown radio button ticked\n")
 
     def radioboxFor_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Force radio button ticked\n")
+        writeLogs("    Force radio button ticked\n")
 
     def radioboxNew_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Inedit/new radio button ticked\n")
+        writeLogs("    Inedit/new radio button ticked\n")
 
     def radiobox1_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Option1 radio button ticked\n")
+        writeLogs("    Option1 radio button ticked\n")
 
     def radiobox2_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Option2 radio button ticked\n")
+        writeLogs("    Option2 radio button ticked\n")
 
     def radiobox3_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Option3 radio button ticked\n")
+        writeLogs("    Option3 radio button ticked\n")
 
     def radiobox4_ticked(self):#function to log user actions; no direct fonctionnal use
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Option4 radio button ticked\n")
+        writeLogs("    Option4 radio button ticked\n")
 
     def cra_changed_type(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.mode_CRA.currentText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    CRA type changed to \""+value+"\"\n")
+        writeLogs("    CRA type changed to \""+value+"\"\n")
 
     def cra_changed_number(self):#function to log user actions, and automatically switch checkbox accordingly
         value = self.ui.rig_num.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    CRA number changed to \""+value+"\"\n")
+        writeLogs("    CRA number changed to \""+value+"\"\n")
         self.ui.unknownCRA.setChecked(False)
 
     def country_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.country.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Country name changed to \""+value+"\"\n")
+        writeLogs("    Country name changed to \""+value+"\"\n")
 
     def region_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.region.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Region name changed to \""+value+"\"\n")
+        writeLogs("    Region name changed to \""+value+"\"\n")
 
     def department_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.department.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Department name changed to \""+value+"\"\n")
+        writeLogs("    Department name changed to \""+value+"\"\n")
 
     def municipality_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.municipality.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Municipality name changed to \""+value+"\"\n")
+        writeLogs("    Municipality name changed to \""+value+"\"\n")
 
     def site_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.site.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Site name changed to \""+value+"\"\n")
+        writeLogs("    Site name changed to \""+value+"\"\n")
 
     def x_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.lambert_X.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Lambert-X changed to \""+value+"\"\n")
+        writeLogs("    Lambert-X changed to \""+value+"\"\n")
 
     def y_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.lambert_Y.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Lambert-Y changed to \""+value+"\"\n")
+        writeLogs("    Lambert-Y changed to \""+value+"\"\n")
 
     def z_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.lambert_Z.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Lambert-Z changed to \""+value+"\"\n")
+        writeLogs("    Lambert-Z changed to \""+value+"\"\n")
             
     def fait_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.numFait.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Fait # changed to \""+value+"\"\n")
+        writeLogs("    Fait # changed to \""+value+"\"\n")
             
             
     def us_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.numUs.toPlainText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    US # changed to \""+value+"\"\n")
+        writeLogs("    US # changed to \""+value+"\"\n")
 
     def location_changed(self):#function to log user actions; no direct fonctionnal use
         value = "edge-"+str(self.ui.checkBox_edge.isChecked())+", belly-"+str(self.ui.checkBox_belly.isChecked())+", bottom-"+str(self.ui.checkBox_bottom.isChecked())
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Sherd locations changed to \""+value+"\"\n")
+        writeLogs("    Sherd locations changed to \""+value+"\"\n")
 
     def unknownCRA_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.unknownCRA.isChecked()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    CRA type unknown status changed to \""+str(value)+"\"\n")
+        writeLogs("    CRA type unknown status changed to \""+str(value)+"\"\n")
         
     def author_changed(self):#function to log user actions; no direct fonctionnal use
         value = self.ui.author.displayText()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Author changed to \""+value+"\"\n")
+        writeLogs("    Author changed to \""+value+"\"\n")
 
     def updateRecent(self, lValues):#updates the recent_rig.conf file with latest value selected
         with open("resources/data/recent_rig.conf", "r") as recentFile:
@@ -653,8 +624,7 @@ class Selector_Main(QWidget):
                     dialog = DecorativeRegisterPopup(die=die)
                     if dialog.exec() == QDialog.Accepted:
                         number = dialog.get_value()
-                    with open("logs.txt", "a") as logFile:
-                        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Die "+die+" present in "+str(number)+" decorative registry; rolling back to get its previous occurence...\n")
+                    writeLogs("    Die "+die+" present in "+str(number)+" decorative registry; rolling back to get its previous occurence...\n")
                     decoRegStatus[die] = number
                     message = str(number)
                     self.updateDecoReg(die, message, photo)
@@ -671,8 +641,7 @@ class Selector_Main(QWidget):
             for row_index, row in enumerate(reader):
                 if row[3] == photo and row[4]+row[5]==die:
                     rowsOfReg.append(row_index) #index of one line to be updated: the die is the same, and we are in the correct picture
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    During rollback, following rows were spotted as referring to the same sherd: "+str(rowsOfReg)+"; rewritting everything...\n")
+        writeLogs("    During rollback, following rows were spotted as referring to the same sherd: "+str(rowsOfReg)+"; rewritting everything...\n")
         for oneIndex in rowsOfReg: #edit the cell with the message in previous occurences of same picture (i.e. same sherd) + same die
             if len(data[oneIndex])>=27: #if CSV list is not long enough, increase its size
                 data[oneIndex][26]=msg
@@ -712,8 +681,7 @@ class Init_Window(QWidget):
             fold = self.select_files()
             lPaths = [] #list of pictures in the folder
             if len(fold)==0: #if user closed the popup without chosing a folder to handle
-                with open("logs.txt", "a") as logFile:
-                    logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    No folder chosen, application exits...\n")
+                writeLogs("    No folder chosen, application exits...\n")
                 warning_exit = QMessageBox()
                 warning_exit.setText(tr("errorNoFold"))
                 warning_exit.exec()
@@ -724,8 +692,7 @@ class Init_Window(QWidget):
                     if aFile.endswith(".png") or aFile.endswith(".jpg") or aFile.endswith(".PNG") or aFile.endswith(".JPG"):
                         lPaths.append(fold+"/"+aFile)
                 if len(lPaths)==0:
-                    with open("logs.txt", "a") as logFile:
-                        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    No picture in chosen folder root, application exits...\n")
+                    writeLogs("    No picture in chosen folder root, application exits...\n")
                     warning_exit = QMessageBox()
                     warning_exit.setText(tr("errorNoPic"))
                     warning_exit.exec()
@@ -734,8 +701,7 @@ class Init_Window(QWidget):
                 else:
                     self.setup_loading_window()
                     self.show()
-                    with open("logs.txt", "a") as logFile:
-                        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML algorithm started.\n")
+                    writeLogs("    ML algorithm started.\n")
                     self.loadML(lPaths)
 
 
@@ -746,8 +712,7 @@ class Init_Window(QWidget):
             askResume =  QMessageBox
             ask_resume = askResume.question(self,'', tr("startup1")+str(lenCSV)+tr("startup2")+dateModif+tr("startup3"), askResume.Yes | askResume.No)     
             if ask_resume == askResume.Yes:
-                with open("logs.txt", "a") as logFile:
-                    logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Previous session reused "+str(lenCSV)+" - "+dateModif+".\n")
+                writeLogs("    Previous session reused "+str(lenCSV)+" - "+dateModif+".\n")
                 return True #an old ML file is present, non empty, and the user wants to reopen it
             else:
                 return False
@@ -764,8 +729,7 @@ class Init_Window(QWidget):
     def select_files(self):
         options = QFileDialog.Options()
         folderName = QFileDialog.getExistingDirectory(self, tr("folderSelector"))
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Folder chosen: \""+folderName+"\"\n")
+        writeLogs("    Folder chosen: \""+folderName+"\"\n")
         return folderName
 
     def loadML(self, lFiles): #run the ML algorithm and displays the associated progressbar
@@ -782,8 +746,7 @@ class Init_Window(QWidget):
         self.thread.start()
 
     def on_ml_finished(self):
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f") + "    ML algorithm finished running.\n")
+        writeLogs("    ML algorithm finished running.\n")
         self.hide()
         self.finished.emit()
         global initialisation
@@ -818,8 +781,7 @@ class Display_Types(QWidget):
         
     
     def clicked(self, clickedName, clickedNum):  #the arguments are the actual name and # of RIG type actual type
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    In RIG/CRAV type popup, user clicked on QLabel "+str(clickedName)+"\n")
+        writeLogs("    In RIG/CRAV type popup, user clicked on QLabel "+str(clickedName)+"\n")
         self.parent.force_RIG_type(str(clickedNum))
         self.ui.close()
 
@@ -832,8 +794,7 @@ class Force_Type_Class(QWidget):
         self.ui.show()
 
     def clicked(self, clickedName, clickedCat, clickedNum): #the arguments are the actual name and # of die type actual type
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    In force die type popup, user clicked on QLabel "+clickedCat+" "+str(clickedNum)+"\n")
+        writeLogs("    In force die type popup, user clicked on QLabel "+clickedCat+" "+str(clickedNum)+"\n")
         self.parent.ui.force.setChecked(True)
         self.parent.ui.force_type.setCurrentText(clickedCat)
         self.parent.ui.force_number.setText(str(clickedNum))
@@ -854,8 +815,7 @@ class Theme_Popup():
         self.ui.exec_()
 
     def clicked(self, theme): #the arguments are the actual name and # of die type actual type
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Theme has been set to  "+str(theme)+"\n")
+        writeLogs("    Theme has been set to  "+str(theme)+"\n")
         with open("resources/data/theme.conf", "w") as themeFile:
             themeFile.write(theme) #change default theme
         app.setStyleSheet(loadStylesheet(theme))
@@ -870,8 +830,7 @@ class Undetected_Die(QWidget):
         self.show() # show the window
         
     def exit(self):
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    false negative (undetected die) cancelled\n")
+        writeLogs("    false negative (undetected die) cancelled\n")
         self.close()
         
     def accept(self): #get sherd data from parent, die data from current windows, write the record and leave
@@ -879,11 +838,9 @@ class Undetected_Die(QWidget):
         coord_raw = self.ui.die_picture.click_positions
         if len(coord_raw)<2:
             basicWarning(tr("noFalseNegTwoPoints"))
-            with open("logs.txt", "a") as logFile:
-                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    false negative (undetected die) FAILED: not enough coordinates provided "+str(coord_raw)+".\n")
+            writeLogs("    false negative (undetected die) FAILED: not enough coordinates provided "+str(coord_raw)+".\n")
             return(None)
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    false negative (undetected die) validated at (unreformatted) coordinates (X1,Y1),(X2,Y2): "+str(coord_raw)+"\n")
+        writeLogs("    false negative (undetected die) validated at (unreformatted) coordinates (X1,Y1),(X2,Y2): "+str(coord_raw)+"\n")
         width, heigth = imagesize.get(self.pic)
         [(x1,y1),(x2,y2)] = coord_raw
         final_frame = [int(min(x1, x2)*(float(width)/float(680))), int(min(y1, y2)*(float(heigth)/float(680))), int(max(x1, x2)*(float(width)/float(680))), int(max(y1, y2)*(float(heigth)/float(680)))]
@@ -891,12 +848,10 @@ class Undetected_Die(QWidget):
         numberDie = self.ui.set_number.text()
         if typeDie == tr("selectPattern"):
             basicWarning(tr("noSelect"))
-            with open("logs.txt", "a") as logFile:
-                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    false negative (undetected die) FAILED: no die type/number provided "+str(coord_raw)+".\n")
+            writeLogs("    false negative (undetected die) FAILED: no die type/number provided "+str(coord_raw)+".\n")
             return(None)
         comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author = self.getParentAttributes()
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    false negative (undetected die) validated as "+str(typeDie)+" "+str(numberDie)+"\n")
+        writeLogs("    false negative (undetected die) validated as "+str(typeDie)+" "+str(numberDie)+"\n")
         output = [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, "FN"]
         self.parent.checkDecorativeRegister(typeDie+numberDie, self.parent.data[3]) #checkDecorativeRegister checks whether there aremultiple decorative registers for the same die, and updates the comment field accordingly
         output_application_files(output,self.parent.data[0],self.parent.data[1],self.parent.data[2],self.parent.data[3])
@@ -939,13 +894,13 @@ class Undetected_Die(QWidget):
         location = "/".join(lLocations)#merge the active parts of edge/belly/bottom
         return(comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author)
 
-def doSomething(filename):#TODO: remove when linked to ML algo
+'''def doSomething(filename):#TODO: remove when linked to ML algo
     with open("logs.txt", "a") as logFile:
         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML loading started.\n")
     time.sleep(5)
     with open("logs.txt", "a") as logFile:
         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML loading completed.\n")
-    return()
+    return()'''
 
 
 def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data; this allows user to skip the ML process if data remains from last asssessment; also returns number of lines (header excluded) and date of last modification
@@ -966,8 +921,7 @@ def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data
 def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):#writes manual review results in Final_Output.csv
     [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML] = lOut
     x1,y1,x2,y2 = coords
-    with open("logs.txt", "a") as logFile:
-        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Writing CSV file... "+str(lOut)+"\n")
+    writeLogs("    Writing CSV file... "+str(lOut)+"\n")
     for file_path in ["_Final_Output.csv"]:
         if not(os.path.exists(file_path)): #create file and insert headers
             with open(file_path, "w", encoding='utf-8') as outputFile:
@@ -978,8 +932,7 @@ def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):
 
 def output_application_files(lOut,numDie,numDecor,numPhoto,namePhoto):#TODO pas encore fini
     [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML] = lOut
-    with open("logs.txt", "a") as logFile:
-        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Copying files... "+str(lOut)+"\n")
+    writeLogs("    Copying files... "+str(lOut)+"\n")
     path=os.path.dirname(namePhoto)
     if not(os.path.isdir(path+"/"+typeDie)):#if folder with die type does not exist already
         os.mkdir(path+"/"+typeDie)
@@ -1079,8 +1032,7 @@ def preparePictures(dataList): #takes the raw ML output, and prepares temporary 
     newList = dataList
     listPathPicture = list(set([x[0][3] for x in newList]))
     for aPic in listPathPicture: #TODO: this is a quadratic O(n²) approach, and should be improved
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Starting to draw rectangle(s) on picture "+aPic+".\n")
+        writeLogs("    Starting to draw rectangle(s) on picture "+aPic+".\n")
         im = PIL.Image.open(aPic)
         newPath = "tmp/"+os.path.basename(aPic)
         w,l=im.size
@@ -1102,8 +1054,7 @@ def setCurrent(pic, xy): #prepares the current picture to be reviewed, by overwr
     im.save("tmp/current.png")
 
 def properClosure(): #application is closing; log the action, save the remaining unclassified die list for next session
-    with open("logs.txt", "a") as logFile:
-        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Closure process started.\n")
+    writeLogs("    Closure process started.\n")
     with open('output_ML.csv', 'w', newline='') as f:
         writer = csv.writer(f, delimiter=';')
         merged = [[header]]+rawData
