@@ -4,10 +4,10 @@ import sys, glob, shutil
 import os
 os.environ["OPENCV_SKIP_LOAD"] = "1"
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QShortcut, QDialog
-from PyQt5 import QtGui, QtWidgets
+from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtGui import QFontDatabase, QKeySequence
 from PyQt5.QtCore import pyqtSignal, Qt, QObject, QThread, pyqtSignal, QTimer
-from main_layout import Ui_Poincons_selector, maxRecent
+from main_layout import Ui_Poincons_selector, maxRecent, DrawingOverlay
 from display_types import RIG_Type
 from loading_screen import Ui_Loading
 from license_popup import Ui_licenseDialog
@@ -71,7 +71,11 @@ class Selector_Main(QWidget):
         global rawData
         super().__init__()
         self.ui = Ui_Poincons_selector()
-        self.ui.setupUi(self,)       
+        self.ui.setupUi(self,)  
+        self.overlay = DrawingOverlay(self)
+        self.overlay.setGeometry(self.ui.die_picture.geometry())
+        self.overlay.raise_()
+        self.ui.die_picture.installEventFilter(self) #listen to die_picture modification, to adapt the overlay accordingly
         self.newPart()
         self.popupTypology = None #additional argument for child window (popups) that displays the shape/typology of pottery (RIG/CRAV)
         self.licensePopup = None #additional argument for child window (popups) that displays the license
@@ -82,6 +86,21 @@ class Selector_Main(QWidget):
         self.show() #show the window
         self.data = [rawData[0][0][0], rawData[0][0][1], rawData[0][0][2], rawData[0][0][3]] #minimum data necessary for child window (e.g. Undetected_Die)
         writeLogs("    Application started successfully\n")
+
+    def eventFilter(self, watched, event): #monitor die_picture resize, to adapt overlay correspondingly
+        if watched == self.ui.die_picture and event.type() in (QtCore.QEvent.Resize, QtCore.QEvent.Move):
+            self.overlay.setGeometry(self.ui.die_picture.geometry())
+        return super().eventFilter(watched, event)
+
+
+    def resizeEvent(self, event):#when window is resized, realigns visual items
+        super().resizeEvent(event)
+
+        window_width = self.width()
+        proportional_max_width = int(window_width * 0.45)  # 45% of total width
+
+        self.ui.center_panel.setMaximumWidth(proportional_max_width)
+
 
     def get_values(self): #retrieves the data from users input in the GUI
         option1 = self.ui.option1.isChecked()
@@ -247,7 +266,7 @@ class Selector_Main(QWidget):
             setCurrent(picture,(xLeft, yBot, xRight, yTop))
             pass
         self.ui.die_picture.setPixmap(QtGui.QPixmap("tmp/current.png"))
-        self.ui.overlay.raise_()
+        self.overlay.raise_()
         self.ui.comment_box.setText("")
         self.ui.option1.setHidden(False)
         self.ui.option2.setHidden(False)
@@ -423,7 +442,7 @@ class Selector_Main(QWidget):
         writeLogs("    Set scale button clicked; status is GET "+str(MeasureState.getMeasureState)+"; SET "+str(MeasureState.setMeasureState)+"\n")
 
     def edit_scale(self): #refreshes the display when scale value is updated
-        self.ui.overlay.refresh_length()
+        self.overlay.refresh_length()
 
     def search(self): #users does a Ctrl+F to search for a previous item
         global currentIndex
