@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_licenseDialog(object):
     def setupUi(self, licenseDialog):
         licenseDialog.setObjectName("licenseDialog")
-        licenseDialog.resize(990, 480)
+        licenseDialog.resize(1200, 480)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Maximum, QtWidgets.QSizePolicy.Maximum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -23,10 +23,10 @@ class Ui_licenseDialog(object):
         self.buttonBox = QtWidgets.QDialogButtonBox(licenseDialog)
         self.buttonBox.setGeometry(QtCore.QRect(10, 440, 980, 32))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.scrollArea = QtWidgets.QScrollArea(licenseDialog)
-        self.scrollArea.setGeometry(QtCore.QRect(10, 10, 961, 421))
+        self.scrollArea.setGeometry(QtCore.QRect(10, 10, 1161, 421))
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()

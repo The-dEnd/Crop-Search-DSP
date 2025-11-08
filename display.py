@@ -89,7 +89,7 @@ class Selector_Main(QWidget):
 
     def eventFilter(self, watched, event): #monitor die_picture resize, to adapt overlay correspondingly
         if watched == self.ui.die_picture and event.type() in (QtCore.QEvent.Resize, QtCore.QEvent.Move):
-            self.overlay.setGeometry(self.ui.die_picture.geometry())
+            self.overlay.updateGeometry()
         return super().eventFilter(watched, event)
 
 
@@ -97,7 +97,7 @@ class Selector_Main(QWidget):
         super().resizeEvent(event)
 
         window_width = self.width()
-        proportional_max_width = int(window_width * 0.45)  # 45% of total width
+        proportional_max_width = int(window_width * 0.7)  #% of total width
 
         self.ui.center_panel.setMaximumWidth(proportional_max_width)
 

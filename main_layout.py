@@ -47,17 +47,27 @@ class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setScaledContents(True)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Expanding,
+            QtWidgets.QSizePolicy.Expanding
+        )
+        sizePolicy.setHeightForWidth(True)
+        self.setSizePolicy(sizePolicy)
+        
+    def hasHeightForWidth(self):
+        return True
+    
+    def heightForWidth(self, width):
+        return width
 
-    def resizeWithParent(self): #resize to keep the height and ration
-        if not self.parent():
-            return
-        parent_height = self.parent().height()
-        max_side = int(parent_height) #max height
-        side = min(max_side, self.parent().width()) #1:1 ratio
-        self.setFixedSize(side, side)
 
     def resizeEvent(self, event):
-        self.resizeWithParent()
+        new_side = min(self.width(), self.height())
+        self.resize(new_side, new_side)
+
+        # tell overlay to follow
+        if hasattr(self.parent(), "resizeOverlay"):
+            self.parent().resizeOverlay()
         super().resizeEvent(event)
 
 
@@ -83,7 +93,7 @@ class Ui_Poincons_selector(object):
         
         # ===== LEFT PANEL =====
         left_panel = QtWidgets.QWidget()
-        left_panel.setMaximumWidth(350)
+        left_panel.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
         left_panel.setMinimumWidth(320)
         left_layout = QtWidgets.QVBoxLayout(left_panel)
         left_layout.setContentsMargins(0, 0, 0, 0)
@@ -92,6 +102,7 @@ class Ui_Poincons_selector(object):
         # Location data section
         self.type_findings = QtWidgets.QTableView()
         self.type_findings.setObjectName("type_findings")
+        location_container = QtWidgets.QWidget()
         self.type_grid = QtWidgets.QGridLayout()
         self.type_grid.setVerticalSpacing(5)
         
@@ -188,7 +199,7 @@ class Ui_Poincons_selector(object):
         
         left_layout.addLayout(self.type_grid)
         
-        # Ceramic data section
+        #Données céramologiques
         self.tableView = QtWidgets.QTableView()
         self.tableView.setObjectName("tableView")
         self.gridLayout = QtWidgets.QGridLayout()
@@ -281,7 +292,7 @@ class Ui_Poincons_selector(object):
         left_layout.addStretch()
         
         top_layout.addWidget(left_panel)
-        top_layout.setStretch(0, 0)
+        
         
         # ===== CENTER PANEL =====
         self.center_panel = QtWidgets.QWidget()
@@ -289,7 +300,7 @@ class Ui_Poincons_selector(object):
         center_layout.setContentsMargins(0, 0, 0, 0)
         center_layout.setSpacing(5)
         
-        # Measurement controls at top
+        #size calculation at top
         self.gridLayout_2 = QtWidgets.QGridLayout()
         self.gridLayout_2.setSpacing(5)
         
@@ -335,7 +346,7 @@ class Ui_Poincons_selector(object):
         
         center_layout.addLayout(self.gridLayout_2)
         
-        # Die picture with overlay - using QLabel with size policy
+        #the big picture, with its measurement overlay
         picture_container = QtWidgets.QWidget()
         picture_layout = QtWidgets.QVBoxLayout(picture_container)
         picture_layout.setContentsMargins(0, 0, 0, 0)
@@ -347,7 +358,7 @@ class Ui_Poincons_selector(object):
         self.die_picture.setPixmap(QtGui.QPixmap("resources/media/empty.png"))
         self.die_picture.setScaledContents(True)
         self.die_picture.setObjectName("die_picture")
-        # Keep square aspect ratio
+        #keep 1:1 ratio
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHeightForWidth(True)
         self.die_picture.setSizePolicy(sizePolicy)
@@ -355,7 +366,6 @@ class Ui_Poincons_selector(object):
         picture_layout.addWidget(self.die_picture)
         center_layout.addWidget(picture_container, 1)  # Stretch factor 1
         
-        # Store geometry for overlay
         geometry = self.die_picture.geometry()
         
         
@@ -367,7 +377,7 @@ class Ui_Poincons_selector(object):
         center_layout.addWidget(self.comment_box)
         
         top_layout.addWidget(self.center_panel)
-        top_layout.setStretch(1, 1)
+
         
         # ===== RIGHT PANEL =====
         self.right_panel = QtWidgets.QWidget()
@@ -595,7 +605,7 @@ class Ui_Poincons_selector(object):
         top_layout.addWidget(self.right_panel)
         
         main_layout.addLayout(top_layout)
-        top_layout.setStretch(2, 1)
+
         
         # ===== BOTTOM LINE =====
         bottom_layout = QtWidgets.QHBoxLayout()
@@ -658,6 +668,8 @@ class Ui_Poincons_selector(object):
         main_layout.addLayout(bottom_layout)
         
         # Set the central widget
+        Poincons_selector.setLayout(main_layout)
+
         #Poincons_selector.setCentralWidget(central_widget)
         
         # Store references for overlay repositioning
@@ -709,6 +721,12 @@ class Ui_Poincons_selector(object):
         self.setScaleButton.toggled['bool'].connect(Poincons_selector.set_scale) # type: ignore
         self.returnSizeButton.toggled['bool'].connect(Poincons_selector.retrieve_scale) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(Poincons_selector)
+        
+        
+        #the below lines manage the repartition of size increase between the 3 panels
+        top_layout.setStretch(0, 1)
+        top_layout.setStretch(1, 6)
+        top_layout.setStretch(2, 3)
 
     def retranslateUi(self, Poincons_selector):
         _translate = QtCore.QCoreApplication.translate
@@ -787,6 +805,10 @@ class Ui_Poincons_selector(object):
         self.setScaleButton.setText(_translate("Poincons_selector", tr("setScale")))
         self.returnSizeButton.setText(_translate("Poincons_selector", tr("measureLength")))
         self.setScale.setPlaceholderText(_translate("Poincons_selector", tr("typeLength")))
+        
+
+        
+        
 
 class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 buttons + 2 QLineEdit above the die picture 
     def __init__(self, main_parent):
