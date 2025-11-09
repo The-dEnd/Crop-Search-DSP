@@ -52,7 +52,7 @@ yBottom - Int - Coordinates of bottom of detected die (in px)
 xRight - Int - Coordinates of right of detected die (in px)
 yTop - Int - Coordinates of top of detected die (in px)
 
-Note: the formatting assumes that ML algorithms will not output more than 7 different possibilities of die for a specific picture. If more than 7 choices are offered (unlikely), the ML algorithzm should cut the numbers to 7. If less are offered, the unused fields can be left blank. The GUI will only display the top 4 options (up to "choice4" columns).
+Note: the formatting assumes that ML algorithms will not output more than 7 different possibilities of die for a specific picture. If more than 7 choices are offered (unlikely), the ML algorithzm should cut the numbers to 7. If less are offered, the unused fields can be left blank. The GUI will only display the top 4 options (up to "choice4*" columns).
 
 *The ID is following the formatting: X0YY, with X being the name of the die family, and YY being the number of the die among its family. X can be:
 1-wheel
@@ -70,7 +70,7 @@ Example: A "rouelle 14" is labelled 1014; a "colonette 2" is labelled 3002
 
 
 In addition to this CSV interfacing, the machine learning algorithm is called within "display.py", in the class "Init_Window", function "loadML", as well as in the module imports at the top of the "display.py" page. Should the ML algorithm change, it is recommended to change these two sections of "display.py" accordingly.
-You can search for the string "HereChangeMLAlgo" in the code comments to know where to bring changes.
+*You can search for the string "HereChangeMLAlgo" in the code comments to know where to bring changes.*
 
 ===============================================================================
 
@@ -135,4 +135,4 @@ Le "0" est utilisé comme un champ de secours, si une famille de poinçons venai
 Exemple: La "rouelle 14" possède l'identifiant 1014; la "colonette 2" possède l'identifiant 3002
 
 
-En plus de l'interfaçage par CSV, la fonction principale de ML est appelée (avec ses arguments) au sein du fichier "display.py", classe "Init_Window", fonction "loadML", ainsi que dans les imports initiaux de la page py. si l'algorithme de ML venait à être modifié, ces deux portions de code de "display.py" devraient être modifiées en conséquence. Vous pouvez chercher la chaîne de caractère "HereChangeMLAlgo" dans le document pour savoir où apporter les modifications.
+En plus de l'interfaçage par CSV, la fonction principale de ML est appelée (avec ses arguments) au sein du fichier "display.py", classe "Init_Window", fonction "loadML", ainsi que dans les imports initiaux de la page py. si l'algorithme de ML venait à être modifié, ces deux portions de code de "display.py" devraient être modifiées en conséquence. *Vous pouvez chercher la chaîne de caractère "HereChangeMLAlgo" dans le document pour savoir où apporter les modifications.*
