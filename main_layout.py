@@ -4,7 +4,7 @@
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
-# This file was first created with PyQt designer, then manually edited for a standard layout in fixed window size, then adapted by AI to adapt to window size
+# This file was first created with PyQt designer, then manually edited for a standard layout in fixed window size, then adapted by AI (GPT4) to adapt to window size
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -20,6 +20,7 @@ geometry = None #dimensions of the picture, to automatically align dimensions of
 setLineColor = (255, 190, 106) #color for defining a length
 getLineColor = (64, 176, 166) #color for getting the length of a line, based on the set lined
 #These colors have been picked to be easily distinguished by multiple categories of colorblindness, and by users of night-light screen filters; should you want to edit them, please ensure the new colors still guarantee accessibility. https://www.nceas.ucsb.edu/sites/default/files/2022-06/Colorblind%20Safe%20Color%20Schemes.pdf
+#you can also take a screenshot of your layout proposal, and test it in https://www.color-blindness.com/coblis-color-blindness-simulator/
 
 
 unit = "" #the unit that has been set in setScale QLineEdit
