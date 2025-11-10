@@ -101,7 +101,7 @@ class Ui_Poincons_selector(object):
         left_layout.setSpacing(10)
         
         # Location data section
-        self.type_findings = QtWidgets.QTableView()
+        self.type_findings = QtWidgets.QGroupBox()
         self.type_findings.setObjectName("type_findings")
         location_container = QtWidgets.QWidget()
         self.type_grid = QtWidgets.QGridLayout()
@@ -199,6 +199,7 @@ class Ui_Poincons_selector(object):
         self.type_grid.addWidget(self.numUs, 11, 1, 1, 2)
         
         left_layout.addLayout(self.type_grid)
+        left_layout.addStretch(1) #add a space
         
         #Données céramologiques
         self.tableView = QtWidgets.QTableView()
@@ -293,7 +294,7 @@ class Ui_Poincons_selector(object):
         left_layout.addStretch()
         
         top_layout.addWidget(left_panel)
-        
+        left_layout.addStretch(1) #add a space
         
         # ===== CENTER PANEL =====
         self.center_panel = QtWidgets.QWidget()
@@ -725,7 +726,7 @@ class Ui_Poincons_selector(object):
         
         
         #the below lines manage the repartition of size increase between the 3 panels
-        top_layout.setStretch(0, 1)
+        top_layout.setStretch(0, 3)
         top_layout.setStretch(1, 6)
         top_layout.setStretch(2, 3)
 
