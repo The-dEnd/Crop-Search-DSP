@@ -1,10 +1,9 @@
 
 
-handle log.txt access right issues with a ppopup and a silent fail.
-
 
 Update and rework documentation
-
+fill documentation for cosmetic parts of frontend (load_stylesshets, load_fonts)
+extra guidellines for changing colors & for accessibility (see main_layout header)
 
 
 
@@ -17,12 +16,13 @@ retry compilation
 
 
 
-fill documentation for cosmetic parts of frontend (load_stylesshets, load_fonts)
 
 
 
 
-résolution d'écran (ou a minima expliquer comment on peut l'adapter dans la doc: crer avec pyqt un nouveau layout aux bonnes dimensions, l'exporter dans un .py bis, et recopier les coordonnées)
+finish testing screen resolution
+
+
 
 
  
