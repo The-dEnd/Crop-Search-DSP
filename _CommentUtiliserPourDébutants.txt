@@ -16,6 +16,8 @@ A l'intérieur, vous aurez 5 dossiers et un exécutable, appelé "Outil_poincons
 
 Les poinçons que vous aurez classifiés seront disponibles dans un fichier "_Final_Output.csv". Vous pouvez l'ouvrir avec un bloc-notes, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, ou d'autres logiciels.
 
+Si vous avez l'antivirus Avast, vous risquez de recevoir des alertes et le fichier .exe risque d'être mis en quarantaine. Pour rester simple, Avast reconnait que le fichier n'a pas été créé (et signé) par une entité connue, et part donc du principe que c'est un fichier malveillant. Pour retrouver le fichier, vous devez ajouter une exception en suivant ces instructions: https://support.avast.com/fr-fr/article/Antivirus-scan-exclusions/
+Si vous ne vous sentez pas à l'aise pour ajouter une exception sur la base de notre bonne foi (ce qui est une saine attitude), vous pouvez scanner l'outil avec Windows Defender sur votre ordinateur directement avec un clic droit>Analyser avec Windows Defender, ou le téléverser sur https://www.virustotal.com/gui/home/upload pour avoir les résultats d'analyse du fichier par plusieurs antivirus.
 
 
 

@@ -17,6 +17,9 @@ Inside, you will have 5 folders and an executable called "Outil_poincons.exe", w
 The die classifications you will make will be available in a file "_Final_Output.csv". You can open it with Notepad, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, or other software.
 
 
+If you're using Avast antimalware, you may get an alert and the file will be quarantined. To keep the explanations simple, Avast spots that the file is not originating (and signed) by a known entity, and thus assumes that it's malicious. To get the file back, you should add an exception: https://support.avast.com/en-en/article/Antivirus-scan-exclusions/#pc
+If you don't trust the file based on the author's good faith (perfectly understandble), you can scan it with Windows Defender directly on your computer with a right click, or upload the file to https://www.virustotal.com/gui/home/upload, to get a look on the opinion of multiple antimalware on the file.
+
 
 If you find that the model's predictions are bad, it's probably because you're not using photos of sherds/dies made in Las Cravieros: the model was trained with data from this site only, and will always try to match your photos with what it knows, aka Las Cravieros.
 To adapt the model to another site, contact us to discuss your needs.
