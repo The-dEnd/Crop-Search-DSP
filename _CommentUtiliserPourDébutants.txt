@@ -11,8 +11,9 @@ Si vous lisez ceci, vous êtes soit en ligne, soit vous avez téléchargé le pr
 Si vous ne souhaitez pas vous embêter avec ces aspects pour le moment, et voulez une aplication qui se lance directement, allez sur https://github.com/The-dEnd/Crop-Search-DSP/releases
 De là, vous aurez une liste de versions à télécharger, au format .7z ou .zip.
 
-Téléchargez les et dézipez les (ça doit fonctionner nativement sur Windows, sinon utilisez 7zip).
-A l'intérieur, vous aurez 5 dossiers et un exécutable, appelé "Outil_poincons.exe", avec un logo en "tête de renard". Double cliquez dessus. On vous demandera un dossier avec des photographies de poinçons. Fournissez en un. Après un temps de chargement, vous serez sur l'outil, et vous pourrez commencer à le tester.
+Téléchargez les et dézipez les.
+A l'intérieur, vous aurez 1 dossier et un exécutable, appelé "Outil_poincons.exe", avec un logo en "tête de renard". Copiez dans ce dossier les dossiers tmp/, models/ et resources/ de la page principale de Github (ils sont trop gros pour être mis dans "Releases"). Dézippez le fichier models/best.pt (il est trop gros pour Github, même hors de releases).
+Puis double cliquez sur la tête de renard. On vous demandera un dossier avec des photographies de poinçons. Fournissez en un. Après un temps de chargement, vous serez sur l'outil, et vous pourrez commencer à le tester.
 
 Les poinçons que vous aurez classifiés seront disponibles dans un fichier "_Final_Output.csv". Vous pouvez l'ouvrir avec un bloc-notes, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, ou d'autres logiciels.
 
