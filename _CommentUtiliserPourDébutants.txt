@@ -1,0 +1,23 @@
+Ce document est destiné aux utilisateurs non-techniques, novices sur Github. Pour une documentation avancée, lisez les fichiers dans le dossier doc/.
+Merci de votre intérêt pour l'outil!
+
+Si vous avez un Mac, l'outil n'est pas disponible sur votre machine (il faut payer une licence à Apple pour développer sur MacOS, ce qui n'est pas prévu).
+Si vous êtes sur Linux, lancez Python (3.11 ou assimilé), installez les requirements avec pip3, et lancez l'outil. Vous êtes normalement capables de vous débrouiller, mais contactez moi le cas échéant (adresse mail dans le README).
+Si vous êtes sur Windows (ou que vous ne savez pas ce qu'est un OS), lisez la suite.
+
+
+Si vous lisez ceci, vous êtes soit en ligne, soit vous avez téléchargé le projet de la page principale de Github. Malheureusement, vous venez de télécharger le code source de l'application, qu'il faut lancer avec un langage de programmation (Python 3.11), ou compiler. Je suppose que vous voulez juste tester l'outil, et pas vous lancer dans un projet de programmation pour le moment.
+
+Si vous ne souhaitez pas vous embêter avec ces aspects pour le moment, et voulez une aplication qui se lance directement, allez sur https://github.com/The-dEnd/Crop-Search-DSP/releases
+De là, vous aurez une liste de versions à télécharger, au format .7z ou .zip.
+
+Téléchargez les et dézipez les (ça doit fonctionner nativement sur Windows, sinon utilisez 7zip).
+A l'intérieur, vous aurez 5 dossiers et un exécutable, appelé "Outil_poincons.exe", avec un logo en "tête de renard". Double cliquez dessus. On vous demandera un dossier avec des photographies de poinçons. Fournissez en un. Après un temps de chargement, vous serez sur l'outil, et vous pourrez commencer à le tester.
+
+Les poinçons que vous aurez classifiés seront disponibles dans un fichier "_Final_Output.csv". Vous pouvez l'ouvrir avec un bloc-notes, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, ou d'autres logiciels.
+
+
+
+
+Si vous trouvez que les prédictions du modèle sont mauvaises, c'est probablement que vous n'utilisez pas de photos de tessons fabriqués à Las Cravieros: le modèle a été entraîné avec des données de ce site uniquement, et essaiera toujours de faire correspondre vos photos avec ce qu'il connait, Las Cravieros.
+Pour adapter le modèle à une autre site, contactez nous pour discuter de vos besoins.
