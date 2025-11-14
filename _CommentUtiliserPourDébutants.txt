@@ -12,7 +12,7 @@ Si vous ne souhaitez pas vous embêter avec ces aspects pour le moment, et voule
 De là, vous aurez une liste de versions à télécharger, au format .7z ou .zip.
 
 Téléchargez les et dézipez les.
-A l'intérieur, vous aurez 1 dossier et un exécutable, appelé "Outil_poincons.exe", avec un logo en "tête de renard". Copiez dans ce dossier les dossiers tmp/, models/ et resources/ de la page principale de Github (ils sont trop gros pour être mis dans "Releases"). Dézippez le fichier models/best.pt (il est trop gros pour Github, même hors de releases).
+A l'intérieur, vous aurez 1 dossier et un exécutable, appelé "Outil_poincons.exe", avec un logo en "tête de renard". 
 Puis double cliquez sur la tête de renard. On vous demandera un dossier avec des photographies de poinçons. Fournissez en un. Après un temps de chargement, vous serez sur l'outil, et vous pourrez commencer à le tester.
 
 Les poinçons que vous aurez classifiés seront disponibles dans un fichier "_Final_Output.csv". Vous pouvez l'ouvrir avec un bloc-notes, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, ou d'autres logiciels.

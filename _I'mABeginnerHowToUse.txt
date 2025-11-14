@@ -14,7 +14,6 @@ From there, you will have a list of versions to download, in .7z or .zip format.
 
 Download and extract one of them.
 Inside, you will have 1 folders and an executable called "Outil_poincons.exe", with a "fox die" logo. 
-Add in the folder the folders tmp/, resources/ and models/ from the Github main page (they are too big to be included in the Releases). In models/, unzip best.pt as well.
 Double click on the "fox" executable. You will be asked for a folder containing photography of sherds with dies. Provide one. After a loading time, you will be on the tool main page, and you can start testing it.
 
 The die classifications you will make will be available in a file "_Final_Output.csv". You can open it with Notepad, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, or other software.
