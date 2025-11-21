@@ -2,8 +2,10 @@ This document is intended for non-technical users, who are beginners on Github. 
 Thank you for your interest in the tool!
 
 
-If you have a Mac, the tool is not available on your machine (we -devs- would need to pay a license to Apple to develop on MacOS, which is not planned).
-If you are on Linux, launch Python (3.11 or similar), install the requirements with pip3, and run the tool. You are normally enough tech-savy to do it on your own, but contact me if needed (email address in README).
+If you have a Mac, the tool is not available on your machine (we -devs- would need to pay a license to Apple to develop on MacOS, which is not planned). We suggest that you try using Python3 directly, referring to the "Linux" section, but cannot guarantee if it will work.
+
+If you are on Linux, launch Python (3.11 or similar), install the requirements with pip3, and run the tool. You are normally enough tech-savy to do it on your own, but contact us if needed (email address in README). If the Python version runs properly, you can also try to compile for other Linux devices, using the .spec file and the doc/README_compilation.md (adapting Powershell syntax to Bash). This was successfully tested on Linux Mint.
+
 If you are on Windows (or do not know what an OS is), please continue reading.
 
 

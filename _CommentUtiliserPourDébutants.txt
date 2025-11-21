@@ -1,8 +1,10 @@
 Ce document est destiné aux utilisateurs non-techniques, novices sur Github. Pour une documentation avancée, lisez les fichiers dans le dossier doc/.
 Merci de votre intérêt pour l'outil!
 
-Si vous avez un Mac, l'outil n'est pas disponible sur votre machine (il faut payer une licence à Apple pour développer sur MacOS, ce qui n'est pas prévu).
-Si vous êtes sur Linux, lancez Python (3.11 ou assimilé), installez les requirements avec pip3, et lancez l'outil. Vous êtes normalement capables de vous débrouiller, mais contactez moi le cas échéant (adresse mail dans le README).
+Si vous avez un Mac, l'outil n'est normalement pas disponible sur votre machine (il faut payer une licence à Apple pour développer sur MacOS, ce qui n'est pas prévu). Vous pouvez vous reporter à la section "Linux" et essayer de tout faire fonctionner, mais nous ne garantissons pas le résultat.
+
+Si vous êtes sur Linux, lancez Python (3.11 ou assimilé), installez les requirements avec pip3, et lancez l'outil. Vous êtes normalement capables de vous débrouiller, mais contactez nous le cas échéant (adresse mail dans le README). Vous pouvez aussi essayer de compiler avec PyInstaller en vous basant sur le .spec et sur doc/README_compilation.md en adaptant la syntaxe Powershell à Bash. (testé et fonctionnel sur Linux Mint).
+
 Si vous êtes sur Windows (ou que vous ne savez pas ce qu'est un OS), lisez la suite.
 
 

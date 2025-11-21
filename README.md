@@ -12,13 +12,14 @@ If you spot a bug, or require assistance to adapt the script to your needs, plea
 ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt
 (retype manually, it contains homoglyphic characters and cannot be directly copy-pasted)
 
+"Sister-ship" project for training a model to recognize die patterns on your own sherds: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
 
 
 =========================
 
 Un outil destiné à assister des archéologues à identifier et classer des motifs de poinçons sur de la céramique, développé à l'origine pour le site de Las Cravieros à Fanjeaux (Aude).
 
-Si vous souhaitez utiliser l'outil "tel quel" sans chager le code source, allez dans l'onglet "Releases" sur le coté droit de votre écran, téléchargez la dernière version disponible, et dézipez la. Ensuite, double cliquez sur le fichier exécutable avec un logo de "tête de renard".
+Si vous souhaitez utiliser l'outil "tel quel" sans changer le code source (pour Windows), allez dans l'onglet "Releases" sur le coté droit de votre écran, téléchargez la dernière version disponible, et dézipez la. Ensuite, double cliquez sur le fichier exécutable avec un logo de "tête de renard".
 
 Si vous voulez changer le code et faire des tests, vous devez utiliser Python (l'outil est testé sur 3.11, mais d'autres versions devraient fonctionner), et les librairies listées dans le dossier doc/requirement.txt.
 
@@ -26,3 +27,4 @@ Si vous téléchargez le code source, veuillez note que le modèle "best.pt" est
 
 Si vous avez des questions, que vous repérez un problème, ou que vous avez besoin d'aide poru adapter l'outil à vos propres besoins, merci d'envoyer un mail à ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt (retapez l'addresse manuellement, j'ai ajouté des caractères homoglyhiques et un copié-collé ne fonctionnera pas).
 
+Projet-frère pour entraîner une modèle sur vos propres motifs: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
