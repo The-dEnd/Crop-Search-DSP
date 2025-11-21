@@ -996,7 +996,7 @@ def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data
             for row in open(aMlFile):
                 row_count+= 1
             if row_count>1:
-                (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(file_path)
+                (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(aMlFile)
                 outputList[0] = True
                 outputList[1] += [str(row_count-1)]
                 outputList[2] += [time.ctime(mtime)]
