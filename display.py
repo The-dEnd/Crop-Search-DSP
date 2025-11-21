@@ -3,7 +3,7 @@
 import sys, glob, shutil
 import os
 os.environ["OPENCV_SKIP_LOAD"] = "1"
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QShortcut, QDialog
+from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QShortcut, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtGui import QFontDatabase, QKeySequence
 from PyQt5.QtCore import pyqtSignal, Qt, QObject, QThread, pyqtSignal, QTimer
@@ -45,7 +45,9 @@ currentPicture = None #path to the current picture under review; used to check w
 decoRegStatus = {} #for current picture, dictionnary that contains the # of occurences of/decorative registries of a die; if die is not seen yet, it is not present; first time is 0; any number other than 0 means the number of decorative registries for this die (the number of different lines/circlesspirales/... with the same die on the sherd).
 
 alternativeLogFile = "" #if main log file has a right access issue, create a specific alternative log file
-
+finalFile = "Final_Output.csv" #file into which output will be written
+mlFile = "output_ML.csv" #file that will contain the output of ML algorithm
+project = "" #name of current project
 
 def writeLogs(stringToLog): #will handle most of the logging
     global alternativeLogFile
@@ -451,7 +453,7 @@ class Selector_Main(QWidget):
             search_text = dialog.textEdit.text()
         found=False
         new_data = []
-        with open("_Final_Output.csv", "r", encoding='utf-8') as final_output:
+        with open(finalFile, "r", encoding='utf-8') as final_output:
             reader = csv.reader(final_output, delimiter=";")
             for row in reversed(list(reader)):
                 if len(row)>1 and row[1]==search_text and not(found): #only copy and remove the first occurence (from the end)
@@ -463,7 +465,7 @@ class Selector_Main(QWidget):
             basicWarning(tr("searchNotFound"))
             return()
 
-        with open("_Final_Output.csv", "w", encoding='utf-8') as final_output: #now we write back the file, minus the row we found
+        with open(finalFile, "w", encoding='utf-8') as final_output: #now we write back the file, minus the row we found
             writer = csv.writer(final_output, delimiter=";")
             for anItem in reversed(new_data):
                 if len(anItem)>1: #|remove empty lines if there are
@@ -687,11 +689,36 @@ class Init_Window(QWidget):
     def start(self): #the Qt window tends to initialise too slowly compared to the opening of select_files, which triggers problems; thus we add a listener for readiness befor starting select_files
         QTimer.singleShot(0, self.delayed_start)
 
-    def delayed_start(self): #the Qt window tends to initialise too slowly compared to the opening of select_files, which triggers problems; thus we add a listener for readiness befor starting select_files
+
+    def nameProject(self): #popup that asks the user for a project name for the new project
+        global mlFile, project
+        nameDialog = QDialog()
+        layout = QVBoxLayout()
+        nameDialog.setLayout(layout)
+        layout.addWidget(QLabel(tr("nameProject")))
+        line_edit = QLineEdit()
+        layout.addWidget(line_edit)
+        button = QPushButton("OK")
+        button.clicked.connect(nameDialog.accept)
+        layout.addWidget(button)
+        newNameRaw = ""
+        if nameDialog.exec_() == QDialog.Accepted:
+            newNameRaw = "".join(line_edit.text())
+        newNameClean = re.sub(r'[^a-zA-Z0-9_ ]+', '', newNameRaw.replace(" ", "_"))[0:25]
+        project = newNameClean
+        writeLogs("    New project name: "+newNameClean+".\n")
+        mlFile = newNameClean+"_"+mlFile #prepare a new file to store ML output
+        writeLogs("    New project file: "+mlFile+".\n")
+
+
+    def delayed_start(self): #the Qt window tends to initialise too slowly compared to the opening of select_files, which triggers problems; thus we add a listener for readiness before starting select_files
         self.show()
         resume = self.resumeConfirm()
-        global fold
-        if resume: #we skip the ML part
+        global fold, mlFile, project, finalFile
+        if len(resume)>0: #we skip the ML part
+            mlFile = resume
+            finalFile = project+"_"+finalFile
+            writeLogs("    Resuming case "+project+".\n")
             self.thread = QThread()
             self.thread.started.connect(self.on_ml_finished)
             self.thread.finished.connect(self.thread.deleteLater)
@@ -707,8 +734,10 @@ class Init_Window(QWidget):
                 app.quit()
                 sys.exit()
             else:
+                self.nameProject()
+                finalFile = project+"_"+finalFile
                 for aFile in os.listdir(fold): #get all pictures
-                    if aFile.endswith(".png") or aFile.endswith(".jpg") or aFile.endswith(".PNG") or aFile.endswith(".JPG"):
+                    if aFile.endswith((".png", ".jpg", ".PNG", ".JPG", ".jpeg", ".JPEG")):
                         lPaths.append(fold+"/"+aFile)
                 if len(lPaths)==0:
                     writeLogs("    No picture in chosen folder root, application exits...\n")
@@ -720,24 +749,57 @@ class Init_Window(QWidget):
                 else:
                     self.setup_loading_window()
                     self.show()
-                    writeLogs("    ML algorithm started.\n")
+                    writeLogs("    ML algorithm started, for case "+mlFile+".\n")
                     self.loadML(lPaths)
 
 
                 
-    def resumeConfirm(self): #returns True if the user wants to reload previous session (if it exists), and false  else
-        (output_ML_exists, lenCSV, dateModif) = outputML_CSV_exists()
+    def resumeConfirm(self): #returns the ML_output file if the user wants to reload previous session (if it exists), and empty string else
+        (output_ML_exists, lenCsv, dateModif, lMlFiles) = outputML_CSV_exists()
         if output_ML_exists: #if remaining data form last session, start by asking if the system should run this last session
-            askResume =  QMessageBox
-            ask_resume = askResume.question(self,'', tr("startup1")+str(lenCSV)+tr("startup2")+dateModif+tr("startup3"), askResume.Yes | askResume.No)     
-            if ask_resume == askResume.Yes:
-                writeLogs("    Previous session reused "+str(lenCSV)+" - "+dateModif+".\n")
-                return True #an old ML file is present, non empty, and the user wants to reopen it
-            else:
-                return False
+            lFiles = [(lMlFiles[i], lenCsv[i], dateModif[i]) for i in range(len(lenCsv))]
+            global project
+            def formatMlFileList(aTuple):
+                name, nrows, mod_date = aTuple
+                name = name.replace("_output_ML.csv", "").replace("_"," ")
+                project = name
+                return(name + "; " + nrows + tr("startup2") + mod_date + tr("startup3"))
+            
+            askResume = QDialog()
+            layout = QVBoxLayout(askResume)
+            layout.addWidget(QLabel(tr("startup1")))
+            combo = QComboBox()
+            for f in lFiles:
+                combo.addItem(formatMlFileList(f))
+            layout.addWidget(combo)
+            buttonContainer = QVBoxLayout()
+            buttonNew = QPushButton(tr("startupNew"))
+            buttonOpen = QPushButton(tr("startupOpen"))
+            buttonContainer.addWidget(buttonNew)
+            buttonContainer.addWidget(buttonOpen)
+            layout.addLayout(buttonContainer)
+            code_open = 1
+            code_new = 0
+            buttonOpen.clicked.connect(lambda: askResume.done(code_open))
+            buttonNew.clicked.connect(lambda: askResume.done(code_new))
+            result = askResume.exec_()
+            
+            if result == code_open:
+                indexFile = combo.currentIndex()
+                writeLogs("    Previous session reused "+lMlFiles[indexFile]+".\n")
+                project = lMlFiles[indexFile].replace(mlFile, "")
+                return(lMlFiles[indexFile])
+            
+            if result == code_new:
+                writeLogs("    New session.\n")
+                return ""
+            
+            return ""  #should never be triggered, but just in case...      
+            
         else:
-            return False
-        return False #should never be triggered, but just in case...      
+            writeLogs("    No previous session to reuse.\n")
+            return ""
+        return "" #should never be triggered, but just in case...      
 
     def setup_loading_window(self):
         self.movie = QtGui.QMovie("resources/media/loading.gif")
@@ -781,7 +843,8 @@ class MLWorker(QObject): #Worker working in parallel with the loading windows of
         self.files = files
 
     def run(self):
-        run_ML.main(self.files, self.update_progress) #HereChangeMLAlgo
+        global mlFile
+        run_ML.main(self.files, self.update_progress, mlFile) #HereChangeMLAlgo
         self.finished.emit()
 
     def update_progress(self, value):
@@ -923,25 +986,30 @@ class Undetected_Die(QWidget):
 
 
 def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data; this allows user to skip the ML process if data remains from last asssessment; also returns number of lines (header excluded) and date of last modification
-    file_path = "output_ML.csv"
-    if os.path.exists(file_path):
-        fileObject = csv.reader(file_path)
-        row_count = 0
-        for row in open(file_path):
-            row_count+= 1
-        if row_count>1:
-            (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(file_path)
-            return (True, row_count-1, time.ctime(mtime))
-        else:
-            return (False, 0, 0)
+    file_path = mlFile
+    files = glob.glob("*_"+mlFile) 
+    if len(files)>0:
+        outputList = [False, [], [], []]
+        for aMlFile in files:
+            fileObject = csv.reader(aMlFile)
+            row_count = 0
+            for row in open(aMlFile):
+                row_count+= 1
+            if row_count>1:
+                (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(file_path)
+                outputList[0] = True
+                outputList[1] += [str(row_count-1)]
+                outputList[2] += [time.ctime(mtime)]
+                outputList[3] += ["".join(aMlFile)]
+        return(outputList)
     else:
-        return (False, 0, 0)
+        return [False, [], [], []]
 
 def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):#writes manual review results in Final_Output.csv
     [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML] = lOut
     x1,y1,x2,y2 = coords
     writeLogs("    Writing CSV file... "+str(lOut)+"\n")
-    for file_path in ["_Final_Output.csv"]:
+    for file_path in [finalFile]:
         if not(os.path.exists(file_path)): #create file and insert headers
             with open(file_path, "w", encoding='utf-8') as outputFile:
                 outputFile.write("Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification;X gauche;Y bas;X droite;Y haut;retex ML (communiquer aux devs);Registre décoratif répété?\n")
@@ -993,7 +1061,8 @@ def cleanLogs():#stores a backup of the last 3 sessions, removes the previous se
         pass
 
 def readDataCsvML(): #open the list of suggestions of die that was provided by ML algorithm
-    with open('output_ML.csv') as csv_file:
+    global mlFile
+    with open(mlFile) as csv_file:
         csv_read=csv.reader(csv_file, delimiter=';')
         header = next(csv_read, None)#skip header line, and keep it as a backup
         rawList = []
@@ -1074,7 +1143,8 @@ def setCurrent(pic, xy): #prepares the current picture to be reviewed, by overwr
 
 def properClosure(): #application is closing; log the action, save the remaining unclassified die list for next session
     writeLogs("    Closure process started.\n")
-    with open('output_ML.csv', 'w', newline='') as f:
+    global mlFile
+    with open(mlFile, 'w', newline='') as f:
         writer = csv.writer(f, delimiter=';')
         merged = [[header]]+rawData
         out = [x for l in merged for x in l]

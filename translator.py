@@ -191,16 +191,28 @@ translations = { #WARNING: the UI layout has been designed for the fr version; i
         "fr": "Le dossier sélectionné ne contient pas d'images (JPG, PNG); l'application va se fermer...",
     },
     "startup1": {
-        "en": "Information: ",
-        "fr": "Information: Il reste ",
+        "en": "Information: Previous case(s) was/were detected; do you want to reopen one of these or start a new case?",
+        "fr": "Information: Il reste des cas d'une session précédente; voulez-vous rouvrir un de ceux-ci, ou créer un nouveau cas?",
     },
     "startup2": {
-        "en": " dies were found from a previous session (dated ",
-        "fr": " poinçons issues d'une session précédente (",
+        "en": " dies (dated ",
+        "fr": " poinçons (dernière revue ",
     },
     "startup3": {
-        "en": "); do you want to reopen this session instead of startin a new session?",
-        "fr": "); voulez-vous rouvrir cette session au lieu d'en charger une nouvelle?",
+        "en": ")",
+        "fr": ")",
+    },
+    "startupOpen": {
+        "en": "Open this case",
+        "fr": "Ouvrir cette session",
+    },
+    "startupNew": {
+        "en": "New case",
+        "fr": "Nouvelle session",
+    },
+    "nameProject": {
+        "en": "Please give a name to you project. It must be short and explicit (ideally <10characters)",
+        "fr": "Veuillez nommer votre projet, avec un nom concis et identifiable (au mieux moins de 10 lettres)",
     },
     "folderSelector": {
         "en": "Please select the folder that contains you pictures",

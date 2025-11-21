@@ -2,11 +2,11 @@ backup/*
 build/*
 dist/*
 __pycache__/*
-tmp_pics/*
+tmp_pics*
 models/best.pt
 logs.txt.oldest
 logs.txt.old
 logs.txt
 logs.txt.older
-_Final_Output.csv
-output_ML.csv
+*_Final_Output.csv
+*output_ML.csv

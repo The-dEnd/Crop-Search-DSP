@@ -18,7 +18,7 @@ Download and extract one of them.
 Inside, you will have 1 folders and an executable called "Outil_poincons.exe", with a "fox die" logo. 
 Double click on the "fox" executable. You will be asked for a folder containing photography of sherds with dies. Provide one. After a loading time, you will be on the tool main page, and you can start testing it.
 
-The die classifications you will make will be available in a file "_Final_Output.csv". You can open it with Notepad, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, or other software.
+The die classifications you will make will be available in a file "***_Final_Output.csv" (*** is the name you gave to the project). You can open it with Notepad, Microsoft Excel, OpenOffice Calc, LibreOffice Calc, or other software.
 
 
 If you're using Avast antimalware, you may get an alert and the file will be quarantined. To keep the explanations simple, Avast spots that the file is not originating (and signed) by a known entity, and thus assumes that it's malicious. To get the file back, you should add an exception: https://support.avast.com/en-en/article/Antivirus-scan-exclusions/#pc

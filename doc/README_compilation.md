@@ -23,7 +23,7 @@ doc/
 resources/
 tmp/
 models/
-output_ML.csv/output_ML.csv (for dev/UAT version only)
+
 
 
 In _internal/, remove:
