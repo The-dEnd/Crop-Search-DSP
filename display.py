@@ -105,6 +105,7 @@ class Selector_Main(QWidget):
 
 
     def get_values(self): #retrieves the data from users input in the GUI
+        writeLogs("    Retrieving values...\n")
         option1 = self.ui.option1.isChecked()
         option2 = self.ui.option2.isChecked()
         option3 = self.ui.option3.isChecked()
@@ -202,14 +203,17 @@ class Selector_Main(QWidget):
         if self.ui.checkBox_bottom.isChecked():
             lLocations.append(tr("bottom"))
         location = "/".join(lLocations)#merge the active parts of edge/belly/bottom
+        writeLogs("    Retrieved values"+";".join([typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML])+"\n")
         return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML)
 
     def next_clicked(self): #handles the "next" button: logs the files, processes the user inputs, and opens a new sherd
-        global fold
+        global fold, currentIndex
+        writeLogs("    Button \"Next\" clicked\n")
         try: #the checks for data consistency is performed before any "destructive" action (e.g. poping lines from data) is performed
             output = self.get_values() #the data retrieved from the ticked boxes in GUI
         except:
             return() #if an error occurs (e.g. clicking "next" without selecting sherd type), pretend the user never clicked by stoping the function
+        writeLogs("    Poppping item #"+str(currentIndex)+"\n")
         currentLine = rawData.pop(currentIndex) #remove the reviewed item from list of data to review
         numDie,numDecor,numPhoto,namePhoto,x1,y1,x2,y2 = currentLine[0][0],currentLine[0][1],currentLine[0][2],currentLine[0][3],currentLine[0][36],currentLine[0][37],currentLine[0][38],currentLine[0][39]
         if self.ui.sherdTxtId.text() != "":
@@ -217,8 +221,7 @@ class Selector_Main(QWidget):
         if self.ui.dieTxtId.text() != "":
             numDie = self.ui.dieTxtId.text()
         self.checkDecorativeRegister(output[0]+output[1], namePhoto) #checkDecorativeRegister checks whether there are multiple decorative registers for the same die, and updates the comment field accordinglydecoRegStatus
-        writeLogs("    Button \"Next\" clicked\n")
-        writeLogs("    line to write:\n"+str([output,numDie,numDecor,numPhoto,namePhoto,fold,[x1,y1,x2,y2]])+"\n")
+        writeLogs("    Line to write:\n"+str([output,numDie,numDecor,numPhoto,namePhoto,fold,[x1,y1,x2,y2]])+"\n")
         writeLogs("    Status of index: "+str(currentIndex)+" out of "+str(len(rawData))+"\n")
         output_application_files(output,numDie,numDecor,numPhoto,namePhoto)
         output_application_csv(output,numDie,numDecor,numPhoto,namePhoto,fold,[x1,y1,x2,y2])
@@ -403,7 +406,7 @@ class Selector_Main(QWidget):
         with open("resources/data/default_location.conf","w") as locFile:
             locFile.write(",".join([ctry,rg,dpt,mnc,st,x,y,z]))
 
-    def history_force(self): #the user uses an historical items from recent history list
+    def history_force(self): #the user uses an historical item from recent history list
         new_value = self.ui.recentChoices.currentText()
         if new_value != tr("recent"):
             writeLogs("    User picked an historical value "+new_value+"\n")
@@ -625,6 +628,7 @@ class Selector_Main(QWidget):
             a = lines.pop()
         with open("resources/data/recent_rig.conf", "w") as recentFile:
             recentFile.writelines(lines)
+        writeLogs("    History updated to "+str(lines)+"\n")
 
     def checkDecorativeRegister(self, die, photo): #updates the decoRegStatus dictionnary
         global decoRegStatus
@@ -639,6 +643,7 @@ class Selector_Main(QWidget):
             nextPic = rawData[currentIndex][0][3]
         except: #the above line will fail when rawData is empty
             nextPic = "Totally not the same file"
+        writeLogs("    Checking whether this is the last die on the picture... "+str(nextPic)+" VS "+str(photo)+"\n")
         if photo != nextPic: #time to check the dictionnary
             for die, value in decoRegStatus.items():
                 if value>1:
@@ -650,14 +655,17 @@ class Selector_Main(QWidget):
                     message = str(number)
                     self.updateDecoReg(die, message, photo)
                 else:
+                    writeLogs("    No repetition of die in decorative registry.\n")
                     self.updateDecoReg(die, "1", photo)
+        writeLogs("    Last die of picture check performed!\n")
                         
-    def updateDecoReg(self, die, msg, photo): #updates the _Final_Output.csv file with a message stating that there are multiple decorative registries on the same die
+    def updateDecoReg(self, die, msg, photo): #updates the Final_Output.csv file with a message stating that there are multiple decorative registries on the same die
+        global finalFile
         rowsOfReg = []
-        with open('_Final_Output.csv', 'r', encoding='utf-8') as f:
+        with open(finalFile, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=";")
             data = list(reader)
-        with open('_Final_Output.csv', 'r', encoding='utf-8') as f:
+        with open(finalFile, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=";")
             for row_index, row in enumerate(reader):
                 if row[3] == photo and row[4]+row[5]==die:
@@ -669,7 +677,7 @@ class Selector_Main(QWidget):
             else:
                 data[oneIndex] +=[""]*(26) #blank padding, in case
                 data[oneIndex][26]=msg
-        with open('_Final_Output.csv', 'w', newline='', encoding='utf-8') as f:
+        with open(finalFile, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f, delimiter=";")
             writer.writerows(data)
 
@@ -1015,6 +1023,7 @@ def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):
                 outputFile.write("Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification;X gauche;Y bas;X droite;Y haut;retex ML (communiquer aux devs);Registre décoratif répété?\n")
         with open(file_path, "a", encoding='utf-8') as outputFile:
             outputFile.write(";".join([numDie,numDecor,numPhoto,namePhoto,typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author,str(x1),str(y1),str(x2),str(y2), resML])+"\n")
+    writeLogs("    Written!\n")
 
 
 def output_application_files(lOut,numDie,numDecor,numPhoto,namePhoto):#TODO pas encore fini
