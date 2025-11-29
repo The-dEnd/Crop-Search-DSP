@@ -2,18 +2,15 @@
 
 
 Update and rework documentation
-fill documentation for cosmetic parts of frontend (load_stylesshets, load_fonts)
-extra guidellines for changing colors & for accessibility (see main_layout header)
 
 
-
-change layout (see Benoit's email)
+update translation as an external feature, that does not require comilation.
 
 
 retry compilation
 
 
-add possibility to open various sites together (in parallel, at startup user is asked to continue a different session)
+
 
 
 add a field that lists the site, e.g. Palmette 1;Fanjeaux;2x3cm

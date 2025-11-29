@@ -15,3 +15,5 @@ For case A, you can replace the models within the "models/" folder with newer mo
 resize_yolo defines the picture size that is requested to run the YOLO bounding boxes mapping.
 For each found bounding box, resize_resnet defines the size to which the bounding box is reesized before running Resnet.
 
+The models were trained using [PoinconLab](https://github.com/The-dEnd/PoinconLab), more precisley the two .ipynb Python workbooks.
+
