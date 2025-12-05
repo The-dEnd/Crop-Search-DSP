@@ -926,6 +926,8 @@ class Undetected_Die(QWidget):
     def accept(self): #get sherd data from parent, die data from current windows, write the record and leave
         global fold
         coord_raw = self.ui.die_picture.click_positions
+        dispW = self.ui.die_picture.displayed_width
+        dispH = self.ui.die_picture.displayed_height
         if len(coord_raw)<2:
             basicWarning(tr("noFalseNegTwoPoints"))
             writeLogs("    false negative (undetected die) FAILED: not enough coordinates provided "+str(coord_raw)+".\n")
@@ -933,7 +935,7 @@ class Undetected_Die(QWidget):
         writeLogs("    false negative (undetected die) validated at (unreformatted) coordinates (X1,Y1),(X2,Y2): "+str(coord_raw)+"\n")
         width, heigth = imagesize.get(self.pic)
         [(x1,y1),(x2,y2)] = coord_raw
-        final_frame = [int(min(x1, x2)*(float(width)/float(680))), int(min(y1, y2)*(float(heigth)/float(680))), int(max(x1, x2)*(float(width)/float(680))), int(max(y1, y2)*(float(heigth)/float(680)))]
+        final_frame = [int(min(x1, x2)*(float(width)/float(dispW))), int(min(y1, y2)*(float(heigth)/float(dispH))), int(max(x1, x2)*(float(width)/float(dispW))), int(max(y1, y2)*(float(heigth)/float(dispH)))]
         typeDie = self.ui.set_type.currentText()
         numberDie = self.ui.set_number.text()
         if typeDie == tr("selectPattern"):
