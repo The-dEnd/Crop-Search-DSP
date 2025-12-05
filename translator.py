@@ -318,6 +318,10 @@ translations = { #WARNING: the UI layout has been designed for the fr version; i
         "en": "The die £ is present on $ decorative registries on this sherd",
         "fr": "Le poinçon £ est présent sur $ registres décoratifs sur ce tesson",
     },
+    "endMsg": {
+        "en": "All pictures in you folder were reviewed. The application will now restart to allow for another ppictures folder...",
+        "fr": "Toutes les images dans le dossier sélectionné ont été traitées. L'application va redémarrer pour un autre jeu de données...",
+    },
     "okMsg": {
         "en": "OK",
         "fr": "Klar",

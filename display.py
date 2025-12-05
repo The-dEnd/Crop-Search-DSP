@@ -243,7 +243,7 @@ class Selector_Main(QWidget):
 
     def exit_clicked(self): #handles the "exit" button: logs the action and closes the application
         writeLogs("    Button \"Exit\" clicked\n")
-        app.quit()
+        QApplication.exit(200)
 
     def newPart(self):#initialization of a new die/sherd to review in the GUI
         global currentIndex, rawData, currentPicture, decoRegStatus
@@ -255,9 +255,9 @@ class Selector_Main(QWidget):
             else:
                 writeLogs("    All data reviewed! End of batch.\n")
                 warning_end_of_data = QMessageBox()
-                warning_end_of_data.setText("Toutes les images dans le dossier sélectionné ont été traitées. L'application va se fermer.")
+                warning_end_of_data.setText(tr("endMsg"))
                 warning_end_of_data.exec()
-                app.quit()
+                QApplication.exit(205) #restart the application
                 return()
         sherdNum, dieNum, numPic, picture, option1id, option1, option1model, proba1, option2id, option2, option2model, proba2, option3id, option3, option3model, proba3, option4id, option4, option4model, proba4, commentML, xLeft, yBot, xRight, yTop, aux1 = prepareData()
         self.data = [sherdNum, dieNum, numPic, picture]
@@ -712,7 +712,7 @@ class Init_Window(QWidget):
         newNameRaw = ""
         if nameDialog.exec_() == QDialog.Accepted:
             newNameRaw = "".join(line_edit.text())
-        newNameClean = re.sub(r'[^a-zA-Z0-9_ ]+', '', newNameRaw.replace(" ", "_"))[0:25]
+        newNameClean = re.sub(r'[^a-zA-Z0-9_ ]+', '', newNameRaw.replace(" ", "_"))[0:25].strip("_")
         project = newNameClean
         writeLogs("    New project name: "+newNameClean+".\n")
         mlFile = newNameClean+"_"+mlFile #prepare a new file to store ML output
@@ -725,8 +725,8 @@ class Init_Window(QWidget):
         global fold, mlFile, project, finalFile
         if len(resume)>0: #we skip the ML part
             mlFile = resume
-            finalFile = project+"_"+finalFile
-            writeLogs("    Resuming case "+project+".\n")
+            finalFile = project.strip("_")+"_"+finalFile
+            writeLogs("    Resuming case "+project.strip("_")+".\n")
             self.thread = QThread()
             self.thread.started.connect(self.on_ml_finished)
             self.thread.finished.connect(self.thread.deleteLater)
@@ -739,7 +739,7 @@ class Init_Window(QWidget):
                 warning_exit = QMessageBox()
                 warning_exit.setText(tr("errorNoFold"))
                 warning_exit.exec()
-                app.quit()
+                QApplication.exit(404)
                 sys.exit()
             else:
                 self.nameProject()
@@ -752,7 +752,7 @@ class Init_Window(QWidget):
                     warning_exit = QMessageBox()
                     warning_exit.setText(tr("errorNoPic"))
                     warning_exit.exec()
-                    app.quit()
+                    QApplication.exit(204)
                     sys.exit()
                 else:
                     self.setup_loading_window()
@@ -1227,7 +1227,7 @@ def launch_main_window():
     main_window.show()
 
 
-if __name__ == '__main__':
+def run_app():
     global fold
     cleanLogs()
     app = QApplication(sys.argv)
@@ -1242,4 +1242,13 @@ if __name__ == '__main__':
     initialisation.finished.connect(launch_main_window)
     QTimer.singleShot(0, initialisation.start)
     app.aboutToQuit.connect(properClosure) #start the "close" event listener, to save remaining unclassed pictures
-    sys.exit(app.exec())
+    return app.exec()
+
+if __name__ == '__main__':
+    exit_code = run_app()
+    if exit_code == 205: #restart code
+        os.execv(sys.executable, [sys.executable] + sys.argv)
+    
+    sys.exit(exit_code)
+    
+
