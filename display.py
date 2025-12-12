@@ -49,6 +49,7 @@ finalFile = "Final_Output.csv" #file into which output will be written
 mlFile = "output_ML.csv" #file that will contain the output of ML algorithm
 project = "" #name of current project
 
+
 def writeLogs(stringToLog): #will handle most of the logging
     global alternativeLogFile
     try:
@@ -83,8 +84,10 @@ class Selector_Main(QWidget):
         self.licensePopup = None #additional argument for child window (popups) that displays the license
         self.themePopup = None #additional argument for child window (popups) that displays the license
         self.undetectedPopup = None #additional argument for child window (popups) that displays the "untetected die?" dialog
-        shortcut = QShortcut(QKeySequence("Ctrl+F"),self)
-        shortcut.activated.connect(self.search)
+        shortcutFind = QShortcut(QKeySequence("Ctrl+F"),self)
+        shortcutFind.activated.connect(self.search)
+        shortcutPrev = QShortcut(QKeySequence("Ctrl+Z"),self)
+        shortcutPrev.activated.connect(self.previous)
         self.show() #show the window
         self.data = [rawData[0][0][0], rawData[0][0][1], rawData[0][0][2], rawData[0][0][3]] #minimum data necessary for child window (e.g. Undetected_Die)
         writeLogs("    Application started successfully\n")
@@ -456,28 +459,59 @@ class Selector_Main(QWidget):
             search_text = dialog.textEdit.text()
         found=False
         new_data = []
-        with open(finalFile, "r", encoding='utf-8') as final_output:
-            reader = csv.reader(final_output, delimiter=";")
-            for row in reversed(list(reader)):
-                if len(row)>1 and row[1]==search_text and not(found): #only copy and remove the first occurence (from the end)
-                    found=True
-                    outputToTransform = row
-                else:
-                    new_data.append(row)
-        if not(found): #die number not found
+        try:
+            with open(finalFile, "r", encoding='utf-8') as final_output:
+                reader = csv.reader(final_output, delimiter=";")
+                for row in reversed(list(reader)):
+                    if len(row)>1 and row[1]==search_text and not(found): #only copy and remove the first occurence (from the end)
+                        found=True
+                        outputToTransform = row
+                    else:
+                        new_data.append(row)
+            if not(found): #die number not found
+                basicWarning(tr("searchNotFound"))
+                return()
+        except:
             basicWarning(tr("searchNotFound"))
             return()
 
         with open(finalFile, "w", encoding='utf-8') as final_output: #now we write back the file, minus the row we found
             writer = csv.writer(final_output, delimiter=";")
             for anItem in reversed(new_data):
-                if len(anItem)>1: #|remove empty lines if there are
+                if len(anItem)>1: #remove empty lines if there are
                     writer.writerow(anItem)
         transformed_data = self.convert_finalOutput_to_MLOutput(outputToTransform)
         currentIndex = max(0, currentIndex-1)#rollback from one index
         rawData.insert(currentIndex, [transformed_data]) #insert the item in the index
         self.newPart()
-        
+
+
+    def previous(self): #users does a Ctrl+Z to search for a previous item
+        global currentIndex
+        new_data = []
+        try:
+            with open(finalFile, "r", encoding='utf-8') as final_output:
+                output_read = final_output.readlines()
+                if len(output_read) > 0:
+                    outputToTransform = output_read[-1].split(";") #first row from the bottom was the last one your got
+                    new_data.append(outputToTransform)
+                else: 
+                    basicWarning(tr("previousNotFound"))
+                    return()
+        except:
+            basicWarning(tr("previousNotFound"))
+            return()
+
+        with open(finalFile, "w", encoding='utf-8') as final_output: #now we write back the file, minus the row we found
+            writer = csv.writer(final_output, delimiter=";")
+            for anItem in reversed(new_data):
+                if len(anItem)>1: #remove empty lines if there are
+                    writer.writerow(anItem)
+        transformed_data = self.convert_finalOutput_to_MLOutput(outputToTransform)
+        currentIndex = max(0, currentIndex-1)#rollback from one index
+        rawData.insert(currentIndex, [transformed_data]) #insert the item in the index
+        self.newPart()
+
 
 
     def convert_finalOutput_to_MLOutput(self, listFinalOutput): #converts back the final output to the ML output data file; this unfortunately stripes most of added information (e.g. location, ...) from the file

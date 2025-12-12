@@ -322,6 +322,10 @@ translations = { #WARNING: the UI layout has been designed for the fr version; i
         "en": "All pictures in you folder were reviewed. The application will now restart to allow for another ppictures folder...",
         "fr": "Toutes les images dans le dossier sélectionné ont été traitées. L'application va redémarrer pour un autre jeu de données...",
     },
+    "previousNotFound": {
+        "en": "No previous die to load in this project",
+        "fr": "Vous n'avez pas encore traité de motif dans ce projet",
+    },
     "okMsg": {
         "en": "OK",
         "fr": "Klar",
