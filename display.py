@@ -702,8 +702,9 @@ class Selector_Main(QWidget):
         with open(finalFile, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=";")
             for row_index, row in enumerate(reader):
-                if row[3] == photo and row[4]+row[5]==die:
-                    rowsOfReg.append(row_index) #index of one line to be updated: the die is the same, and we are in the correct picture
+                if len(row) > 1:
+                    if row[3] == photo and row[4]+row[5]==die:
+                        rowsOfReg.append(row_index) #index of one line to be updated: the die is the same, and we are in the correct picture
         writeLogs("    During rollback, following rows were spotted as referring to the same sherd: "+str(rowsOfReg)+"; rewritting everything...\n")
         for oneIndex in rowsOfReg: #edit the cell with the message in previous occurences of same picture (i.e. same sherd) + same die
             if len(data[oneIndex])>=27: #if CSV list is not long enough, increase its size

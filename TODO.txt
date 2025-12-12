@@ -10,14 +10,11 @@ update translation as an external feature, that does not require comilation.
 retry compilation
 
 
-add a "previous" button in addition to the Ctrl+F
-
-adapt screen resolution for the "undetected die" case
 
 add a field that lists the site, e.g. Palmette 1;Fanjeaux;2x3cm
 
-when the aplication closes, display a poppup and move back to startup (reboot the app?)
 
+handle the "arceau (?)" -> "arceau 0"
 
 
 
