@@ -4,10 +4,9 @@
 Update and rework documentation
 
 
-update translation as an external feature, that does not require comilation.
 
 
-retry compilation
+always retry compilation before releasing
 
 
 

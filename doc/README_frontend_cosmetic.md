@@ -5,10 +5,9 @@ TRANSLATION
 The default tool suports English and French, but it is quite easy to adapt it to other languages.
 If you want a language that is already supported, you can change the file /resources/data/language.conf, mostly current_language (we recommend to keep the default_language to "en" as a fallback in case there are translation issues in your language).
 
-If you develop a translation in a language, we would strongly apppreciate that you share it with us. The language will be added in the list of supported languages, updates will be compiled with your language supported, and other users may benefit from it.
+If you develop a translation in a language, we would strongly apppreciate that you share it with us. The language will be added in the list of supported languages, and other users may benefit from it.
 
-All translation is performed in the translator.py file. It contains a Python dictionnary with all classes in use. For each entry, you can add your own translation, with a prefix (e.g. ISO3166-2) that is the same for each entry. Then, recompile the code and update the /resources/data/language.conf.
-
+All translation is performed in the /resources/data/translations.yaml. It contains a YAML dictionnary with all classes in use. For each entry, you can add your own translation, with a prefix (e.g. "de", "it") that is the same for each entry. Then, update the /resources/data/language.conf.
 Please note that UI size has been set to fit French wording. Hence, it is suggested to keep a size of message shorter or equivalent to the French version as much as possible.
 Newline characters can be added with \n.
 
