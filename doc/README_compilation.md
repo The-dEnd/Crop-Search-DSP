@@ -16,12 +16,10 @@ numpy                     2.1.2
 
 
 To compile:
+
 _Windows_
 rm dist -Recurse; rm build -Recurse; ~\AppData\Local\Programs\Python\Python311\Scripts\pyinstaller.exe --clean .\Outil_Poincons.spec
 
-_Linux_
-PYINSTALLER_NO_HARDLINKS=1 pyinstaller --clean Outil_Poincons_LINUX.spec
-(compilation tested on Mint21.2)
 
 then move the following from _internal folder to the same level than the .exe file:
 doc/
