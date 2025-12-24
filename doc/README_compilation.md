@@ -21,6 +21,12 @@ _Windows_
 rm dist -Recurse; rm build -Recurse; ~\AppData\Local\Programs\Python\Python311\Scripts\pyinstaller.exe --clean .\Outil_Poincons.spec
 
 
+_Linux_
+WARNING: the following commands worked in our environment, but required multiple very heavy constraints. If possible, we recommend that you setup a virtual environment instead, and install directly the requirements within it.
+rm -fr dist,build && PYINSTALLER_NO_HARDLINKS=1 pyinstaller --clean Outil_Poincons_LINUX.spec
+
+
+
 then move the following from _internal folder to the same level than the .exe file:
 doc/
 resources/

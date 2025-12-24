@@ -3,6 +3,7 @@
 import sys, glob, shutil
 import os
 os.environ["OPENCV_SKIP_LOAD"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
 from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QShortcut, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtGui import QFontDatabase, QKeySequence
