@@ -45,8 +45,8 @@ currentPicture = None #path to the current picture under review; used to check w
 decoRegStatus = {} #for current picture, dictionnary that contains the # of occurences of/decorative registries of a die; if die is not seen yet, it is not present; first time is 0; any number other than 0 means the number of decorative registries for this die (the number of different lines/circlesspirales/... with the same die on the sherd).
 
 alternativeLogFile = "" #if main log file has a right access issue, create a specific alternative log file
-finalFile = "Final_Output.csv" #file into which output will be written
-mlFile = "output_ML.csv" #file that will contain the output of ML algorithm
+finalFile = "Final_Output.csv" #suffix of the file into which output will be written
+mlFile = "output_ML.csv" #suffix of the file that will contain the output of ML algorithm
 project = "" #name of current project
 
 
@@ -1227,7 +1227,7 @@ def addSize(name, sherdId): #adds the size of the sherds in the name
         return(name)
     else:
         try:
-            return(name+"\n"+sizeSherd[str(sherdId)])
+            return(name+"\n"+sizeSherd[str(sherdId)].replace("\\n", "\n"))
         except: #if the key is not present (e.g. size not provided), just display the name
             return(name)
 

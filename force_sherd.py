@@ -14,7 +14,7 @@ with open("resources/data/sizes.conf", "r") as sizeFile: #adding the sizes to be
 def addSize(name, sherdId): #adds the size of the sherds in the name
     global sizeSherd
     try:
-        return(name+"\n"+sizeSherd[str(sherdId)])
+        return(name+"\n"+sizeSherd[str(sherdId)].replace("\\n","\n"))
     except: #if the key is not present (e.g. size not provided), just display the name
         return(name)
 
@@ -22,7 +22,7 @@ class ForceTypePopup(QDialog):
     imageClicked = pyqtSignal(str, str, int) #messaged sent to parent when clicked
     def __init__(self, categ, parent=None):
         super().__init__(parent)
-        self.setMinimumSize(1020, 760) #minimum size of the popup to display the window correctly; it is assumed today's computers are >= 2014*768
+        self.setMinimumSize(1150, 760) #minimum size of the popup to display the window correctly; it is assumed today's computers are >= 2014*768
         cat = reverse_dict_types[categ] #cat is an integer that is bound to a category, see dict_types
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Pick a symbol")
