@@ -3,18 +3,38 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, pyqtSignal
 from ClickableQLabel import ClickQLabel
 from translator import tr
-import os, sys, pathlib
+import os, sys, pathlib, ast
 
 dict_types = tr("lMotifs")
 reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary, used to find back where the user clicked
+
+def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
+    config = {}
+    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+                config[key] = ast.literal_eval(value)
+    return config
+
+config = load_preferences()
+displaySize = config["displaySize"] #bolean to state if you want the application to display the size of all known dies (and the site on which the die was found) in the selector or not
+
+
 
 with open("resources/data/sizes.conf", "r") as sizeFile: #adding the sizes to be displayed
     sizeSherd = dict(line.strip().split(':', 1) for line in sizeFile)
 
 def addSize(name, sherdId): #adds the size of the sherds in the name
-    global sizeSherd
+    global sizeSherd, displaySize
     try:
-        return(name+"\n"+sizeSherd[str(sherdId)].replace("\\n","\n"))
+        if displaySize: 
+            return(name+"\n"+sizeSherd[str(sherdId)].replace("\\n","\n"))
+        else:
+            return(name)
     except: #if the key is not present (e.g. size not provided), just display the name
         return(name)
 
@@ -22,7 +42,6 @@ class ForceTypePopup(QDialog):
     imageClicked = pyqtSignal(str, str, int) #messaged sent to parent when clicked
     def __init__(self, categ, parent=None):
         super().__init__(parent)
-        self.setMinimumSize(1150, 760) #minimum size of the popup to display the window correctly; it is assumed today's computers are >= 2014*768
         cat = reverse_dict_types[categ] #cat is an integer that is bound to a category, see dict_types
         self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
         self.setWindowTitle("Pick a symbol")
@@ -32,6 +51,7 @@ class ForceTypePopup(QDialog):
         self.gridLayout = QtWidgets.QGridLayout()
         self.gridLayout.setObjectName("gridLayout")
         self.gridLayout.addWidget(populator,nRows, 7) #force the gridLayout to its maximum extend, nRows rows and 8 columns: three displayed columns with text and picture and two vertical separators (3x2+2=8)
+        self.setMinimumSize(1150, 760) #minimum size of the popup to display the window correctly; it is assumed today's computers are >= 2014*768
         
 
         

@@ -24,16 +24,11 @@ from translator import tr
 from measure_state import MeasureState
 import logging.config
 from numDecoRegisters import DecorativeRegisterPopup
+import ast
 
 
 import run_ML #HereChangeMLAlgo
 
-
-#settings for fine-tuning the app; you can edit them if you know what you're doing
-normalColor = (47, 103, 177) #color for non active dies on the sherd
-highlightColor = (191, 44, 35) #color for active die on the sherd
-#These colors have been picked to be easily distinguished by multiple categories of colorblindness, and by users of night-light screen filters; should you want to edit them, please ensure the new colors still guarantee accessibility. https://www.nceas.ucsb.edu/sites/default/files/2022-06/Colorblind%20Safe%20Color%20Schemes.pdf
-displaySize = True #bolean to state if you want the application to display the size of all known dies in the selector or not
 
 
 #global variables that will be changed programmatically, do not edit
@@ -43,11 +38,34 @@ MeasureState.getMeasureState = False #boolean keeping track on whether the final
 sizeSherd = {} #dictionnary containing (existing) sizes of sherds
 currentPicture = None #path to the current picture under review; used to check whether one should increas the sherd ID or not
 decoRegStatus = {} #for current picture, dictionnary that contains the # of occurences of/decorative registries of a die; if die is not seen yet, it is not present; first time is 0; any number other than 0 means the number of decorative registries for this die (the number of different lines/circlesspirales/... with the same die on the sherd).
-
-alternativeLogFile = "" #if main log file has a right access issue, create a specific alternative log file
-finalFile = "Final_Output.csv" #suffix of the file into which output will be written
-mlFile = "output_ML.csv" #suffix of the file that will contain the output of ML algorithm
 project = "" #name of current project
+
+
+
+def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
+    config = {}
+    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+                config[key] = ast.literal_eval(value)
+    return config
+
+
+
+config = load_preferences()
+
+normalColor = config["normalColor"] #color for non active dies on the sherd
+highlightColor = config["highlightColor"] #color for active die on the sherd
+displaySize = config["displaySize"] #bolean to state if you want the application to display the size of all known dies (and the site on which the die was found) in the selector or not
+
+alternativeLogFile = config["alternativeLogFile"] #if main log file has a right access issue, create a specific alternative log file
+finalFile = config["finalFile"] #suffix of the file into which output will be written
+mlFile = config["mlFile"] #suffix of the file that will contain the output of ML algorithm
+
 
 
 def writeLogs(stringToLog): #will handle most of the logging
