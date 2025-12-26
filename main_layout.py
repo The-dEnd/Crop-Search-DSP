@@ -3,7 +3,6 @@
 
 #
 # Created by: PyQt5 UI code generator 5.15.9
-#
 # This file was first created with PyQt designer, then manually edited for a standard layout in fixed window size, then adapted by AI (GPT4) to adapt to window size
 
 

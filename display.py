@@ -1265,7 +1265,7 @@ def launch_main_window():
 
 
 def run_app():
-    global fold
+    global fold, sizeSherd, initialisation
     cleanLogs()
     app = QApplication(sys.argv)
     loadFonts()
@@ -1274,7 +1274,6 @@ def run_app():
     fold = ""
     with open("resources/data/sizes.conf", "r") as sizeFile:
         sizeSherd = dict(line.strip().split(':', 1) for line in sizeFile)
-    global initialisation
     initialisation = Init_Window()
     initialisation.finished.connect(launch_main_window)
     QTimer.singleShot(0, initialisation.start)
