@@ -40,6 +40,9 @@ currentPicture = None #path to the current picture under review; used to check w
 decoRegStatus = {} #for current picture, dictionnary that contains the # of occurences of/decorative registries of a die; if die is not seen yet, it is not present; first time is 0; any number other than 0 means the number of decorative registries for this die (the number of different lines/circlesspirales/... with the same die on the sherd).
 project = "" #name of current project
 
+dict_types = tr("lMotifs")
+reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary
+
 
 
 def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
@@ -298,10 +301,10 @@ class Selector_Main(QWidget):
         self.ui.option2.setHidden(False)
         self.ui.option3.setHidden(False)
         self.ui.option4.setHidden(False)
-        self.ui.option1_name.setText(addSize(option1, option1id))
-        self.ui.option2_name.setText(addSize(option2, option2id))
-        self.ui.option3_name.setText(addSize(option3, option3id))
-        self.ui.option4_name.setText(addSize(option4, option4id))
+        self.ui.option1_name.setText(addSize(option1id))
+        self.ui.option2_name.setText(addSize(option2id))
+        self.ui.option3_name.setText(addSize(option3id))
+        self.ui.option4_name.setText(addSize(option4id))
         self.ui.option1_model.setPixmap(QtGui.QPixmap(option1model))
         self.ui.option2_model.setPixmap(QtGui.QPixmap(option2model))
         self.ui.option3_model.setPixmap(QtGui.QPixmap(option3model))
@@ -534,6 +537,7 @@ class Selector_Main(QWidget):
 
     def convert_finalOutput_to_MLOutput(self, listFinalOutput): #converts back the final output to the ML output data file; this unfortunately stripes most of added information (e.g. location, ...) from the file
         #TODO: merge all other columns, put them in "Aux1" to keep track of e.g. location in case of a rollback, and change function newPart accordingly (if aux1<>"", then popuplate the view with this data)
+        global reverse_dict_types
         listMLOutput = [''] * 40
         listMLOutput[0] = listFinalOutput[0]
         listMLOutput[1] = listFinalOutput[1]
@@ -548,8 +552,6 @@ class Selector_Main(QWidget):
         listMLOutput[39] = listFinalOutput[24]
         listMLOutput[26] = "$".join(listFinalOutput[6:21]) #populate field Aux1 with all the other informations
         #the following lines will convert listFinalOutput[4:5] to the 4-digits ML output format, e.g. ["rouelle","8"] => 1008
-        dict_types = tr("lMotifs")
-        reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary
         codedType = str(reverse_dict_types[listFinalOutput[4]])
         exactDie = "000"+listFinalOutput[5] #left-zero-padding, to ensure that e.g. 8 => 008, and 22 => 022
         listMLOutput[4] = codedType+exactDie[-3:]
@@ -1239,15 +1241,27 @@ def loadFonts(): #loads all non-standard fonts in the correct directory, before 
                 with open("logs.txt", "a") as logFile:
                         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Font file "+font_file+" loaded.\n")
 
-def addSize(name, sherdId): #adds the size of the sherds in the name
-    global displaySize, sizeSherd
+def addSize(sherdId): #adds the size of the sherds in the name (and reuses the sherdId to assess a translated name)
+    global displaySize, sizeSherd, dict_types
+
+    if sherdId == "":
+        return("")
+
+    main_type = dict_types[int(sherdId[0])]
+    cat_num = str(int(sherdId[1:]))
+    if cat_num == "0":
+        cat_num = "(?)"
+
+    newName = main_type + " " + cat_num
+
+
     if not displaySize:
-        return(name)
+        return(newName)
     else:
         try:
-            return(name+"\n"+sizeSherd[str(sherdId)].replace("\\n", "\n"))
+            return(newName+"\n"+sizeSherd[str(sherdId)].replace("\\n", "\n"))
         except: #if the key is not present (e.g. size not provided), just display the name
-            return(name)
+            return(newName)
 
 def incrementId(s): #tries to identify a pattern in ID (sherd or die ID), and returns the increased version of the ID
     match = re.search(r'(\d+)$', s)

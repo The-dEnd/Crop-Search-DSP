@@ -10,15 +10,11 @@ always retry compilation before releasing
 
 
 
-add a field that lists the site, e.g. Palmette 1;Fanjeaux;2x3cm
-
 
 handle the "arceau (?)" -> "arceau 0"
 
 
 
-
-finish testing screen resolution
 
 
 
