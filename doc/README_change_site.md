@@ -1,0 +1,16 @@
+This file details the steps to follow if you want to change the tool, and make it work with another archaeological site (and others dies). It's main audience is users with a minimal technical proficiency (for the main principles), and users with ML knowledge for actual implementation.
+
+From an architecture point of view, there are three main categories for changes to be brought to adat the tool for another site. Normally, all of them can be accomplished without having to recompile the tool (although recompilation could be useful):
+1) change the ML models: YOLOv5 if necessary (to spot die locations on a picture), and ResNet34 (to identify the exact type of the die at YOLOv5 location). For discrete atterns, YOLOv5 should be reusable as it is. To change the identification algorithm (ResNet34 or another), please refer to README_ML.
+
+If you change the classes, the expected format of the class is a 4-digits integer, in the form XYYY, with X being a generic pattern, and YYY being a (zero-padded) identifier of the class within the pattern. For example, in las Cravieros, "2010" stands for "Leaf 10", but you can change the meaning of X=2=Leaf in you model. Please refer to point 3 for what to do with this.
+
+2) if you changed the ML models to a model other than the current ResNet34, it is possible that the ML output will not be directly compatible with the aplication. In that case, you may nees to go the the source code, and change the code around the #HereChangeMLAlgo tags, then recompile. The output of the ML algorithm is released in a CSV, that fits a specific pattern, described in README_interface_ML.
+
+If you retrained a ResNet34 with your own data (e.g. using the [PoinconLab](https://github.com/The-dEnd/PoinconLab) tool), step 2 may be unnecessary.
+
+3) change the user interface: classes have changes, their additional information (e.g. size of dies, reference of the site) have changed as well, and their main types (1=Wheel, 2=Leaf) may have changed as well. Hence:
+-Change the main types in resources/data/translations.yaml (lMotifs) to fit you new main types,
+-Rewrite the extra data for each pattern in resources/data/sizes.conf. This file have the following format: XXXX:AAAAAAAA, with XXXX being a die "UID" (see step 1 for the meaning of the 4 digits), and AAAAAAA being a free text field. In this free text field, "\n" is interpreted as a newline character. In Las Cravieros version fo the tool, AAAAAAA is used to store (and display) the size of each die, as well as the site (Las Crav.) on which they were spotted.
+-In resources/media/Die_types, add a sample picture for each die pattern that may be identified. This helps users to spot visual similarities between the picture they have to analyze, and the actual case. Please note that only the pictures listed in this folder are listed in the "magnifying lens" popup used to force a type. All pictures must be square (have as many pixels in length and in width).
+-If necessary, change Rig_types as well. You must fill the naming pattern XXXAAAAAA.png, with XXX being an ID, AAAAA being a free text field (of course with filename limitations), and a .png file extension.

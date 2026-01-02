@@ -18,21 +18,21 @@ numpy                     2.1.2
 To compile:
 
 _Windows_
-rm dist -Recurse; rm build -Recurse; ~\AppData\Local\Programs\Python\Python311\Scripts\pyinstaller.exe --clean .\Outil_Poincons.spec
+rm dist -Recurse; rm build -Recurse; ~\AppData\Local\Programs\Python\Python311\Scripts\pyinstaller.exe --clean -y .\Outil_Poincons.spec
 
+Then you can run the following command:
+mv .\dist\Outil_poincons\_internal\doc .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\models .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\resources .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\tmp .\dist\Outil_poincons\;rm .\dist\Outil_poincons\_internal\torch\lib\dnnl.lib;rm .\dist\Outil_poincons\_internal\cv2\opencv_videoio_ffmpeg4110_64.dll
 
-then move the following from _internal folder to the same level than the .exe file:
+It will:
+-move the following from _internal folder to the same level than the .exe file:
 doc/
 resources/
 tmp/
 models/
+Thisis necessary for the compiled version to work as expected.
 
-
-
-In _internal/, remove:
+-in _internal/, remove:
 torch/lib/dnnl.lib (700MB file)
 torch/lib/*cuda*/
 cv2/opencv_videoio_ffmpeg4110_64.dll
-
-
 This will save some space.

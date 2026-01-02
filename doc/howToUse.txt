@@ -13,7 +13,7 @@ To give a quick explanation, the application has been developed and compiled wit
 
 To start the application:
 1) on Windows, double click on the .exe file, with a "fox head" icon
-2) on Linux, mark the file as executable and run it
+2) on Linux (in a venv), pip install -r doc/requirements.txt && python3 display.py
 
 If you already started working on files, and you did not finish your work during your last session, you will be asked whether you want to continue where you left, or if you want to open a new session. If you want to open a new session, you will be asked to select the folder containing the sherd pictures to review. Pick the folder.
 Following a few seconds/minutes (depending on the number of pictures to review), you will be prompted with one of the pictures. Detected dies are circled in blue, and the current one is circled in red.
@@ -39,7 +39,7 @@ Pour simplifier, l'application a été développée et compilée sans être sign
 
 Pour démarrer l'application:
 1) sur Windows double-cliquez sur le fichier .exe avec la "tête de renard". 
-2) sur Linux, marquez le fichier comme executable, puis lancez-le
+2) sur Linux (dans un environnement virtuel), pip install -r doc/requirements.txt && python3 display.py
 
 Si vous avez déjà commencé à travailler sur des fichiers et que vous n'avez pas terminé votre travail lors de la dernière session, vous serez demandé si vous voulez reprendre où vous en étiez ou si vous voulez ouvrir une nouvelle session. Si vous souhaitez ouvrir une nouvelle session, il vous sera demandé de sélectionner le dossier contenant les photos à examiner. Choisissez le dossier.
 Après quelques secondes/minutes (en fonction du nombre d'images à analyser), vous serez invité à analyser l'une des images. Les poinçons détectés sont encadrés en bleu, et le motif à analyser à l'instant T est encadré en rouge.
