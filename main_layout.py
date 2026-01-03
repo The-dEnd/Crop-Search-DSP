@@ -300,52 +300,70 @@ class Ui_Poincons_selector(object):
         center_layout = QtWidgets.QVBoxLayout(self.center_panel)
         center_layout.setContentsMargins(0, 0, 0, 0)
         center_layout.setSpacing(5)
+        self.center_top_layout = QtWidgets.QHBoxLayout()
         
         #size calculation at top
-        self.gridLayout_2 = QtWidgets.QGridLayout()
-        self.gridLayout_2.setSpacing(5)
-        
-        self.reference1 = QtWidgets.QLabel()
-        self.reference1.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.reference1.setObjectName("reference1")
-        self.gridLayout_2.addWidget(self.reference1, 0, 0, 1, 1)
+        self.gridLayout_2l = QtWidgets.QGridLayout()
+        self.gridLayout_2r = QtWidgets.QGridLayout()
+        self.gridLayout_2l.setSpacing(5)
+        self.gridLayout_2r.setSpacing(5)
         
         self.measureGroup = QtWidgets.QGroupBox()
-        self.measureGroup.setMinimumSize(QtCore.QSize(150, 50))
-        self.measureGroup.setMaximumSize(QtCore.QSize(150, 50))
+        self.measureGroup.setMinimumSize(QtCore.QSize(150, 60))
+        self.measureGroup.setMaximumSize(QtCore.QSize(250, 100))
         self.measureGroup.setTitle("")
         self.measureGroup.setObjectName("measureGroup")
         
         self.setScaleButton = QtWidgets.QPushButton(self.measureGroup)
-        self.setScaleButton.setGeometry(QtCore.QRect(30, 0, 92, 23))
         self.setScaleButton.setCheckable(True)
         self.setScaleButton.setObjectName("setScaleButton")
         
         self.returnSizeButton = QtWidgets.QPushButton(self.measureGroup)
-        self.returnSizeButton.setGeometry(QtCore.QRect(30, 30, 92, 23))
         self.returnSizeButton.setCheckable(True)
         self.returnSizeButton.setObjectName("returnSizeButton")
         
-        self.gridLayout_2.addWidget(self.measureGroup, 0, 1, 2, 1)
+        measureLayout = QtWidgets.QVBoxLayout(self.measureGroup)
+        measureLayout.setContentsMargins(5, 5, 5, 5)
+        measureLayout.setSpacing(5)
+        measureLayout.addWidget(self.setScaleButton)
+        measureLayout.addWidget(self.returnSizeButton)
         
-        self.setScale = QtWidgets.QTextEdit()
+        self.gridLayout_2r.addWidget(self.measureGroup, 0, 0, 2, 1)
+        
+        self.setScale = QtWidgets.QLineEdit()
         self.setScale.setMaximumSize(QtCore.QSize(200, 20))
         self.setScale.setObjectName("setScale")
-        self.setScale.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.gridLayout_2.addWidget(self.setScale, 0, 2, 1, 1)
+        self.gridLayout_2r.addWidget(self.setScale, 0, 1)
         
-        self.reference2 = QtWidgets.QLabel()
-        self.reference2.setMaximumSize(QtCore.QSize(16777215, 20))
-        self.reference2.setObjectName("reference2")
-        self.gridLayout_2.addWidget(self.reference2, 1, 0, 1, 1)
-        
-        self.returnSize = QtWidgets.QTextEdit()
+        self.returnSize = QtWidgets.QLineEdit()
         self.returnSize.setMaximumSize(QtCore.QSize(200, 20))
         self.returnSize.setObjectName("returnSize")
-        self.returnSize.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
-        self.gridLayout_2.addWidget(self.returnSize, 1, 2, 1, 1)
+        self.gridLayout_2r.addWidget(self.returnSize, 1, 1)
         
-        center_layout.addLayout(self.gridLayout_2)
+        
+        self.sherdId = QtWidgets.QLabel()
+        self.sherdId.setObjectName("sherdId")
+        self.gridLayout_2l.addWidget(self.sherdId, 0, 0)
+        
+        self.sherdTxtId = QtWidgets.QLineEdit()
+        self.sherdTxtId.setMaximumWidth(120)
+        self.sherdTxtId.setObjectName("sherdTxtId")
+        self.gridLayout_2l.addWidget(self.sherdTxtId, 0, 1)
+        
+        self.dieId = QtWidgets.QLabel()
+        self.dieId.setObjectName("dieId")
+        self.gridLayout_2l.addWidget(self.dieId, 1, 0)
+        
+        self.dieTxtId = QtWidgets.QLineEdit()
+        self.dieTxtId.setMaximumWidth(120)
+        self.dieTxtId.setObjectName("dieTxtId")
+        self.gridLayout_2l.addWidget(self.dieTxtId, 1, 1)
+        
+        
+        self.center_top_layout.addLayout(self.gridLayout_2l)
+        self.center_top_layout.addStretch(1)
+        self.center_top_layout.addLayout(self.gridLayout_2r)
+        center_layout.addLayout(self.center_top_layout)
         
         #the big picture, with its measurement overlay
         picture_container = QtWidgets.QWidget()
@@ -631,23 +649,15 @@ class Ui_Poincons_selector(object):
         
         bottom_layout.addStretch()
         
-        self.sherdId = QtWidgets.QLabel()
-        self.sherdId.setObjectName("sherdId")
-        bottom_layout.addWidget(self.sherdId)
+        self.reference1 = QtWidgets.QLabel()
+        self.reference1.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.reference1.setObjectName("reference1")
+        bottom_layout.addWidget(self.reference1)
         
-        self.sherdTxtId = QtWidgets.QLineEdit()
-        self.sherdTxtId.setMaximumWidth(120)
-        self.sherdTxtId.setObjectName("sherdTxtId")
-        bottom_layout.addWidget(self.sherdTxtId)
-        
-        self.dieId = QtWidgets.QLabel()
-        self.dieId.setObjectName("dieId")
-        bottom_layout.addWidget(self.dieId)
-        
-        self.dieTxtId = QtWidgets.QLineEdit()
-        self.dieTxtId.setMaximumWidth(120)
-        self.dieTxtId.setObjectName("dieTxtId")
-        bottom_layout.addWidget(self.dieTxtId)
+        self.reference2 = QtWidgets.QLabel()
+        self.reference2.setMaximumSize(QtCore.QSize(16777215, 20))
+        self.reference2.setObjectName("reference2")
+        bottom_layout.addWidget(self.reference2)
         
         bottom_layout.addStretch()
         
@@ -666,16 +676,17 @@ class Ui_Poincons_selector(object):
         self.skip.setObjectName("skip")
         bottom_layout.addWidget(self.skip)
         
+        self.prev = QtWidgets.QPushButton()
+        self.prev.setMinimumWidth(80)
+        self.prev.setObjectName("prev")
+        bottom_layout.addWidget(self.prev)
+        
         self.next = QtWidgets.QPushButton()
         self.next.setMinimumWidth(80)
         self.next.setObjectName("next")
         self.next.setStyleSheet('font-weight: bold; text-decoration: underline;')
         bottom_layout.addWidget(self.next)
         
-        self.prev = QtWidgets.QPushButton()
-        self.prev.setMinimumWidth(80)
-        self.prev.setObjectName("prev")
-        bottom_layout.addWidget(self.prev)
         
         main_layout.addLayout(bottom_layout)
         
@@ -902,12 +913,12 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
                 lSet = self.calculate_length(line[0], line[1])
             if state == "get":
                 lGet = self.calculate_length(line[0], line[1])
-        setSize = self.main_parent.ui.setScale.toPlainText()
+        setSize = self.main_parent.ui.setScale.text()
         lCm = convertTxtToLength(setSize)
         if lCm == 0.0 or lGet == 0 or lGet == None or lSet == 0 or lSet == None:
-            self.main_parent.ui.returnSize.setPlainText("")
+            self.main_parent.ui.returnSize.setText("")
         ratio = float(lCm)/(float(lSet)+0.001)
-        self.main_parent.ui.returnSize.setPlainText(str(round(float(lGet*ratio),2))+" "+unit)
+        self.main_parent.ui.returnSize.setText(str(round(float(lGet*ratio),2))+" "+unit)
 
     def paintEvent(self, event):#draws the line being currently measured
         if self.start_point and self.end_point:

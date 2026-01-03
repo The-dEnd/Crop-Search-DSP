@@ -301,8 +301,8 @@
     "fr": "Mesurer longueur"
 
 "typeLength":
-    "en": "Type here the length you know"
-    "fr": "Tapez ici la longueur connue"
+    "en": "Type here known length"
+    "fr": "Tapez ici longueur connue"
 
 "pleaseWait":
     "en": "Please wait, detection ongoing..."
