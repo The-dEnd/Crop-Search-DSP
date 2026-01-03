@@ -230,6 +230,17 @@ class Selector_Main(QWidget):
         writeLogs("    Retrieved values"+";".join([typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML])+"\n")
         return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML)
 
+    def search_clicked(self): #handles the "next" button: logs the files, processes the user inputs, and opens a new sherd
+        global fold, currentIndex
+        writeLogs("    Button \"Search\" clicked\n")
+        self.search()
+
+    def prev_clicked(self): #handles the "next" button: logs the files, processes the user inputs, and opens a new sherd
+        global fold, currentIndex
+        writeLogs("    Button \"Previous\" clicked\n")
+        self.previous()
+
+
     def next_clicked(self): #handles the "next" button: logs the files, processes the user inputs, and opens a new sherd
         global fold, currentIndex
         writeLogs("    Button \"Next\" clicked\n")

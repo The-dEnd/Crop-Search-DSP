@@ -175,6 +175,14 @@
 "next":
     "en": "Next"
     "fr": "Suivant"
+    
+"search":
+    "en": "Search"
+    "fr": "Chercher"
+    
+"prev":
+    "en": "Previous"
+    "fr": "Précédent"
 
 "noRadio":
     "en": "Warning, no radio button selected; please select one option."

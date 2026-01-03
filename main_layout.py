@@ -656,6 +656,11 @@ class Ui_Poincons_selector(object):
         self.exit.setObjectName("exit")
         bottom_layout.addWidget(self.exit)
         
+        self.search = QtWidgets.QPushButton()
+        self.search.setMinimumWidth(80)
+        self.search.setObjectName("search")
+        bottom_layout.addWidget(self.search)
+        
         self.skip = QtWidgets.QPushButton()
         self.skip.setMinimumWidth(80)
         self.skip.setObjectName("skip")
@@ -664,7 +669,13 @@ class Ui_Poincons_selector(object):
         self.next = QtWidgets.QPushButton()
         self.next.setMinimumWidth(80)
         self.next.setObjectName("next")
+        self.next.setStyleSheet('font-weight: bold; text-decoration: underline;')
         bottom_layout.addWidget(self.next)
+        
+        self.prev = QtWidgets.QPushButton()
+        self.prev.setMinimumWidth(80)
+        self.prev.setObjectName("prev")
+        bottom_layout.addWidget(self.prev)
         
         main_layout.addLayout(bottom_layout)
         
@@ -679,6 +690,8 @@ class Ui_Poincons_selector(object):
         
         self.retranslateUi(Poincons_selector)
         self.next.clicked.connect(Poincons_selector.next_clicked) # type: ignore
+        self.search.clicked.connect(Poincons_selector.search_clicked) # type: ignore
+        self.prev.clicked.connect(Poincons_selector.prev_clicked) # type: ignore
         self.exit.clicked.connect(Poincons_selector.exit_clicked) # type: ignore
         self.skip.clicked.connect(Poincons_selector.skip_clicked) # type: ignore
         self.returnSizeButton.clicked.connect(Poincons_selector.retrieve_scale) # type: ignore
@@ -761,6 +774,8 @@ class Ui_Poincons_selector(object):
         self.exit.setText(_translate("Poincons_selector", tr("exit")))
         self.skip.setText(_translate("Poincons_selector", tr("skip")))
         self.next.setText(_translate("Poincons_selector", tr("next")))
+        self.search.setText(_translate("Poincons_selector", tr("search")))
+        self.prev.setText(_translate("Poincons_selector", tr("prev")))
         self.fait.setText(_translate("Poincons_selector", tr("featureNr")))
         self.label_site.setText(_translate("Poincons_selector", "Site"))
         self.municipality.setPlaceholderText(_translate("Poincons_selector", tr("city")))
