@@ -309,8 +309,8 @@ class Ui_Poincons_selector(object):
         self.gridLayout_2r.setSpacing(5)
         
         self.measureGroup = QtWidgets.QGroupBox()
-        self.measureGroup.setMinimumSize(QtCore.QSize(150, 60))
-        self.measureGroup.setMaximumSize(QtCore.QSize(250, 100))
+        self.measureGroup.setMaximumHeight(60)
+        self.measureGroup.setMaximumHeight(100)
         self.measureGroup.setTitle("")
         self.measureGroup.setObjectName("measureGroup")
         
