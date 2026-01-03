@@ -638,12 +638,11 @@ class Ui_Poincons_selector(object):
         bottom_layout.addWidget(self.LegalMentions)
         
         self.licenses = QtWidgets.QPushButton()
-        self.licenses.setMaximumWidth(100)
         self.licenses.setObjectName("licenses")
         bottom_layout.addWidget(self.licenses)
         
         self.switch_theme = QtWidgets.QPushButton()
-        self.switch_theme.setMaximumWidth(30)
+        self.switch_theme.setMaximumWidth(50)
         self.switch_theme.setObjectName("switch_theme")
         bottom_layout.addWidget(self.switch_theme)
         

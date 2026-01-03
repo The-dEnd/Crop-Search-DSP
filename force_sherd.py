@@ -31,8 +31,9 @@ with open("resources/data/sizes.conf", "r") as sizeFile: #adding the sizes to be
 def addSize(name, sherdId): #adds the size of the sherds in the name
     global sizeSherd, displaySize
     try:
-        if displaySize: 
-            return(name+"\n"+sizeSherd[str(sherdId)].replace("\\n","\n"))
+        if displaySize:
+            [size, site] = sizeSherd[str(sherdId)].replace("\\n","\n").split("$",1)
+            return(site + "\n"+ name +"\n"+ size)
         else:
             return(name)
     except: #if the key is not present (e.g. size not provided), just display the name

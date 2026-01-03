@@ -1270,7 +1270,8 @@ def addSize(sherdId): #adds the size of the sherds in the name (and reuses the s
         return(newName)
     else:
         try:
-            return(newName+"\n"+sizeSherd[str(sherdId)].replace("\\n", "\n"))
+            [size, site] = sizeSherd[str(sherdId)].replace("\\n", "\n").split("$",1)
+            return(site +"\n"+ newName+"\n"+size)
         except: #if the key is not present (e.g. size not provided), just display the name
             return(newName)
 
