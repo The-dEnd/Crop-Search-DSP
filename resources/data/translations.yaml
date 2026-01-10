@@ -29,8 +29,8 @@
     "fr": "Localisation"
 
 "forceLocation":
-    "en": "Force a new default\nlocation?"
-    "fr": "Forcer nouvelle localisation\npar défaut?"
+    "en": "Tock to force a\nnew default location"
+    "fr": "Cochez pour passer cette\nlocalisation par défaut"
 
 "photoNr":
     "en": "picture #"

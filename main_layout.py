@@ -519,7 +519,7 @@ class Ui_Poincons_selector(object):
         
         self.new_radio = QtWidgets.QRadioButton()
         self.new_radio.setObjectName("new_radio")
-        self.die_grid.addWidget(self.new_radio, 6, 0, 1, 1)
+        self.die_grid.addWidget(self.new_radio, 8, 1, 1, 1)
         
         self.new_type = QtWidgets.QComboBox()
         self.new_type.setObjectName("new_type")
@@ -531,11 +531,11 @@ class Ui_Poincons_selector(object):
         self.new_type.addItem("")
         self.new_type.addItem("")
         self.new_type.addItem("")
-        self.die_grid.addWidget(self.new_type, 6, 1, 1, 1)
+        self.die_grid.addWidget(self.new_type, 8, 0, 1, 1)
         
         self.label_2 = QtWidgets.QLabel()
         self.label_2.setObjectName("label_2")
-        self.die_grid.addWidget(self.label_2, 6, 2, 1, 1)
+        self.die_grid.addWidget(self.label_2, 8, 2, 1, 1)
         
         self.unknown = QtWidgets.QRadioButton()
         font = QtGui.QFont()
@@ -543,7 +543,7 @@ class Ui_Poincons_selector(object):
         font.setItalic(False)
         self.unknown.setFont(font)
         self.unknown.setObjectName("unknown")
-        self.die_grid.addWidget(self.unknown, 6, 3, 1, 1)
+        self.die_grid.addWidget(self.unknown, 8, 3, 1, 1)
         
         self.line_2 = QtWidgets.QFrame()
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -553,7 +553,7 @@ class Ui_Poincons_selector(object):
         
         self.force = QtWidgets.QRadioButton()
         self.force.setObjectName("force")
-        self.die_grid.addWidget(self.force, 8, 0, 1, 1)
+        self.die_grid.addWidget(self.force, 6, 1, 1, 1)
         
         self.force_type = QtWidgets.QComboBox()
         self.force_type.setProperty("placeholderText", "")
@@ -566,20 +566,20 @@ class Ui_Poincons_selector(object):
         self.force_type.addItem("")
         self.force_type.addItem("")
         self.force_type.addItem("")
-        self.die_grid.addWidget(self.force_type, 8, 1, 1, 1)
+        self.die_grid.addWidget(self.force_type, 6, 0, 1, 1)
         
         self.force_number = QtWidgets.QLineEdit()
         self.force_number.setMaximumSize(QtCore.QSize(82, 16777215))
         self.force_number.setText("")
         self.force_number.setObjectName("force_number")
-        self.die_grid.addWidget(self.force_number, 8, 2, 1, 1)
+        self.die_grid.addWidget(self.force_number, 6, 2, 1, 1)
         
         self.HelpForce = QtWidgets.QPushButton()
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.HelpForce.setIcon(icon)
         self.HelpForce.setObjectName("HelpForce")
-        self.die_grid.addWidget(self.HelpForce, 8, 3, 1, 1)
+        self.die_grid.addWidget(self.HelpForce, 6, 3, 1, 1)
         
         self.line_4 = QtWidgets.QFrame()
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
