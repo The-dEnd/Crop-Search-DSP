@@ -25,7 +25,7 @@ Si vous souhaitez utiliser l'outil "tel quel" sans changer le code source (pour 
 
 Si vous voulez changer le code et faire des tests, vous devez utiliser Python (l'outil est testé sur 3.11, mais d'autres versions devraient fonctionner), et les librairies listées dans le dossier doc/requirement.txt.
 
-Si vous téléchargez le code source, veuillez note que le modèle "best.pt" est trop gros pour Github, et a été zipé. Dézipez le avant utilisation.
+Si vous téléchargez le code source, veuillez noter que le modèle "best.pt" est trop gros pour Github, et a été zipé. Dézipez le avant utilisation.
 
 Si vous avez des questions, que vous repérez un problème, ou que vous avez besoin d'aide poru adapter l'outil à vos propres besoins, merci d'envoyer un mail à ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt (retapez l'addresse manuellement, j'ai ajouté des caractères homoglyhiques et un copié-collé ne fonctionnera pas).
 
