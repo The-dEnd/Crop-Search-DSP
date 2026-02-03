@@ -1,5 +1,7 @@
 [English version here, version Française plus bas]
 
+![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
+
 A tool aiming at assisting archeologists in identifying and classifying sherd patterns on ceramics.
 
 If you want to download the tool without changing the source code, go to the "Releases" panel on the right, download the latest release, and unzip it. Then double click on the .exe file with a "fox" head.
