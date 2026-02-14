@@ -148,7 +148,7 @@ class Selector_Main(QWidget):
         x = ""
         y = ""
         z = ""
-        location = (False, False, False)#edge, belly, bottom
+        location = (False, False, False, False)#edge, belly, bottom, handle
         option = None #ticked radio button; it will be used in a case statement to retrieve sherd type and number
         resultML = None #indicator to remember if the ML algorithm was more or less correct in its assessment
         if option1:
@@ -224,9 +224,11 @@ class Selector_Main(QWidget):
             lLocations.append(tr("edge"))
         if self.ui.checkBox_belly.isChecked():
             lLocations.append(tr("belly"))
+        if self.ui.checkBox_handle.isChecked():
+            lLocations.append(tr("handle"))
         if self.ui.checkBox_bottom.isChecked():
             lLocations.append(tr("bottom"))
-        location = "/".join(lLocations)#merge the active parts of edge/belly/bottom
+        location = "/".join(lLocations)#merge the active parts of edge/belly/bottom/handle
         writeLogs("    Retrieved values"+";".join([typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML])+"\n")
         return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML)
 
@@ -377,12 +379,15 @@ class Selector_Main(QWidget):
                     self.ui.checkBox_edge.setChecked(True)
                 if x == tr("belly"):
                     self.ui.checkBox_belly.setChecked(True)
+                if x == tr("handle"):
+                    self.ui.checkBox_handle.setChecked(True)
                 if x == tr("bottom"):
                     self.ui.checkBox_bottom.setChecked(True)
         if sherdNum == "" and currentPicture != picture:
             self.ui.sherdTxtId.setText(incrementId(self.ui.sherdTxtId.text()))
             self.ui.checkBox_edge.setChecked(False)
             self.ui.checkBox_belly.setChecked(False)
+            self.ui.checkBox_handle.setChecked(False)
             self.ui.checkBox_bottom.setChecked(False)
         if dieNum == "":
             self.ui.dieTxtId.setText(incrementId(self.ui.dieTxtId.text()))
@@ -669,7 +674,7 @@ class Selector_Main(QWidget):
         writeLogs("    US # changed to \""+value+"\"\n")
 
     def location_changed(self):#function to log user actions; no direct fonctionnal use
-        value = "edge-"+str(self.ui.checkBox_edge.isChecked())+", belly-"+str(self.ui.checkBox_belly.isChecked())+", bottom-"+str(self.ui.checkBox_bottom.isChecked())
+        value = "edge-"+str(self.ui.checkBox_edge.isChecked())+", belly-"+str(self.ui.checkBox_belly.isChecked())+", bottom-"+str(self.ui.checkBox_bottom.isChecked())+", handle-"+str(self.ui.checkBox_handle.isChecked())
         writeLogs("    Sherd locations changed to \""+value+"\"\n")
 
     def unknownCRA_changed(self):#function to log user actions; no direct fonctionnal use
@@ -1025,7 +1030,7 @@ class Undetected_Die(QWidget):
         x = ""
         y = ""
         z = ""
-        location = (False, False, False)#edge, belly, bottom
+        location = (False, False, False, False)#edge, belly, bottom, handle
         comment = self.parent.ui.comment_box.toPlainText().replace(";",",").replace("\n","\t").replace("\r","") #semi-collon are reserved as separators in output CSV, so we sanitize the field
         country = self.parent.ui.country.toPlainText()
         region = self.parent.ui.region.toPlainText()
@@ -1047,9 +1052,11 @@ class Undetected_Die(QWidget):
             lLocations.append(tr("edge"))
         if self.parent.ui.checkBox_belly.isChecked():
             lLocations.append(tr("belly"))
+        if self.parent.ui.checkBox_handle.isChecked():
+            lLocations.append(tr("handle"))
         if self.parent.ui.checkBox_bottom.isChecked():
             lLocations.append(tr("bottom"))
-        location = "/".join(lLocations)#merge the active parts of edge/belly/bottom
+        location = "/".join(lLocations)#merge the active parts of edge/belly/bottom/handle
         return(comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author)
 
 '''def doSomething(filename):#TODO: remove when linked to ML algo

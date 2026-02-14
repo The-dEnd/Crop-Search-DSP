@@ -118,7 +118,7 @@ class Ui_Poincons_selector(object):
         
         self.force_location = QtWidgets.QCheckBox()
         self.force_location.setMinimumSize(QtCore.QSize(0, 50))
-        self.force_location.setMaximumSize(QtCore.QSize(150, 30))
+        #self.force_location.setMaximumSize(QtCore.QSize(150, 30))
         self.force_location.setObjectName("force_location")
         self.type_grid.addWidget(self.force_location, 0, 2, 1, 1)
         
@@ -261,6 +261,12 @@ class Ui_Poincons_selector(object):
         self.checkBox_bottom.setObjectName("checkBox_bottom")
         self.gridLayout.addWidget(self.checkBox_bottom, 4, 3, 1, 1)
         
+        self.checkBox_handle = QtWidgets.QCheckBox()
+        self.checkBox_handle.setMinimumSize(QtCore.QSize(100, 0))
+        self.checkBox_handle.setMaximumSize(QtCore.QSize(100, 16777215))
+        self.checkBox_handle.setObjectName("checkBox_bottom")
+        self.gridLayout.addWidget(self.checkBox_handle, 4, 4, 1, 1)
+        
         self.label_location_2 = QtWidgets.QLabel()
         self.label_location_2.setMaximumSize(QtCore.QSize(16777215, 40))
         font = QtGui.QFont()
@@ -278,11 +284,11 @@ class Ui_Poincons_selector(object):
         self.rig_num = QtWidgets.QPlainTextEdit()
         self.rig_num.setMaximumSize(QtCore.QSize(16777215, 30))
         self.rig_num.setObjectName("rig_num")
-        self.gridLayout.addWidget(self.rig_num, 8, 2, 1, 1)
+        self.gridLayout.addWidget(self.rig_num, 8, 2, 1, 2)
         
         self.unknownCRA = QtWidgets.QCheckBox()
         self.unknownCRA.setObjectName("unknownCRA")
-        self.gridLayout.addWidget(self.unknownCRA, 8, 3, 1, 1)
+        self.gridLayout.addWidget(self.unknownCRA, 8, 4, 1, 1)
         
         self.display_types = QtWidgets.QPushButton()
         self.display_types.setMinimumSize(QtCore.QSize(0, 40))
@@ -724,6 +730,7 @@ class Ui_Poincons_selector(object):
         self.lambert_Z.textChanged.connect(Poincons_selector.z_changed) # type: ignore
         self.lambert_Y.textChanged.connect(Poincons_selector.y_changed) # type: ignore
         self.checkBox_belly.clicked.connect(Poincons_selector.location_changed) # type: ignore
+        self.checkBox_handle.clicked.connect(Poincons_selector.location_changed) # type: ignore
         self.checkBox_bottom.clicked.connect(Poincons_selector.location_changed) # type: ignore
         self.checkBox_edge.clicked.connect(Poincons_selector.location_changed) # type: ignore
         self.region.textChanged.connect(Poincons_selector.region_changed) # type: ignore
@@ -812,6 +819,7 @@ class Ui_Poincons_selector(object):
         self.mode_CRA.setItemText(2, _translate("Poincons_selector", tr("undet")))
         self.display_types.setText(_translate("Poincons_selector", tr("displayTypes")))
         self.checkBox_belly.setText(_translate("Poincons_selector", tr("belly")))
+        self.checkBox_handle.setText(_translate("Poincons_selector", tr("handle")))
         self.label_CRA.setText(_translate("Poincons_selector", tr("cratype")))
         self.label_type.setText(_translate("Poincons_selector", tr("ceramData")))
         self.checkBox_edge.setText(_translate("Poincons_selector", tr("edge")))
