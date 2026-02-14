@@ -293,7 +293,7 @@ class Ui_Poincons_selector(object):
         self.display_types = QtWidgets.QPushButton()
         self.display_types.setMinimumSize(QtCore.QSize(0, 40))
         self.display_types.setObjectName("display_types")
-        self.gridLayout.addWidget(self.display_types, 9, 0, 1, 4)
+        self.gridLayout.addWidget(self.display_types, 9, 0, 1, 5)
         
         left_layout.addLayout(self.gridLayout)
         left_layout.addStretch()
@@ -525,7 +525,7 @@ class Ui_Poincons_selector(object):
         
         self.new_radio = QtWidgets.QRadioButton()
         self.new_radio.setObjectName("new_radio")
-        self.die_grid.addWidget(self.new_radio, 8, 1, 1, 1)
+        self.die_grid.addWidget(self.new_radio, 8, 0, 1, 1)
         
         self.new_type = QtWidgets.QComboBox()
         self.new_type.setObjectName("new_type")
@@ -537,11 +537,15 @@ class Ui_Poincons_selector(object):
         self.new_type.addItem("")
         self.new_type.addItem("")
         self.new_type.addItem("")
-        self.die_grid.addWidget(self.new_type, 8, 0, 1, 1)
+        self.die_grid.addWidget(self.new_type, 9, 3, 1, 1)
+        
+        self.general_shape = QtWidgets.QLabel()
+        self.general_shape.setObjectName("general_shape")
+        self.die_grid.addWidget(self.general_shape, 9, 1, 1, 2)
         
         self.label_2 = QtWidgets.QLabel()
         self.label_2.setObjectName("label_2")
-        self.die_grid.addWidget(self.label_2, 8, 2, 1, 1)
+        self.die_grid.addWidget(self.label_2, 8, 1, 1, 1)
         
         self.unknown = QtWidgets.QRadioButton()
         font = QtGui.QFont()
@@ -549,7 +553,7 @@ class Ui_Poincons_selector(object):
         font.setItalic(False)
         self.unknown.setFont(font)
         self.unknown.setObjectName("unknown")
-        self.die_grid.addWidget(self.unknown, 8, 3, 1, 1)
+        self.die_grid.addWidget(self.unknown, 8, 2, 1, 1)
         
         self.line_2 = QtWidgets.QFrame()
         self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
@@ -559,7 +563,7 @@ class Ui_Poincons_selector(object):
         
         self.force = QtWidgets.QRadioButton()
         self.force.setObjectName("force")
-        self.die_grid.addWidget(self.force, 6, 1, 1, 1)
+        self.die_grid.addWidget(self.force, 6, 0, 1, 1)
         
         self.force_type = QtWidgets.QComboBox()
         self.force_type.setProperty("placeholderText", "")
@@ -572,7 +576,7 @@ class Ui_Poincons_selector(object):
         self.force_type.addItem("")
         self.force_type.addItem("")
         self.force_type.addItem("")
-        self.die_grid.addWidget(self.force_type, 6, 0, 1, 1)
+        self.die_grid.addWidget(self.force_type, 6, 1, 1, 1)
         
         self.force_number = QtWidgets.QLineEdit()
         self.force_number.setMaximumSize(QtCore.QSize(82, 16777215))
@@ -591,15 +595,15 @@ class Ui_Poincons_selector(object):
         self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_4.setObjectName("line_4")
-        self.die_grid.addWidget(self.line_4, 9, 0, 1, 4)
+        self.die_grid.addWidget(self.line_4, 10, 0, 1, 4)
         
         self.false_neg = QtWidgets.QPushButton()
         self.false_neg.setObjectName("false_neg")
-        self.die_grid.addWidget(self.false_neg, 10, 0, 1, 2)
+        self.die_grid.addWidget(self.false_neg, 11, 0, 1, 2)
         
         self.label_4 = QtWidgets.QLabel()
         self.label_4.setObjectName("label_4")
-        self.die_grid.addWidget(self.label_4, 10, 2, 1, 1)
+        self.die_grid.addWidget(self.label_4, 11, 2, 1, 1)
         
         self.false_pos = QtWidgets.QRadioButton()
         font = QtGui.QFont()
@@ -607,22 +611,22 @@ class Ui_Poincons_selector(object):
         font.setItalic(False)
         self.false_pos.setFont(font)
         self.false_pos.setObjectName("false_pos")
-        self.die_grid.addWidget(self.false_pos, 10, 3, 1, 1)
+        self.die_grid.addWidget(self.false_pos, 11, 3, 1, 1)
         
         self.line_3 = QtWidgets.QFrame()
         self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
         self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.line_3.setObjectName("line_3")
-        self.die_grid.addWidget(self.line_3, 11, 0, 1, 4)
+        self.die_grid.addWidget(self.line_3, 12, 0, 1, 4)
         
         self.author = QtWidgets.QLineEdit()
         self.author.setObjectName("author")
-        self.die_grid.addWidget(self.author, 12, 0, 1, 3)
+        self.die_grid.addWidget(self.author, 13, 0, 1, 3)
         
         self.recentChoices = QtWidgets.QComboBox()
         self.recentChoices.setObjectName("recentChoices")
         self.recentChoices.addItem("")
-        self.die_grid.addWidget(self.recentChoices, 12, 3, 1, 1)
+        self.die_grid.addWidget(self.recentChoices, 13, 3, 1, 1)
         
         right_layout.addLayout(self.die_grid)
         right_layout.addStretch()
@@ -771,7 +775,8 @@ class Ui_Poincons_selector(object):
         self.option2_percent.setText(_translate("Poincons_selector", "INI"))
         self.force_number.setPlaceholderText(_translate("Poincons_selector", tr("typeNr")))
         self.option4_percent.setText(_translate("Poincons_selector", "INI"))
-        self.label_2.setText(_translate("Poincons_selector", "ou"))
+        self.label_2.setText(_translate("Poincons_selector", tr("or")))
+        self.general_shape.setText(_translate("Poincons_selector", tr("generalShape")))
         self.option4_name.setText(_translate("Poincons_selector", "INIT"))
         self.false_neg.setText(_translate("Poincons_selector", tr("falseNeg")))
         self.option1_name.setText(_translate("Poincons_selector", "INIT"))

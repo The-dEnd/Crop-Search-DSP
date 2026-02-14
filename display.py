@@ -193,8 +193,11 @@ class Selector_Main(QWidget):
                 typeDie = self.ui.option4_name.text().split(" ")[0]
                 numberDie = self.ui.option4_name.text().split(" ")[1].split("\n")[0]
             case 0:#unkown
-                typeDie = "Unknown"
-                numberDie = "Unknown"
+                if self.ui.new_type.currentIndex() != 0:
+                    typeDie = self.ui.new_type.currentText()
+                else:
+                    typeDie = tr("unknown")
+                numberDie = tr("unknown")
             case 8:#force
                 typeDie = self.ui.force_type.currentText()
                 numberDie = self.ui.force_number.text()
@@ -582,8 +585,9 @@ class Selector_Main(QWidget):
 
     def new_changed_type(self):#function to log user actions, and automatically switch radiobox accordingly
         value = self.ui.new_type.currentText()
-        writeLogs("    Type of section \"inedit\" changed to \""+value+"\"\n")
-        self.ui.new_radio.setChecked(True)
+        writeLogs("    Type of section \"inedit/indetermine\" changed to \""+value+"\"\n")
+        if not(self.ui.new_radio.isChecked()) and not(self.ui.unknown.isChecked()): #if one of the 2 radio box related to this drop down list is not fixed
+            self.ui.unknown.setChecked(True)
 
     def force_changed_type(self):#function to log user actions, and automatically switch radiobox accordingly
         value = self.ui.force_type.currentText()
@@ -1045,7 +1049,7 @@ class Undetected_Die(QWidget):
         craType = self.parent.ui.mode_CRA.currentText()
         craNum = self.parent.ui.rig_num.toPlainText()
         if self.parent.ui.unknownCRA.isChecked():
-            craNum = "Autre/Inedit"
+            craNum = tr("otherType")
         author = self.parent.ui.author.displayText()
         lLocations = []
         if self.parent.ui.checkBox_edge.isChecked():

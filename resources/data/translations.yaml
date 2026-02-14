@@ -124,6 +124,10 @@
     "en": "Other/New"
     "fr": "Autre/Inédit"
 
+"unknown":
+    "en": "Unknown"
+    "fr": "Indéterminé"
+
 "displayTypes":
     "en": "Display all types"
     "fr": "Afficher les types"
@@ -163,6 +167,10 @@
 "or":
     "en": "or"
     "fr": "ou"
+
+"generalShape":
+    "en": "If possible, what is the general shape?"
+    "fr": "Indiquer la forme générale (si possible)"
 
 "author":
     "en": "Identification author"
