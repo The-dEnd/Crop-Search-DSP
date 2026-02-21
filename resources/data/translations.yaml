@@ -38,11 +38,11 @@
 
 "sherdNr":
     "en": "sherd #"
-    "fr": "tesson n°"
+    "fr": "n° tesson"
 
 "dieNr":
     "en": "die #"
-    "fr": "poinçon n°"
+    "fr": "n° poinçon"
 
 "algoComm":
     "en": "Comments: "
@@ -149,8 +149,8 @@
     "fr": "ATTENTION: veuillez sélectionner un motif et n°."
 
 "force":
-    "en": "Force"
-    "fr": "Forcer"
+    "en": "Force/Other identification"
+    "fr": "Forcer/Autre identification"
 
 "undet":
     "en": "Undetermined"

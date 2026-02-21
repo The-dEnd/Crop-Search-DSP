@@ -244,28 +244,39 @@ class Ui_Poincons_selector(object):
         self.label_location.setObjectName("label_location")
         self.gridLayout.addWidget(self.label_location, 3, 0, 1, 4)
         
+        
+        #To have even column width, we add a container for this row
+        checkboxRowWidget = QtWidgets.QWidget()
+        checkboxRowLayout = QtWidgets.QHBoxLayout(checkboxRowWidget)
+        checkboxRowLayout.setContentsMargins(0, 0, 0, 0)
+        
+
+        
         self.checkBox_edge = QtWidgets.QCheckBox()
         self.checkBox_edge.setEnabled(True)
-        self.checkBox_edge.setMaximumSize(QtCore.QSize(100, 16777215))
         self.checkBox_edge.setObjectName("checkBox_edge")
-        self.gridLayout.addWidget(self.checkBox_edge, 4, 0, 1, 2)
+        checkboxRowLayout.addWidget(self.checkBox_edge)
         
         self.checkBox_belly = QtWidgets.QCheckBox()
-        self.checkBox_belly.setMaximumSize(QtCore.QSize(100, 16777215))
         self.checkBox_belly.setObjectName("checkBox_belly")
-        self.gridLayout.addWidget(self.checkBox_belly, 4, 2, 1, 1)
+        checkboxRowLayout.addWidget(self.checkBox_belly)
         
         self.checkBox_bottom = QtWidgets.QCheckBox()
-        self.checkBox_bottom.setMinimumSize(QtCore.QSize(100, 0))
-        self.checkBox_bottom.setMaximumSize(QtCore.QSize(100, 16777215))
         self.checkBox_bottom.setObjectName("checkBox_bottom")
-        self.gridLayout.addWidget(self.checkBox_bottom, 4, 3, 1, 1)
+        checkboxRowLayout.addWidget(self.checkBox_bottom)
         
         self.checkBox_handle = QtWidgets.QCheckBox()
-        self.checkBox_handle.setMinimumSize(QtCore.QSize(100, 0))
-        self.checkBox_handle.setMaximumSize(QtCore.QSize(100, 16777215))
         self.checkBox_handle.setObjectName("checkBox_bottom")
-        self.gridLayout.addWidget(self.checkBox_handle, 4, 4, 1, 1)
+        checkboxRowLayout.addWidget(self.checkBox_handle)
+        
+        #add the checkboxRowWidget in the main left grid
+        checkboxRowLayout.setStretch(0, 1) #even the columns size
+        checkboxRowLayout.setStretch(1, 1)
+        checkboxRowLayout.setStretch(2, 1)
+        checkboxRowLayout.setStretch(3, 1)
+        checkboxRowLayout.addStretch()
+        self.gridLayout.addWidget(checkboxRowWidget, 4, 0, 1, 4)
+        
         
         self.label_location_2 = QtWidgets.QLabel()
         self.label_location_2.setMaximumSize(QtCore.QSize(16777215, 40))
@@ -284,11 +295,11 @@ class Ui_Poincons_selector(object):
         self.rig_num = QtWidgets.QPlainTextEdit()
         self.rig_num.setMaximumSize(QtCore.QSize(16777215, 30))
         self.rig_num.setObjectName("rig_num")
-        self.gridLayout.addWidget(self.rig_num, 8, 2, 1, 2)
+        self.gridLayout.addWidget(self.rig_num, 8, 1, 1, 2)
         
         self.unknownCRA = QtWidgets.QCheckBox()
         self.unknownCRA.setObjectName("unknownCRA")
-        self.gridLayout.addWidget(self.unknownCRA, 8, 4, 1, 1)
+        self.gridLayout.addWidget(self.unknownCRA, 8, 3, 1, 1)
         
         self.display_types = QtWidgets.QPushButton()
         self.display_types.setMinimumSize(QtCore.QSize(0, 40))
@@ -358,12 +369,12 @@ class Ui_Poincons_selector(object):
         
         self.dieId = QtWidgets.QLabel()
         self.dieId.setObjectName("dieId")
-        self.gridLayout_2l.addWidget(self.dieId, 1, 0)
+        self.gridLayout_2l.addWidget(self.dieId, 0, 2)
         
         self.dieTxtId = QtWidgets.QLineEdit()
         self.dieTxtId.setMaximumWidth(120)
         self.dieTxtId.setObjectName("dieTxtId")
-        self.gridLayout_2l.addWidget(self.dieTxtId, 1, 1)
+        self.gridLayout_2l.addWidget(self.dieTxtId, 0, 3)
         
         
         self.center_top_layout.addLayout(self.gridLayout_2l)
@@ -394,12 +405,17 @@ class Ui_Poincons_selector(object):
         geometry = self.die_picture.geometry()
         
         
-        # Comment box at bottom
+
+        
+        # Comment box + author at bottom
         self.comment_box = QtWidgets.QTextEdit()
         self.comment_box.setMaximumHeight(80)
         self.comment_box.setMinimumHeight(60)
         self.comment_box.setObjectName("comment_box")
         center_layout.addWidget(self.comment_box)
+        self.author = QtWidgets.QLineEdit()
+        self.author.setObjectName("author")
+        center_layout.addWidget(self.author)
         
         top_layout.addWidget(self.center_panel)
 
@@ -619,9 +635,6 @@ class Ui_Poincons_selector(object):
         self.line_3.setObjectName("line_3")
         self.die_grid.addWidget(self.line_3, 12, 0, 1, 4)
         
-        self.author = QtWidgets.QLineEdit()
-        self.author.setObjectName("author")
-        self.die_grid.addWidget(self.author, 13, 0, 1, 3)
         
         self.recentChoices = QtWidgets.QComboBox()
         self.recentChoices.setObjectName("recentChoices")
