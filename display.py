@@ -983,6 +983,7 @@ class Theme_Popup():
         writeLogs("    Theme has been set to  "+str(theme)+"\n")
         with open("resources/data/theme.conf", "w") as themeFile:
             themeFile.write(theme) #change default theme
+        app = QApplication.instance()
         app.setStyleSheet(loadStylesheet(theme))
 
 class Undetected_Die(QWidget):
