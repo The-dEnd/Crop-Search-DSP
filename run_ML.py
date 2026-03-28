@@ -28,7 +28,7 @@ with open("resources/data/confidence_threshold_ML.conf", "r") as f: #retrieve co
 
 
 
-def predict(path_to_pictures, callback=None):
+def predict(path_to_pictures, callback=None, projectName=""):
     temp = pathlib.PosixPath
 
     YOLO_DIR = "models/yolov5/"
@@ -140,7 +140,7 @@ def predict(path_to_pictures, callback=None):
                 if p < 0.001:
                     line += ["", "", ""]
                 else:
-                    line += [(str(lab) + "000")[0:4], pretty(str(lab)), round(float(p), 5)]
+                    line += [projectName+(str(lab) + "000")[0:4], pretty(str(lab)), round(float(p), 5)]
 
             
             line += [""] * 17
@@ -182,7 +182,10 @@ def pretty(npStr): #will clean a np.str, e.g. 1010 to a proper name, e.g. "wheel
 def main(argv=None, callback=None, outputFile=None):
     if argv is None:
         argv = sys.argv
-    rows = predict(argv, callback)
+    with open("resources/data/ML_site_name.conf", "r") as f:
+        projectName = f.readline().replace("\n","").replace("\r","")
+    rows = predict(argv, callback, projectName)
+
     with open(outputFile, "w", newline="") as outputML:
         outputMLWriter = csv.writer(outputML, delimiter=";")
         outputMLWriter.writerow("NumTesson;NumDecor;NumPhoto;NamePhoto;Choice1Id;Choice1Pretty;Proba1;Choice2Id;Choice2Pretty;Proba2;Choice3Id;Choice3Pretty;Proba3;Choice4Id;Choice4Pretty;Proba4;Choice5Id;Choice5Pretty;Proba5;Choice6Id;Choice6Pretty;Proba6;Choice7Id;Choice7Pretty;Proba7;Comment;Aux1;Aux2;Aux3;Aux4;Aux5;Aux6;Aux7;Aux8;Aux9;Aux10;xLeft;yBottom;xRight;yTop".split(";"))

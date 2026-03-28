@@ -39,6 +39,10 @@ sizeSherd = {} #dictionnary containing (existing) sizes of sherds
 currentPicture = None #path to the current picture under review; used to check whether one should increas the sherd ID or not
 decoRegStatus = {} #for current picture, dictionnary that contains the # of occurences of/decorative registries of a die; if die is not seen yet, it is not present; first time is 0; any number other than 0 means the number of decorative registries for this die (the number of different lines/circlesspirales/... with the same die on the sherd).
 project = "" #name of current project
+option1id = "" #OG name of the option, to be retrieved if picked
+option2id = "" #OG name of the option, to be retrieved if picked
+option3id = "" #OG name of the option, to be retrieved if picked
+option4id = "" #OG name of the option, to be retrieved if picked
 
 dict_types = tr("lMotifs")
 reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary
@@ -96,6 +100,7 @@ class Selector_Main(QWidget):
         super().__init__()
         self.ui = Ui_Poincons_selector()
         self.ui.setupUi(self,)  
+        self.uid = None #name of the currently selected sherd
         self.overlay = DrawingOverlay(self)
         self.overlay.setGeometry(self.ui.die_picture.geometry())
         self.overlay.raise_()
@@ -129,6 +134,7 @@ class Selector_Main(QWidget):
 
 
     def get_values(self): #retrieves the data from users input in the GUI
+        global option1id, option2id, option3id, option4id
         writeLogs("    Retrieving values...\n")
         option1 = self.ui.option1.isChecked()
         option2 = self.ui.option2.isChecked()
@@ -183,29 +189,38 @@ class Selector_Main(QWidget):
             case 1:
                 typeDie = self.ui.option1_name.text().split(" ")[0]
                 numberDie = self.ui.option1_name.text().split(" ")[1].split("\n")[0]
+                nDie = option1id
             case 2:
                 typeDie = self.ui.option2_name.text().split(" ")[0]
                 numberDie = self.ui.option2_name.text().split(" ")[1].split("\n")[0]
+                nDie = option2id
             case 3:
                 typeDie = self.ui.option3_name.text().split(" ")[0]
                 numberDie = self.ui.option3_name.text().split(" ")[1].split("\n")[0]
+                nDie = option3id
             case 4:
                 typeDie = self.ui.option4_name.text().split(" ")[0]
                 numberDie = self.ui.option4_name.text().split(" ")[1].split("\n")[0]
+                nDie = option4id
             case 0:#unkown
                 if self.ui.new_type.currentIndex() != 0:
                     typeDie = self.ui.new_type.currentText()
+                    nDie = typeDie
                 else:
                     typeDie = tr("unknown")
+                    nDie = typeDie
                 numberDie = tr("unknown")
             case 8:#force
                 typeDie = self.ui.force_type.currentText()
                 numberDie = self.ui.force_number.text()
+                nDie = self.ui.uid
             case 9:#original (inedit) sherd for a type
                 typeDie = self.ui.new_type.currentText()
                 numberDie = tr("new")
+                nDie = typeDie+numberDie
             case 10: #false positive; actually not a sherd
                 typeDie = "false positive (not a sherd)"
+                nDie = typeDie
         comment = self.ui.comment_box.toPlainText().replace(";",",").replace("\n","\t").replace("\r","") #semi-collon are reserved as separators in output CSV, so we sanitize the field
         country = self.ui.country.toPlainText()
         region = self.ui.region.toPlainText()
@@ -232,8 +247,8 @@ class Selector_Main(QWidget):
         if self.ui.checkBox_bottom.isChecked():
             lLocations.append(tr("bottom"))
         location = "/".join(lLocations)#merge the active parts of edge/belly/bottom/handle
-        writeLogs("    Retrieved values"+";".join([typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML])+"\n")
-        return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML)
+        writeLogs("    Retrieved values"+";".join([typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML, nDie])+"\n")
+        return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML, nDie)
 
     def search_clicked(self): #handles the "next" button: logs the files, processes the user inputs, and opens a new sherd
         global fold, currentIndex
@@ -287,6 +302,8 @@ class Selector_Main(QWidget):
 
     def newPart(self):#initialization of a new die/sherd to review in the GUI
         global currentIndex, rawData, currentPicture, decoRegStatus
+        global option1id, option2id, option3id, option4id
+        self.ui.uid = None
         writeLogs("    Status of index:"+str(currentIndex)+"out of "+str(rawData)+"\n")
         if len(rawData)==currentIndex: #check if the end of pictures list has been reached
             writeLogs("    End of pictures round, "+str(len(rawData))+"remaining to be resent\n")
@@ -958,11 +975,12 @@ class Force_Type_Class(QWidget):
         self.ui.imageClicked.connect(self.clicked)
         self.ui.show()
 
-    def clicked(self, clickedName, clickedCat, clickedNum): #the arguments are the actual name and # of die type actual type
+    def clicked(self, clickedName, clickedCat, clickedNum, clickedId): #the arguments are the actual name and # of die type actual type
         writeLogs("    In force die type popup, user clicked on QLabel "+clickedCat+" "+str(clickedNum)+"\n")
         self.parent.ui.force.setChecked(True)
         self.parent.ui.force_type.setCurrentText(clickedCat)
         self.parent.ui.force_number.setText(str(clickedNum))
+        self.parent.ui.uid = clickedId[3:] #the first 3 chars reflect the txt/pic type of the clicked button => not relevant
         self.ui.close()
 
 class License_Popup(QWidget):
@@ -989,6 +1007,7 @@ class Theme_Popup():
 class Undetected_Die(QWidget):
     def __init__(self, pic, parent):
         super().__init__()
+        self.uid = ""
         self.parent = parent
         self.pic = pic
         self.ui = Ui_AddDieDialog()
@@ -1020,7 +1039,7 @@ class Undetected_Die(QWidget):
             return(None)
         comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author = self.getParentAttributes()
         writeLogs("    false negative (undetected die) validated as "+str(typeDie)+" "+str(numberDie)+"\n")
-        output = [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, "FN"]
+        output = [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, "FN", self.uid]
         self.parent.checkDecorativeRegister(typeDie+numberDie, self.parent.data[3]) #checkDecorativeRegister checks whether there aremultiple decorative registers for the same die, and updates the comment field accordingly
         output_application_files(output,self.parent.data[0],self.parent.data[1],self.parent.data[2],self.parent.data[3])
         output_application_csv(output,self.parent.data[0],self.parent.data[1],self.parent.data[2],self.parent.data[3], fold, final_frame)
@@ -1094,32 +1113,35 @@ def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data
         return [False, [], [], []]
 
 def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):#writes manual review results in Final_Output.csv
-    [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML] = lOut
+    [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML, nDie] = lOut
+    print(lOut)
     x1,y1,x2,y2 = coords
     writeLogs("    Writing CSV file... "+str(lOut)+"\n")
     for file_path in [finalFile]:
         if not(os.path.exists(file_path)): #create file and insert headers
             with open(file_path, "w", encoding='utf-8') as outputFile:
-                outputFile.write("Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification;X gauche;Y bas;X droite;Y haut;retex ML (communiquer aux devs);Registre décoratif répété?\n")
+                outputFile.write("Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification;X gauche;Y bas;X droite;Y haut;retex ML (communiquer aux devs);Registre décoratif répété?;UID\n")
         with open(file_path, "a", encoding='utf-8') as outputFile:
-            outputFile.write(";".join([numDie,numDecor,numPhoto,namePhoto,typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author,str(x1),str(y1),str(x2),str(y2), resML])+"\n")
+            outputFile.write(";".join([numDie,numDecor,numPhoto,namePhoto,typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author,str(x1),str(y1),str(x2),str(y2), resML, "", nDie])+"\n") #the empty "" at the end is leaving room for the enventual repetitions of patterns
     writeLogs("    Written!\n")
 
 
 def output_application_files(lOut,numDie,numDecor,numPhoto,namePhoto):#TODO pas encore fini
-    [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML] = lOut
+    print(namePhoto)
+    [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML, nDie] = lOut
     writeLogs("    Copying files... "+str(lOut)+"\n")
     path=os.path.dirname(namePhoto)
-    if not(os.path.isdir(path+"/"+typeDie)):#if folder with die type does not exist already
-        os.mkdir(path+"/"+typeDie)
-    if (numberDie!="0") and not(os.path.isdir(path+"/"+typeDie+"/"+numberDie)):#if die number is set
-        os.mkdir(path+"/"+typeDie+"/"+numberDie)
-    if ((numberDie=="0") and (typeDie!=tr("undet")) and not(os.path.isdir(path+"/"+typeDie+"/inedit"))):#if inedit but not indetermine (indetermine will be sent to a specific folder)
-        os.mkdir(path+"/"+typeDie+"/inedit")
-    newPath = path+"/"+typeDie
+
+    if not(os.path.isdir(path+"/"+typeDie.replace("(?)","unknown"))):#if folder with die type does not exist already
+        os.mkdir(path+"/"+typeDie.replace("(?)","unknown"))
+    if (numberDie!="0") and not(os.path.isdir(path+"/"+typeDie.replace("(?)","unknown")+"/"+numberDie.replace("(?)","unknown"))):#if die number is set
+        os.mkdir(path+"/"+typeDie.replace("(?)","unknown")+"/"+numberDie.replace("(?)","unknown"))
+    if ((numberDie=="0") and (typeDie!=tr("undet")) and not(os.path.isdir(path+"/"+typeDie.replace("(?)","unknown")+"/inedit"))):#if inedit but not indetermine (indetermine will be sent to a specific folder)
+        os.mkdir(path+"/"+typeDie.replace("(?)","unknown")+"/inedit")
+    newPath = path+"/"+typeDie.replace("(?)","unknown")
     if typeDie!=tr("undet"):
         if numberDie!="0":
-            newPath+="/"+numberDie
+            newPath+="/"+numberDie.replace("(?)","unknown")
         else:
             newPath+="/inedit"
     photo_filename = os.path.basename(namePhoto).split('/')[-1]
@@ -1269,9 +1291,8 @@ def addSize(sherdId): #adds the size of the sherds in the name (and reuses the s
 
     if sherdId == "":
         return("")
-
-    main_type = dict_types[int(sherdId[0])]
-    cat_num = str(int(sherdId[1:]))
+    main_type = dict_types[int(re.sub(r'[^\d]+', '', sherdId)[0])]
+    cat_num = str(int(re.sub(r'[^\d]+', '', sherdId)[1:]))
     if cat_num == "0":
         cat_num = "(?)"
 
@@ -1283,7 +1304,7 @@ def addSize(sherdId): #adds the size of the sherds in the name (and reuses the s
     else:
         try:
             [size, site] = sizeSherd[str(sherdId)].replace("\\n", "\n").split("$",1)
-            return(site +"\n"+ newName+"\n"+size)
+            return(newName +"\n("+ site+")\n"+size) #DO NOT edit this line unless you know what you're doing: the first line of the value is taken as pretty die ID
         except: #if the key is not present (e.g. size not provided), just display the name
             return(newName)
 

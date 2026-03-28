@@ -322,8 +322,8 @@ class Ui_Poincons_selector(object):
         #size calculation at top
         self.gridLayout_2l = QtWidgets.QGridLayout()
         self.gridLayout_2r = QtWidgets.QGridLayout()
-        self.gridLayout_2l.setSpacing(5)
-        self.gridLayout_2r.setSpacing(5)
+        #self.gridLayout_2l.setSpacing(5)
+        #self.gridLayout_2r.setSpacing(5)
         
         self.measureGroup = QtWidgets.QGroupBox()
         self.measureGroup.setMaximumHeight(60)

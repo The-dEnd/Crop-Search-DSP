@@ -131,7 +131,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         value = self.set_type.currentText()
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Within false negative popup, force type popup opened with category \""+value+"\"\n")
-        self.popupForceType = Force_Type_Class(self, value)
+        self.popupForceType = Force_Type_Class(dialog=self, categ=value)
 
 class DrawablePictureLabel(QtWidgets.QLabel):
     def __init__(self, parent=None, path=""):
@@ -221,16 +221,17 @@ class DrawablePictureLabel(QtWidgets.QLabel):
         painter.end()
 
 class Force_Type_Class(QWidget):
-    def __init__(self, parent, categ):
+    def __init__(self, dialog, categ):
         super().__init__()
-        self.parent = parent
+        self.dialog = dialog
         self.ui = ForceTypePopup(categ, None)
         self.ui.imageClicked.connect(self.clicked)
         self.ui.show()
 
-    def clicked(self, clickedName, clickedCat, clickedNum): #the arguments are the actual name and # of die type
+    def clicked(self, clickedName, clickedCat, clickedNum, clickedUid): #the arguments are the actual name and # of die type
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"     Within false negative popup, in force die type popup, user clicked on QLabel "+clickedCat+" "+str(clickedNum)+"\n")
-        self.parent.set_type.setCurrentText(clickedCat)
-        self.parent.set_number.setText(str(clickedNum))
+        self.dialog.set_type.setCurrentText(clickedCat)
+        self.dialog.set_number.setText(str(clickedNum))
+        self.dialog.uid = clickedUid
         self.ui.close()

@@ -33,14 +33,18 @@ def addSize(name, sherdId): #adds the size of the sherds in the name
     try:
         if displaySize:
             [size, site] = sizeSherd[str(sherdId)].replace("\\n","\n").split("$",1)
-            return(site + "\n"+ name +"\n"+ size)
+            return(name +"\n("+ site+")\n"+size)
         else:
             return(name)
     except: #if the key is not present (e.g. size not provided), just display the name
         return(name)
+        
+        
+
+
 
 class ForceTypePopup(QDialog):
-    imageClicked = pyqtSignal(str, str, int) #messaged sent to parent when clicked
+    imageClicked = pyqtSignal(str, str, int, str) #message sent to parent when clicked
     def __init__(self, categ, parent=None):
         super().__init__(parent)
         cat = reverse_dict_types[categ] #cat is an integer that is bound to a category, see dict_types
@@ -66,7 +70,7 @@ class ForceTypePopup(QDialog):
         
         for oneItem in lPath: # Populate the table with QLabel widgets
             numSubCat = int(oneItem.replace(".png","").replace(".jpg","").replace(".jpeg","")[-3:])
-            fullNum = int(oneItem.replace(".png","").replace(".jpg","").replace(".jpeg","")[-4:])
+            fullNum = oneItem.replace(".png","").replace(".jpg","").replace(".jpeg","").split("\\")[-1]
             strCategory = dict_types.get(int(oneItem.replace(".png","").replace(".jpg","").replace(".jpeg","")[-4]))
             oneTextMsg = ClickQLabel(self.scrollAreaWidgetContents)
             oneTextMsg.setText(addSize(strCategory+" "+str(numSubCat),fullNum))
@@ -103,8 +107,9 @@ class ForceTypePopup(QDialog):
         clicked = clicked_label.objectName()[-4:]
         clicked_cat = dict_types[int(clicked[0])]
         clicked_num = int(clicked[-3:])
+        clicked_id = clicked_label.objectName()
         if clicked_label:
-            self.imageClicked.emit(clicked, clicked_cat, clicked_num)
+            self.imageClicked.emit(clicked, clicked_cat, clicked_num, clicked_id)
         
     def getItems(self, family): #lists the images related to forced type
         commonPath = pathlib.Path("resources/media/Die_types/")
@@ -113,7 +118,7 @@ class ForceTypePopup(QDialog):
         else:
             prefix = str(family)
         lPaths = []
-        for aPath in commonPath.glob(prefix+"*"):
+        for aPath in commonPath.glob("*"+prefix+"???.*"):
             lPaths.append(str(aPath))
         lPaths.sort()
         return(lPaths)
