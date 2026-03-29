@@ -18,6 +18,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
     def setupUi(self, Dialog, path):
         Dialog.setObjectName("Dialog")
         Dialog.setMinimumSize(QtCore.QSize(782, 800))
+        self.Dialog = Dialog
         self.path = path
         
         # Main vertical layout
@@ -69,10 +70,10 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         self.set_type.addItem("")
         bottom_layout.addWidget(self.set_type)
         
-        self.set_number = QtWidgets.QLineEdit(Dialog)
+        self.set_number = QtWidgets.QLabel(Dialog)
         self.set_number.setMinimumSize(QtCore.QSize(137, 30))
         self.set_number.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        self.set_number.setText("")
+        self.set_number.setText(tr("chooseRight"))
         self.set_number.setObjectName("set_number")
         bottom_layout.addWidget(self.set_number)
         
@@ -118,7 +119,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         Dialog.setWindowTitle(_translate("Dialog", tr("falseNeg")))
         self.cancel.setText(_translate("Dialog", tr("cancel")))
         self.validate.setText(_translate("Dialog", tr("validate")))
-        self.set_number.setPlaceholderText(_translate("Dialog", tr("typeNr")))
+        #self.set_number.setPlaceholderText(_translate("Dialog", tr("typeNr")))
         listChoices = tr("lMotifs")
         self.set_type.setCurrentText(_translate("Dialog", tr("lMotifs")[0]))
         for i in range(len(listChoices)):
@@ -131,7 +132,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         value = self.set_type.currentText()
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Within false negative popup, force type popup opened with category \""+value+"\"\n")
-        self.popupForceType = Force_Type_Class(dialog=self, categ=value)
+        self.popupForceType = Force_Type_Class(dialog=self.Dialog, categ=value)
 
 class DrawablePictureLabel(QtWidgets.QLabel):
     def __init__(self, parent=None, path=""):
@@ -231,7 +232,7 @@ class Force_Type_Class(QWidget):
     def clicked(self, clickedName, clickedCat, clickedNum, clickedUid): #the arguments are the actual name and # of die type
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"     Within false negative popup, in force die type popup, user clicked on QLabel "+clickedCat+" "+str(clickedNum)+"\n")
-        self.dialog.set_type.setCurrentText(clickedCat)
-        self.dialog.set_number.setText(str(clickedNum))
+        self.dialog.ui.set_type.setCurrentText(clickedCat)
+        self.dialog.ui.set_number.setText(str(clickedNum))
         self.dialog.uid = clickedUid
         self.ui.close()

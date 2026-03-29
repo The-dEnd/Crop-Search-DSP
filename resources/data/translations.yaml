@@ -344,9 +344,9 @@
     "en": "No previous die to load in this project"
     "fr": "Vous n'avez pas encore traité de motif dans ce projet"
 
-"okMsg":
-    "en": "OK"
-    "fr": "Klar"
+"chooseRight":
+    "en": "Choose a die number →"
+    "fr": "Choisissez un nombre →"
 
 "okMsg":
     "en": "OK"

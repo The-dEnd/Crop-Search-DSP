@@ -30,6 +30,8 @@ with open("resources/data/sizes.conf", "r") as sizeFile: #adding the sizes to be
 
 def addSize(name, sherdId): #adds the size of the sherds in the name
     global sizeSherd, displaySize
+    if sherdId[-3:] == "000":
+        return(tr("unknown"))
     try:
         if displaySize:
             [size, site] = sizeSherd[str(sherdId)].replace("\\n","\n").split("$",1)
