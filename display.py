@@ -73,6 +73,7 @@ alternativeLogFile = config["alternativeLogFile"] #if main log file has a right 
 finalFile = config["finalFile"] #suffix of the file into which output will be written
 mlFile = config["mlFile"] #suffix of the file that will contain the output of ML algorithm
 
+headerRow = tr("headerRow").split(";")
 
 
 def writeLogs(stringToLog): #will handle most of the logging
@@ -90,7 +91,7 @@ def writeLogs(stringToLog): #will handle most of the logging
 
 
 
-class TerminateExeption(Exception): #custom error class to be triggered in order to easiily catch and cancel functions that triger the error (e.g. the user clicks next without selecting a sherd type)
+class TerminateExeption(Exception): #custom error class to be triggered in order to easily catch and cancel functions that triger the error (e.g. the user clicks next without selecting a sherd type)
     pass
 
 
@@ -304,7 +305,7 @@ class Selector_Main(QWidget):
         global currentIndex, rawData, currentPicture, decoRegStatus
         global option1id, option2id, option3id, option4id
         self.ui.uid = None
-        writeLogs("    Status of index:"+str(currentIndex)+"out of "+str(rawData)+"\n")
+        writeLogs("    Status of index: "+str(currentIndex)+" out of "+str(rawData)+"\n")
         if len(rawData)==currentIndex: #check if the end of pictures list has been reached
             writeLogs("    End of pictures round, "+str(len(rawData))+"remaining to be resent\n")
             if len(rawData)>0:
@@ -510,17 +511,18 @@ class Selector_Main(QWidget):
         self.overlay.refresh_length()
 
     def search(self): #users does a Ctrl+F to search for a previous item
-        global currentIndex
+        global currentIndex, headerRow
         dialog = SearchDialog(self)
         if dialog.exec_() == QDialog.Accepted:
             search_text = dialog.textEdit.text()
+        writeLogs("    Searched text: "+search_text+"\n")
         found=False
         new_data = []
         try:
             with open(finalFile, "r", encoding='utf-8') as final_output:
                 reader = csv.reader(final_output, delimiter=";")
                 for row in reversed(list(reader)):
-                    if len(row)>1 and row[1]==search_text and not(found): #only copy and remove the first occurence (from the end)
+                    if len(row)>1 and row[0]==search_text and not(found): #only copy and remove the first occurence (from the end)
                         found=True
                         outputToTransform = row
                     else:
@@ -544,14 +546,16 @@ class Selector_Main(QWidget):
 
 
     def previous(self): #users does a Ctrl+Z to search for a previous item
-        global currentIndex
+        global currentIndex, headerRow
         new_data = []
         try:
             with open(finalFile, "r", encoding='utf-8') as final_output:
-                output_read = final_output.readlines()
-                if len(output_read) > 0:
-                    outputToTransform = output_read[-1].split(";") #first row from the bottom was the last one your got
-                    new_data.append(outputToTransform)
+                reader = csv.reader(final_output, delimiter=";")
+                all_rows = list(reader)
+                data_rows = [r for r in all_rows if len(r) > 1 and r!=headerRow]
+                if len(data_rows) > 1: #if more than the header
+                    outputToTransform = data_rows[-1] #first row from the bottom was the last one your got
+                    new_data = data_rows[:-1] #all other rows
                 else: 
                     basicWarning(tr("previousNotFound"))
                     return()
@@ -561,6 +565,7 @@ class Selector_Main(QWidget):
 
         with open(finalFile, "w", encoding='utf-8') as final_output: #now we write back the file, minus the row we found
             writer = csv.writer(final_output, delimiter=";")
+            writer.writerow(headerRow)
             for anItem in reversed(new_data):
                 if len(anItem)>1: #remove empty lines if there are
                     writer.writerow(anItem)
@@ -579,14 +584,14 @@ class Selector_Main(QWidget):
         listMLOutput[1] = listFinalOutput[1]
         listMLOutput[2] = listFinalOutput[2]
         listMLOutput[3] = listFinalOutput[3]
-        listMLOutput[5] = listFinalOutput[4]+" "+listFinalOutput[5]
+        listMLOutput[5] = listFinalOutput[27]
         listMLOutput[6] = "1"
         listMLOutput[25] = tr("rollbackMsg")
         listMLOutput[36] = listFinalOutput[21]
         listMLOutput[37] = listFinalOutput[22]
         listMLOutput[38] = listFinalOutput[23]
         listMLOutput[39] = listFinalOutput[24]
-        listMLOutput[26] = "$".join(listFinalOutput[6:21]) #populate field Aux1 with all the other informations
+        listMLOutput[26] = "$".join(listFinalOutput[6:21] + [listFinalOutput[27] if len(listFinalOutput) > 27 else ""]) #populate field Aux1 with all the other informations
         #the following lines will convert listFinalOutput[4:5] to the 4-digits ML output format, e.g. ["rouelle","8"] => 1008
         codedType = str(reverse_dict_types[listFinalOutput[4]])
         exactDie = "000"+listFinalOutput[5] #left-zero-padding, to ensure that e.g. 8 => 008, and 22 => 022
@@ -756,9 +761,7 @@ class Selector_Main(QWidget):
         with open(finalFile, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=";")
             data = list(reader)
-        with open(finalFile, 'r', encoding='utf-8') as f:
-            reader = csv.reader(f, delimiter=";")
-            for row_index, row in enumerate(reader):
+            for row_index, row in enumerate(data):
                 if len(row) > 1:
                     if row[3] == photo and row[4]+row[5]==die:
                         rowsOfReg.append(row_index) #index of one line to be updated: the die is the same, and we are in the correct picture
@@ -771,7 +774,9 @@ class Selector_Main(QWidget):
                 data[oneIndex][26]=msg
         with open(finalFile, 'w', newline='', encoding='utf-8') as f:
             writer = csv.writer(f, delimiter=";")
-            writer.writerows(data)
+            for row in data:
+                if len(row) > 1: #row not empty
+                    writer.writerow(row)
 
 
 
@@ -1115,12 +1120,13 @@ def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data
 def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):#writes manual review results in Final_Output.csv
     [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML, nDie] = lOut
     print(lOut)
+    global headerRow
     x1,y1,x2,y2 = coords
     writeLogs("    Writing CSV file... "+str(lOut)+"\n")
     for file_path in [finalFile]:
         if not(os.path.exists(file_path)): #create file and insert headers
             with open(file_path, "w", encoding='utf-8') as outputFile:
-                outputFile.write("Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification;X gauche;Y bas;X droite;Y haut;retex ML (communiquer aux devs);Registre décoratif répété?;UID\n")
+                outputFile.write(";".join(headerRow)+"\n")
         with open(file_path, "a", encoding='utf-8') as outputFile:
             outputFile.write(";".join([numDie,numDecor,numPhoto,namePhoto,typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author,str(x1),str(y1),str(x2),str(y2), resML, "", nDie])+"\n") #the empty "" at the end is leaving room for the enventual repetitions of patterns
     writeLogs("    Written!\n")

@@ -24,12 +24,16 @@
         4: "Geo."
     #accentuated characters are duplicated to ease up understanding of reverse dictionnary
 
+"headerRow":
+    "en": "Die #;Sherd #;Picture #;Picture name;Type of die patter;Die pattern #;Comment;Country;Region/State;District/County;City;Exact location;Lambert-X;Lambert-Y;Lambert-Z;Item # (oven, dig, ...);Stratigraphy #;CRA type;CRA #;Sherd position on the pottery;Username;X left;Y bottom;X right;Y top;ML feedback (please liaise with devs);Repeated die pattern on the same sherd?;UID"
+    "fr": "Numero de decor;Numero de tesson;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification;X gauche;Y bas;X droite;Y haut;retex ML (communiquer aux devs);Registre décoratif répété?;UID"
+
 "loca":
     "en": "Location"
     "fr": "Localisation"
 
 "forceLocation":
-    "en": "Tock to force a\nnew default location"
+    "en": "Tick to force a\nnew default location"
     "fr": "Cochez pour passer cette\nlocalisation par défaut"
 
 "photoNr":
@@ -53,7 +57,7 @@
     "fr": "Pays"
 
 "region":
-    "en": "Region"
+    "en": "Region/State"
     "fr": "Région"
 
 "dpt":
@@ -348,9 +352,19 @@
     "en": "Choose a die number →"
     "fr": "Choisissez un nombre →"
 
+
 "okMsg":
     "en": "OK"
     "fr": "Klar"
+    
+"okMsg":
+"en": "OK"
+"fr": "Klar"
+
+"okMsg":
+"en": "OK"
+"fr": "Klar"
+
 
 "okMsg":
     "en": "OK"

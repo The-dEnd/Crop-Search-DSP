@@ -19,15 +19,11 @@ handle the "arceau (?)" -> "arceau 0"
 
 
 
-Pour le sig, il faudrait peut-être ajouter une case comparaison, qui permettrait d'avoir une fenêtre pop-up qui listerait toute les autres occurrences du poinçon + les datations et une 2e fenêtre pop-up qui permettrait d'avoir la carte qui les localiserait. Ca pourrait donner un truc du genre de la 2e et la 3e image en PJ (je te passe la 3e image via un autre mail).
-
-
 
 ajouter un champ si forme inédite (dans type n°?) -> on peut déja cocher la case autre/inédit, et écrire un commendaire dans le champ "taper numéro ici"; c'est ce qu'il fallait, ou il faut autre chose?
 header de la colonne de droite: texte caché "selectioner un" -> je ne sais pas d'où le texte sort, je ne l'ai pas chez moi. Tu saurais m'envoyer ta photo de motif et ton fichier ***_output_ML.csv et ***_Final_output.csv, que je regarde?
 "Est-ce qu'on proposerait pas un champ remarque générale" -> je dirais qu'on peut utiliser le "taper commentaires ici" (en le renommant éventuellement), non?
 "Est-ce qu'on pourrait faire chercher un tesson plutôt qu'un poinçon" -> le problème c'est que dans le cas où il y a plusieurs motifs sur un tesson, on choisit lequel? ou alors on les "rappelle" tous à la suite en tête de a liste des motifs à analyser? (par exemple s'il y a 3 motifs sur un tesson et qu'on cherche le n° de tesson, ça propose le 1er en choix actif, et quand on clique sur suivant ou ignorer ça affiche le 2ème, puis le 3ème?)
-"A terme on pourrait proposer un module recherche ou SIG, qu'en penses-tu?" -> tu veux dire avoir une fenêtre avec davatage d'options pour recherche un motif, par exemple où on peut choisir si on cherche un n° de tesson, un n° de poinçon, ou le dernier motif enregistré comme "rouelle 27"? Si c'est bien ça oui ça peut se faire (mais ça ve prendre quelques semaines pour que je le fasse marcher proprement ^^).
 
  
  
