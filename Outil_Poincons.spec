@@ -1,6 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 import os
 import cv2
+from PyInstaller.utils.hooks import collect_submodules
 
 datas = []
 
@@ -20,23 +21,24 @@ if os.path.exists(cv2_data_dir):
 a = Analysis(
     ['display.py'],
     pathex=['.'],
-	excludes=['cv2'], 
+    excludes=['cv2'], 
     binaries=[],
     datas=datas + [
         ('resources/', 'resources/'),
         ('tmp/', 'tmp/'),
         ('doc/', 'doc/'),
-		('libs/cv2/', 'cv2/'),
-		('libs/ultralytics/', 'ultralytics/'),
-		('libs/torchvision-0.22.1.dist-info/', 'torchvision-0.22.1.dist-info/'),
-		('libs/torchvision/', 'torchvision/'),
+        ('libs/cv2/', 'cv2/'),
+        ('libs/ultralytics/', 'ultralytics/'),
+        ('libs/torchvision-0.22.1.dist-info/', 'torchvision-0.22.1.dist-info/'),
+        ('libs/torchvision/', 'torchvision/'),
         ('models/', 'models/')
     ],
     hiddenimports=[
         'sklearn.externals.array_api_compat.numpy.fft',
-		'requests',
-		'seaborn',
-    ],
+        'requests',
+            'seaborn',
+        'pkg_resources',
+    ] + collect_submodules('setuptools'),
     hookspath=['hooks'],
     hooksconfig={},
     runtime_hooks=[],
