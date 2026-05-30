@@ -27,6 +27,6 @@ Si vous voulez changer le code et faire des tests, vous devez utiliser Python (l
 
 Si vous téléchargez le code source, veuillez noter que le modèle "best.pt" est trop gros pour Github, et a été zipé. Dézipez le avant utilisation.
 
-Si vous avez des questions, que vous repérez un problème, ou que vous avez besoin d'aide poru adapter l'outil à vos propres besoins, merci d'envoyer un mail à ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt (retapez l'addresse manuellement, j'ai ajouté des caractères homoglyhiques et un copié-collé ne fonctionnera pas).
+Si vous avez des questions, que vous repérez un problème, ou que vous avez besoin d'aide pour adapter l'outil à vos propres besoins, merci d'envoyer un mail à ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt (retapez l'adresse manuellement, j'ai ajouté des caractères homoglyhiques et un copié-collé ne fonctionnera pas).
 
 Projet-frère pour entraîner une modèle sur vos propres motifs: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)

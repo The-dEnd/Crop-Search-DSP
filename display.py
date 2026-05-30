@@ -109,7 +109,7 @@ class Selector_Main(QWidget):
         self.newPart()
         self.popupTypology = None #additional argument for child window (popups) that displays the shape/typology of pottery (RIG/CRAV)
         self.licensePopup = None #additional argument for child window (popups) that displays the license
-        self.themePopup = None #additional argument for child window (popups) that displays the license
+        self.themePopup = None #additional argument for child window (popups) that handles the display theme
         self.undetectedPopup = None #additional argument for child window (popups) that displays the "untetected die?" dialog
         shortcutFind = QShortcut(QKeySequence("Ctrl+F"),self)
         shortcutFind.activated.connect(self.search)
