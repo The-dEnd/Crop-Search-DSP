@@ -7,6 +7,7 @@ torchvision
 numpy
 pillow
 pyqt5
+imagesize
 
 #in case you encoutered a compatibility issue, FYI the following versions were used during development:
 #opencv-python             4.11.0.86
