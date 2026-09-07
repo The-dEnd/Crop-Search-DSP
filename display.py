@@ -233,7 +233,7 @@ class Selector_Main(QWidget):
         z = self.ui.lambert_Z.toPlainText()
         fait = self.ui.numFait.toPlainText()
         us = self.ui.numUs.toPlainText()
-        craType = self.ui.mode_CRA.currentText()
+        craType = self.ui.mode_CRA.currentText().split(" ")[0]
         craNum = self.ui.rig_num.toPlainText()
         if self.ui.unknownCRA.isChecked():
             craNum = tr("otherType")
@@ -1055,9 +1055,9 @@ class Undetected_Die(QWidget):
         comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author = self.getParentAttributes()
         writeLogs("    false negative (undetected die) validated as "+str(typeDie)+" "+str(numberDie)+"\n")
         output = [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, "FN", self.uid]
-        self.parent.checkDecorativeRegister(typeDie+numberDie, self.parent.data[3]) #checkDecorativeRegister checks whether there aremultiple decorative registers for the same die, and updates the comment field accordingly
-        output_application_files(output,self.parent.data[0],self.parent.data[1],self.parent.data[2],self.parent.data[3])
-        output_application_csv(output,self.parent.data[0],self.parent.data[1],self.parent.data[2],self.parent.data[3], fold, final_frame)
+        self.parent.checkDecorativeRegister(typeDie+numberDie, self.parent.data[3]) #checkDecorativeRegister checks whether there are multiple decorative registers for the same die, and updates the comment field accordingly
+        output_application_files(output,self.parent.ui.sherdTxtId.text(),self.parent.ui.dieTxtId.text(),self.parent.data[2],self.parent.data[3])
+        output_application_csv(output,self.parent.ui.sherdTxtId.text(),self.parent.ui.dieTxtId.text(),self.parent.data[2],self.parent.data[3], fold, final_frame)
         self.close()
     
     def getParentAttributes(self):
@@ -1081,7 +1081,7 @@ class Undetected_Die(QWidget):
         z = self.parent.ui.lambert_Z.toPlainText()
         fait = self.parent.ui.numFait.toPlainText()
         us = self.parent.ui.numUs.toPlainText()
-        craType = self.parent.ui.mode_CRA.currentText()
+        craType = self.parent.ui.mode_CRA.currentText().split(" ")[0]
         craNum = self.parent.ui.rig_num.toPlainText()
         if self.parent.ui.unknownCRA.isChecked():
             craNum = tr("otherType")

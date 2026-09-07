@@ -201,8 +201,8 @@
     "fr": "Précédent"
 
 "noRadio":
-    "en": "Warning, no radio button selected; please select one option."
-    "fr": "Attention: aucun choix de motif effectué; merci d'en sélectionner"
+    "en": "Warning, no radio button selected; please select one option. If no die was detected and there are indeed no die, pick \"not a die\"."
+    "fr": "Attention: aucun choix de motif effectué; merci d'en sélectionner. Si aucun poinçon n'est détecté et qu'il n'y en a aucun, choisissez \"pas un motif\"."
 
 "errorNoFold":
     "en": "No selected folder, the application will now exit..."
