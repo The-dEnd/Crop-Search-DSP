@@ -248,8 +248,9 @@ class Selector_Main(QWidget):
         if self.ui.checkBox_bottom.isChecked():
             lLocations.append(tr("bottom"))
         location = "/".join(lLocations)#merge the active parts of edge/belly/bottom/handle
-        writeLogs("    Retrieved values"+";".join([typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML, nDie])+"\n")
-        return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML, nDie)
+        writeLogs("    Finished retrieving values...\n")
+        writeLogs("    Retrieved values"+str(";".join([typeDie, numberDie, str(comment), country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML, str(nDie)]))+"\n")
+        return(typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resultML, str(nDie))
 
     def search_clicked(self): #handles the "next" button: logs the files, processes the user inputs, and opens a new sherd
         global fold, currentIndex
@@ -358,7 +359,7 @@ class Selector_Main(QWidget):
             self.ui.reference2.setText(tr("algoComm")+commentML)
         else:
             self.ui.reference2.setText("")
-        self.ui.mode_CRA.setCurrentText(tr("undet")) #set CRA mode to "indéterminé" instead of the default index "A"
+        
         self.ui.rig_num.setPlainText("")
         if proba1 == "": #if some suggestions have no proba, hide their options
             self.ui.option1.setHidden(True)
@@ -404,12 +405,13 @@ class Selector_Main(QWidget):
                     self.ui.checkBox_handle.setChecked(True)
                 if x == tr("bottom"):
                     self.ui.checkBox_bottom.setChecked(True)
-        if sherdNum == "" and currentPicture != picture:
+        if sherdNum == "" and currentPicture != picture: #if the picture is not the same, reset the fields that must be kept otherwise
             self.ui.sherdTxtId.setText(incrementId(self.ui.sherdTxtId.text()))
             self.ui.checkBox_edge.setChecked(False)
             self.ui.checkBox_belly.setChecked(False)
             self.ui.checkBox_handle.setChecked(False)
             self.ui.checkBox_bottom.setChecked(False)
+            self.ui.mode_CRA.setCurrentText(tr("undet")) #set CRA mode to "indéterminé" instead of the default index "A"
         if dieNum == "":
             self.ui.dieTxtId.setText(incrementId(self.ui.dieTxtId.text()))
         if currentPicture != picture:
