@@ -1040,7 +1040,15 @@ class Undetected_Die(QWidget):
         final_frame = [int(min(x1, x2)*(float(width)/float(dispW))), int(min(y1, y2)*(float(heigth)/float(dispH))), int(max(x1, x2)*(float(width)/float(dispW))), int(max(y1, y2)*(float(heigth)/float(dispH)))]
         typeDie = self.ui.set_type.currentText()
         numberDie = self.ui.set_number.text()
-        if typeDie == tr("selectPattern"):
+        
+        #in case of multiple ticks, the order of priority will be unknown>new>actual value, to keep the most likely scenario as a priority
+        if self.ui.unkTick.isChecked():
+            numberDie = tr("unknown")
+            self.uid = ""
+        elif self.ui.newTick.isChecked():
+            numberDie = tr("new")
+            self.uid = ""
+        elif typeDie == tr("selectPattern"):
             basicWarning(tr("noSelect"))
             writeLogs("    false negative (undetected die) FAILED: no die type/number provided "+str(coord_raw)+".\n")
             return(None)

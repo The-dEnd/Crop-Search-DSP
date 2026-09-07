@@ -88,6 +88,11 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         self.HelpForce.clicked.connect(self.force_finder) # type: ignore
         bottom_layout.addWidget(self.HelpForce)
         
+        self.unkTick = QtWidgets.QCheckBox(text=tr("unknown"))
+        bottom_layout.addWidget(self.unkTick)
+        self.newTick = QtWidgets.QCheckBox(text=tr("new"))
+        bottom_layout.addWidget(self.newTick) #in case of multiple ticks, the order of priority will be unknown>new>actual value, to keep the most likely scenario as a priority
+        
         # Spacer between left and right groups
         bottom_layout.addStretch(1)
         
