@@ -1056,8 +1056,8 @@ class Undetected_Die(QWidget):
         writeLogs("    false negative (undetected die) validated as "+str(typeDie)+" "+str(numberDie)+"\n")
         output = [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, "FN", self.uid]
         self.parent.checkDecorativeRegister(typeDie+numberDie, self.parent.data[3]) #checkDecorativeRegister checks whether there are multiple decorative registers for the same die, and updates the comment field accordingly
-        output_application_files(output,self.parent.ui.sherdTxtId.text(),self.parent.ui.dieTxtId.text(),self.parent.data[2],self.parent.data[3])
-        output_application_csv(output,self.parent.ui.sherdTxtId.text(),self.parent.ui.dieTxtId.text(),self.parent.data[2],self.parent.data[3], fold, final_frame)
+        output_application_files(output,self.parent.ui.dieTxtId.text(),self.parent.ui.sherdTxtId.text(),self.parent.data[2],self.parent.data[3])
+        output_application_csv(output,self.parent.ui.dieTxtId.text(),self.parent.ui.sherdTxtId.text(),self.parent.data[2],self.parent.data[3], fold, final_frame)
         self.close()
     
     def getParentAttributes(self):

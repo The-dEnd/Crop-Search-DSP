@@ -334,7 +334,7 @@
 
 "numDecoReg":
     "en": "This die is present multiple times on the sherd: $ How many decorative registers do contain it? (lines, circles, ...)"
-    "fr": "Le poinçon $ est présent plusieurs fois sur le tesson; sur combien de regsitres décoratifs différents (lignes, cercles, ...) est-il présent?"
+    "fr": "Le poinçon $ est présent plusieurs fois sur le tesson; sur combien de registres décoratifs différents (lignes, cercles, ...) est-il présent?"
 
 "decoRegMsg":
     "en": "The die £ is present on $ decorative registries on this sherd"
