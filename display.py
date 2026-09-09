@@ -846,6 +846,9 @@ class Init_Window(QWidget):
                 for aFile in os.listdir(fold): #get all pictures
                     if aFile.endswith((".png", ".jpg", ".PNG", ".JPG", ".jpeg", ".JPEG")):
                         lPaths.append(fold+"/"+aFile)
+                        
+                lPaths.sort(key=os.path.getctime)
+                print(lPaths)
                 if len(lPaths)==0:
                     writeLogs("    No picture in chosen folder root, application exits...\n")
                     warning_exit = QMessageBox()
