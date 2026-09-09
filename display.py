@@ -1061,6 +1061,8 @@ class Undetected_Die(QWidget):
         self.parent.checkDecorativeRegister(typeDie+numberDie, self.parent.data[3]) #checkDecorativeRegister checks whether there are multiple decorative registers for the same die, and updates the comment field accordingly
         output_application_files(output,self.parent.ui.dieTxtId.text(),self.parent.ui.sherdTxtId.text(),self.parent.data[2],self.parent.data[3])
         output_application_csv(output,self.parent.ui.dieTxtId.text(),self.parent.ui.sherdTxtId.text(),self.parent.data[2],self.parent.data[3], fold, final_frame)
+        addRectangleToPicture(self.pic, final_frame)
+        self.parent.ui.die_picture.setPixmap(QtGui.QPixmap("tmp/current.png"))
         self.close()
     
     def getParentAttributes(self):
@@ -1268,7 +1270,25 @@ def preparePictures(dataList): #takes the raw ML output, and prepares temporary 
                 PIL.ImageDraw.Draw(im2).rectangle((min(int(aRecord[36]),int(aRecord[38])),min(int(aRecord[37]),int(aRecord[39])),max(int(aRecord[36]),int(aRecord[38])),max(int(aRecord[37]),int(aRecord[39]))), outline=normalColor, width=4) #colors adjusted to be recognizable by most colorblind people
         im2.save(newPath)
     return newList
-    
+
+def addRectangleToPicture(pic, coords): #when a false negative is added, draw an extra rectangle to take it into account
+    newPath = "tmp/" + os.path.basename(pic)
+    if not os.path.exists(newPath):
+        writeLogs("    Temp pic not found: " + newPath + "\n")
+        return #avoid failure if issue with tmp pic
+    for aPath in [newPath, "tmp/current.png"]:
+        img = PIL.Image.open(aPath)
+        x1, y1, x2, y2 = coords
+        PIL.ImageDraw.Draw(img).rectangle(
+            (
+                min(int(x1), int(x2)),
+                min(int(y1), int(y2)),
+                max(int(x1), int(x2)),
+                max(int(y1), int(y2))
+            ),outline=normalColor,width=4)
+        img.save(aPath)
+        writeLogs("    Added undetected die area to temporary picture "+aPath+": "+str(coords)+"\n")
+
 def setCurrent(pic, xy): #prepares the current picture to be reviewed, by overwriting the green rectangle on current die in red
     im = PIL.Image.open(pic)
     PIL.ImageDraw.Draw(im).rectangle((min(int(xy[0]),int(xy[2])),min(int(xy[1]),int(xy[3])),(max(int(xy[0]),int(xy[2])),max(int(xy[1]),int(xy[3])))), outline=highlightColor, width=5) #colors adjusted to be recognizable by most colorblind people
