@@ -416,6 +416,7 @@ class Selector_Main(QWidget):
             self.ui.dieTxtId.setText(incrementId(self.ui.dieTxtId.text()))
         if currentPicture != picture:
             decoRegStatus = {}
+            self.overlay.clear_lines()
         currentPicture = picture
 
     
@@ -848,7 +849,6 @@ class Init_Window(QWidget):
                         lPaths.append(fold+"/"+aFile)
                         
                 lPaths.sort(key=os.path.getctime)
-                print(lPaths)
                 if len(lPaths)==0:
                     writeLogs("    No picture in chosen folder root, application exits...\n")
                     warning_exit = QMessageBox()

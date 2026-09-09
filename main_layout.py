@@ -890,6 +890,15 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         # redraw existing lines scaled to new size
         self.update()
 
+    def clear_lines(self):#removes drawn lines, e.g. when the picture changes
+        self.statusLine = {"set": None, "get": None, "none": None}
+        self.start_point = None
+        self.end_point = None
+        self.drawing = False
+        self.overlay_pixmap.fill(QtCore.Qt.transparent)
+        self.setPixmap(self.overlay_pixmap)
+        self.update()
+
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             self.start_point = event.pos()
