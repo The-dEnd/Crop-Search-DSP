@@ -25,6 +25,10 @@ QLineEdit, QTextEdit {
     color: white;
 }
 
+QLineEdit::placeholder {
+  color: #949494;
+}
+
 /* Combo Box */
 QComboBox {
     background-color: #ffffff;
