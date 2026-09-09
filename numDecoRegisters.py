@@ -44,3 +44,6 @@ class DecorativeRegisterPopup(QDialog):
             return int(value)
         except:
             return 1
+            
+    def closeEvent(self, event):
+        event.ignore()
