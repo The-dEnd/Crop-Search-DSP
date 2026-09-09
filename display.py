@@ -1250,6 +1250,9 @@ def preparePictures(dataList): #takes the raw ML output, and prepares temporary 
     newList = dataList
     listPathPicture = list(set([x[0][3] for x in newList]))
     for aPic in listPathPicture: #TODO: this is a quadratic O(n²) approach, and should be improved
+        if not(os.path.exists(aPic)):
+            basicWarning(tr("noPic").replace("$IMG",str(aPic)))
+            sys.exit()
         writeLogs("    Starting to draw rectangle(s) on picture "+aPic+".\n")
         im = PIL.Image.open(aPic)
         newPath = "tmp/"+os.path.basename(aPic)

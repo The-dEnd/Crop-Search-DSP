@@ -200,6 +200,10 @@
     "en": "Previous"
     "fr": "Précédent"
 
+"noPic":
+    "en": "The picture $IMG was not detected in its path. Please check if you changed its path. The application will now close..."
+    "fr": "L'image $IMG n'a pas été retrouvée au chemin prévu. L'avez-vous bougée? L'application va maintenant se fermer..."
+
 "noRadio":
     "en": "Warning, no radio button selected; please select one option. If no die was detected and there are indeed no die, pick \"not a die\"."
     "fr": "Attention: aucun choix de motif effectué; merci d'en sélectionner. Si aucun poinçon n'est détecté et qu'il n'y en a aucun, choisissez \"pas un motif\"."
