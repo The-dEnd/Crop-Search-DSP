@@ -279,6 +279,15 @@ class Ui_Poincons_selector(object):
         self.numUs.setObjectName("numUs")
         self.type_grid.addWidget(self.numUs, 11, 1, 1, 2)
         
+        self.empty1 = QtWidgets.QLabel()
+        self.type_grid.addWidget(self.empty1, 12, 0, 1, 1)
+        self.empty2 = QtWidgets.QLabel()
+        self.type_grid.addWidget(self.empty2, 13, 0, 1, 1)
+        
+        self.namePhoto = QtWidgets.QLabel()
+        self.namePhoto.setObjectName("us")
+        self.type_grid.addWidget(self.namePhoto, 14, 0, 1, 1)
+        
         left_layout.addLayout(self.type_grid)
         left_layout.addStretch(1) #add a space
         

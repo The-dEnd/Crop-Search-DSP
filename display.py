@@ -325,6 +325,8 @@ class Selector_Main(QWidget):
         sherdNum, dieNum, numPic, picture, option1id, option1, option1model, proba1, option2id, option2, option2model, proba2, option3id, option3, option3model, proba3, option4id, option4, option4model, proba4, commentML, xLeft, yBot, xRight, yTop, aux1 = prepareData()
         self.data = [sherdNum, dieNum, numPic, picture]
         self.picture = picture
+        print(os.path.basename(picture))
+        self.ui.namePhoto.setText(str(os.path.basename(picture)))
         writeLogs("=======================================\n")
         writeLogs("    New picture loading:"+"tmp/"+os.path.basename(picture)+"\n")
         try:
