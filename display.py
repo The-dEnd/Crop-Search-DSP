@@ -66,6 +66,8 @@ def load_preferences(): #will retrieve some custom setting from a conf file, tha
 config = load_preferences()
 
 normalColor = config["normalColor"] #color for non active dies on the sherd
+addedColor = config["addedColor"] #color for false negative dies on the sherd
+removedColor = config["removedColor"] #color for false positive dies on the sherd
 highlightColor = config["highlightColor"] #color for active die on the sherd
 displaySize = config["displaySize"] #bolean to state if you want the application to display the size of all known dies (and the site on which the die was found) in the selector or not
 
@@ -286,6 +288,8 @@ class Selector_Main(QWidget):
             self.set_location()
         self.updateRecent(output[0:2]) #add the newest RIG type to the recent file
         self.lastPicDecorativeRegister(namePhoto)
+        if self.ui.false_pos.isChecked: #if the current choice is a false positive, "remove" the rectangle
+            removeRectangleFPFromPicture(namePhoto,[x1,y1,x2,y2])
         self.newPart() #call next sherd
 
 
@@ -1285,7 +1289,25 @@ def addRectangleToPicture(pic, coords): #when a false negative is added, draw an
                 min(int(y1), int(y2)),
                 max(int(x1), int(x2)),
                 max(int(y1), int(y2))
-            ),outline=normalColor,width=4)
+            ),outline=addedColor,width=4)
+        img.save(aPath)
+        writeLogs("    Added undetected die area to temporary picture "+aPath+": "+str(coords)+"\n")
+
+def removeRectangleFPFromPicture(pic, coords): #when a false positive is reported, change the color of the rectangle rectangle to take it into account
+    newPath = "tmp/" + os.path.basename(pic)
+    if not os.path.exists(newPath):
+        writeLogs("    Temp pic not found: " + newPath + "\n")
+        return #avoid failure if issue with tmp pic
+    for aPath in [newPath, "tmp/current.png"]:
+        img = PIL.Image.open(aPath)
+        x1, y1, x2, y2 = coords
+        PIL.ImageDraw.Draw(img).rectangle(
+            (
+                min(int(x1), int(x2)),
+                min(int(y1), int(y2)),
+                max(int(x1), int(x2)),
+                max(int(y1), int(y2))
+            ),outline=removedColor,width=4)
         img.save(aPath)
         writeLogs("    Added undetected die area to temporary picture "+aPath+": "+str(coords)+"\n")
 
