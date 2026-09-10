@@ -10,20 +10,36 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from translator import tr, current_language
 from PyQt5.QtGui import QPainter, QPen, QColor
 from PyQt5.QtCore import Qt
-import math, re
+import math, re, ast
 from measure_state import MeasureState
 from datetime import datetime
 
-maxRecent=5 #max number of items in the recent_rig.conf file
+
+def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
+    config = {}
+    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
+                key, value = line.split("=", 1)
+                key = key.strip()
+                value = value.strip()
+                config[key] = ast.literal_eval(value)
+    return config
+
+config = load_preferences()
+MAX_ZOOM = config["max_zoom"] #maximum zoom factor allowed on the die picture
+MIN_ZOOM = 1.0 #minimum zoom factor: the default/initial (fit-to-widget) picture size; unzooming stops here so the picture never shrinks below its normal size
+ZOOM_STEP = config["zoom_step"] #zoom multiplier applied per mouse wheel "notch" (120 units of angleDelta)
+
+
+maxRecent=config["max_recents"] #max number of items in the recent_rig.conf file
 geometry = None #dimensions of the picture, to automatically align dimensions of the transparent layer for drawing and measuring lengths
-setLineColor = (255, 190, 106) #color for defining a length
-getLineColor = (64, 176, 166) #color for getting the length of a line, based on the set lined
-#These colors have been picked to be easily distinguished by multiple categories of colorblindness, and by users of night-light screen filters; should you want to edit them, please ensure the new colors still guarantee accessibility. https://www.nceas.ucsb.edu/sites/default/files/2022-06/Colorblind%20Safe%20Color%20Schemes.pdf
-#you can also take a screenshot of your layout proposal, and test it in https://www.color-blindness.com/coblis-color-blindness-simulator/
+setLineColor = config["known_length"] #color for defining a length
+getLineColor = config["length_to_assess"] #color for getting the length of a line, based on the set lined
 
 
 unit = "" #the unit that has been set in setScale QLineEdit
-
 
 
 def convertTxtToLength(someText): #will convert the value for size set in setScale QLineEdit to a tuple that contains the real number + unit
@@ -46,7 +62,12 @@ def convertTxtToLength(someText): #will convert the value for size set in setSca
 class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 ration, and with a maximum size based on window size
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setScaledContents(True)
+        #BEGIN CHANGE
+        #NOTE: setScaledContents is intentionally no longer used; the visible area is now computed manually in paintEvent, to support zoom/pan
+        self._original_pixmap = None #full-resolution picture currently loaded; this is never itself cropped or modified
+        self._view_rect = QtCore.QRectF() #sub-rectangle of the picture (in ORIGINAL picture pixel coordinates) currently visible in the widget
+        self._zoom = MIN_ZOOM #current zoom factor; MIN_ZOOM = default/initial size, i.e. no zoom
+        #END CHANGE
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Expanding,
             QtWidgets.QSizePolicy.Expanding
@@ -66,9 +87,70 @@ class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 
         self.resize(new_side, new_side)
 
         # tell overlay to follow
-        if hasattr(self.parent(), "resizeOverlay"):
+        #BEGIN CHANGE
+        if hasattr(self.parent(), "resizeOverlay"): #TODO: this is not used
             self.parent().resizeOverlay()
+        #END CHANGE
         super().resizeEvent(event)
+
+    #BEGIN CHANGE
+    def setPixmap(self, pixmap): #overridden: stores the full picture and resets zoom/pan to the default (fit) view, instead of handing the pixmap to QLabel's own non-zoomable rendering
+        self._original_pixmap = pixmap
+        self._zoom = MIN_ZOOM
+        if not pixmap.isNull():
+            self._view_rect = QtCore.QRectF(0, 0, pixmap.width(), pixmap.height())
+        else:
+            self._view_rect = QtCore.QRectF()
+        self.update()
+
+    def paintEvent(self, event): #draws only the currently zoomed/panned sub-rectangle (self._view_rect) of the picture, stretched to fill the widget
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.SmoothPixmapTransform)
+        if self._original_pixmap is not None and not self._original_pixmap.isNull():
+            painter.drawPixmap(QtCore.QRectF(self.rect()), self._original_pixmap, self._view_rect) #QRectF() conversion is required: unlike C++ Qt, PyQt5 does not implicitly convert QRect to QRectF for this overload
+        painter.end()
+
+    def handle_zoom(self, cursor_pos, angle_delta_y): #zooms in/out, centered on cursor_pos (a widget-local QPoint); returns True if the zoom level actually changed
+        if self._original_pixmap is None or self._original_pixmap.isNull() or self.width()==0 or self.height()==0:
+            return False
+        img_w, img_h = self._original_pixmap.width(), self._original_pixmap.height()
+
+        frac_x = cursor_pos.x() / self.width() #cursor position, as a fraction of the widget's own size
+        frac_y = cursor_pos.y() / self.height()
+        img_x = self._view_rect.x() + frac_x * self._view_rect.width() #same position, translated into ORIGINAL picture pixel coordinates
+        img_y = self._view_rect.y() + frac_y * self._view_rect.height()
+
+        steps = angle_delta_y / 120.0 #120 = one "notch" on most mice wheels
+        new_zoom = self._zoom * (ZOOM_STEP ** steps)
+        new_zoom = max(MIN_ZOOM, min(MAX_ZOOM, new_zoom))
+        if new_zoom == self._zoom: #already at the min/max boundary, nothing changes
+            return False
+        self._zoom = new_zoom
+
+        new_w = img_w / new_zoom
+        new_h = img_h / new_zoom
+        new_x = img_x - frac_x * new_w #re-position the view so the SAME picture point stays under the cursor
+        new_y = img_y - frac_y * new_h
+        new_x = max(0, min(new_x, img_w - new_w)) #keep the view rectangle within the picture bounds
+        new_y = max(0, min(new_y, img_h - new_h))
+
+        self._view_rect = QtCore.QRectF(new_x, new_y, new_w, new_h)
+        self.update()
+        return True
+
+    def pan_by(self, dx_widget, dy_widget): #shifts the current view rectangle by a delta expressed in on-screen (widget) pixels, e.g. from a middle-click drag
+        if self._original_pixmap is None or self._original_pixmap.isNull() or self.width()==0 or self.height()==0:
+            return
+        img_w, img_h = self._original_pixmap.width(), self._original_pixmap.height()
+        scale_x = self._view_rect.width() / self.width() #ratio between one widget pixel and one picture pixel, at the current zoom level
+        scale_y = self._view_rect.height() / self.height()
+        new_x = self._view_rect.x() - dx_widget * scale_x #dragging right/down reveals picture content that was hidden on the left/top
+        new_y = self._view_rect.y() - dy_widget * scale_y
+        new_x = max(0, min(new_x, img_w - self._view_rect.width()))
+        new_y = max(0, min(new_y, img_h - self._view_rect.height()))
+        self._view_rect.moveTo(new_x, new_y)
+        self.update()
+    #END CHANGE
 
 
 
@@ -878,6 +960,10 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.start_point = None
         self.end_point = None
         self.drawing = False
+        #BEGIN CHANGE
+        self._panning = False #True while a middle-click drag is in progress, used to pan the zoomed picture
+        self._pan_last_pos = None #last mouse position seen during the current pan drag
+        #END CHANGE
         self.updateGeometry
         
     def updateGeometry(self): #updates overlay geometry to match die_picture
@@ -907,11 +993,23 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
             self.statusLine[state] = None
             self.drawing = True
             self.update()
+        #BEGIN CHANGE
+        elif event.button() == Qt.MiddleButton:
+            self._panning = True
+            self._pan_last_pos = event.pos()
+            #self.clear_lines() #the picture is about to move under any existing lines, so they would no longer measure the same spot
+        #END CHANGE
 
     def mouseMoveEvent(self, event):
         if self.drawing:
             self.end_point = event.pos()
             self.update()  #calls paintEvent to refresh the line display
+        #BEGIN CHANGE
+        elif self._panning:
+            delta = event.pos() - self._pan_last_pos
+            self._pan_last_pos = event.pos()
+            self.main_parent.ui.die_picture.pan_by(delta.x(), delta.y())
+        #END CHANGE
 
     def getLineState(self):
         setMeasureState = MeasureState.setMeasureState
@@ -935,6 +1033,18 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
                     logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    new line "+currentState+" drawn; status is:"+str(self.statusLine)+"\n")
                 self.refresh_length()
             #print(self.statusLine, self.start_point, self.end_point) #for debug purpose only
+        #BEGIN CHANGE
+        elif event.button() == Qt.MiddleButton:
+            self._panning = False
+            self._pan_last_pos = None
+
+    def wheelEvent(self, event): #the overlay sits on top of die_picture and captures mouse activity, so wheel zoom is handled here and forwarded down
+        picture = self.main_parent.ui.die_picture
+        changed = picture.handle_zoom(event.pos(), event.angleDelta().y())
+        if changed: #only wipe the measurement lines if the zoom level actually moved (not when already at the min/max boundary)
+            self.clear_lines()
+        event.accept()
+    #END CHANGE
 
     def refresh_length(self): #refreshes the displayed length, if the length of set_scale or retrieve_scale changes, or if the QLineEdit SetScale value changes
         global unit
