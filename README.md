@@ -30,3 +30,6 @@ Si vous téléchargez le code source, veuillez noter que le modèle "best.pt" es
 Si vous avez des questions, que vous repérez un problème, ou que vous avez besoin d'aide pour adapter l'outil à vos propres besoins, merci d'envoyer un mail à ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt (retapez l'adresse manuellement, j'ai ajouté des caractères homoglyphiques et un copier-coller ne fonctionnera pas).
 
 Projet-frère pour entraîner un modèle sur vos propres motifs: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
+
+
+[Pour télécharger, cliquez ici](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest)
