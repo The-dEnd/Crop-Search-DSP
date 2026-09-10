@@ -288,7 +288,7 @@ class Selector_Main(QWidget):
             self.set_location()
         self.updateRecent(output[0:2]) #add the newest RIG type to the recent file
         self.lastPicDecorativeRegister(namePhoto)
-        if self.ui.false_pos.isChecked: #if the current choice is a false positive, "remove" the rectangle
+        if self.ui.false_pos.isChecked(): #if the current choice is a false positive, "remove" the rectangle
             removeRectangleFPFromPicture(namePhoto,[x1,y1,x2,y2])
         self.newPart() #call next sherd
 
@@ -1043,18 +1043,23 @@ class Undetected_Die(QWidget):
             return(None)
         writeLogs("    false negative (undetected die) validated at (unreformatted) coordinates (X1,Y1),(X2,Y2): "+str(coord_raw)+"\n")
         width, heigth = imagesize.get(self.pic)
+        writeLogs("    OG file has dimensions "+str(width)+" x "+str(heigth))
         [(x1,y1),(x2,y2)] = coord_raw
         final_frame = [int(min(x1, x2)*(float(width)/float(dispW))), int(min(y1, y2)*(float(heigth)/float(dispH))), int(max(x1, x2)*(float(width)/float(dispW))), int(max(y1, y2)*(float(heigth)/float(dispH)))]
+        writeLogs("    false negative (undetected die) validated at (cleaned) coordinates (X1,Y1),(X2,Y2): "+str(final_frame)+"\n")
         typeDie = self.ui.set_type.currentText()
         numberDie = self.ui.set_number.text()
+        writeLogs("    false negative (undetected die) is a: "+str(typeDie)+" "+str(numberDie)+"\n")
         
         #in case of multiple ticks, the order of priority will be unknown>new>actual value, to keep the most likely scenario as a priority
         if self.ui.unkTick.isChecked():
             numberDie = tr("unknown")
             self.uid = ""
+            writeLogs("    false negative (undetected die) has an unknown type at "+str(coord_raw)+".\n")
         elif self.ui.newTick.isChecked():
             numberDie = tr("new")
             self.uid = ""
+            writeLogs("    false negative (undetected die) has a new type at "+str(coord_raw)+".\n")
         elif typeDie == tr("selectPattern"):
             basicWarning(tr("noSelect"))
             writeLogs("    false negative (undetected die) FAILED: no die type/number provided "+str(coord_raw)+".\n")
