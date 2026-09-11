@@ -21,7 +21,7 @@ _Windows_
 rm dist -Recurse; rm build -Recurse; ~\AppData\Local\Programs\Python\Python311\Scripts\pyinstaller.exe --clean -y .\Outil_Poincons.spec
 
 Then you can run the following command:
-mv .\dist\Outil_poincons\_internal\doc .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\models .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\resources .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\tmp .\dist\Outil_poincons\;rm .\dist\Outil_poincons\_internal\torch\lib\dnnl.lib;rm .\dist\Outil_poincons\_internal\cv2\opencv_videoio_ffmpeg4110_64.dll
+mv .\dist\Outil_poincons\_internal\doc .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\models .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\resources .\dist\Outil_poincons\; mv .\dist\Outil_poincons\_internal\tmp .\dist\Outil_poincons\;rm .\dist\Outil_poincons\_internal\torch\lib\dnnl.lib;rm .\dist\Outil_poincons\_internal\cv2\opencv_videoio_ffmpeg4110_64.dll; cp '.\Manuel Outil Poinçons FR.odt' .\dist\Outil_poincons\;rm .\dist\Outil_poincons\models\best.7z.*
 
 It will:
 -move the following from _internal folder to the same level than the .exe file:

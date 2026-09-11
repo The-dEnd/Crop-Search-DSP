@@ -1045,13 +1045,18 @@ class Undetected_Die(QWidget):
             return(None)
         writeLogs("    false negative (undetected die) validated at (unreformatted) coordinates (X1,Y1),(X2,Y2): "+str(coord_raw)+"\n")
         width, heigth = imagesize.get(self.pic)
-        writeLogs("    OG file has dimensions "+str(width)+" x "+str(heigth))
+        writeLogs("    OG file has dimensions "+str(width)+" x "+str(heigth)+"\n")
         [(x1,y1),(x2,y2)] = coord_raw
         final_frame = [int(min(x1, x2)*(float(width)/float(dispW))), int(min(y1, y2)*(float(heigth)/float(dispH))), int(max(x1, x2)*(float(width)/float(dispW))), int(max(y1, y2)*(float(heigth)/float(dispH)))]
         writeLogs("    false negative (undetected die) validated at (cleaned) coordinates (X1,Y1),(X2,Y2): "+str(final_frame)+"\n")
         typeDie = self.ui.set_type.currentText()
+        writeLogs("    false negative (undetected die) is a: "+str(typeDie)+"\n")
         numberDie = self.ui.set_number.text()
+        if len(numberDie)>5: #not a number
+            numberDie = "empty"
+        print(str(typeDie)+" "+str(numberDie))
         writeLogs("    false negative (undetected die) is a: "+str(typeDie)+" "+str(numberDie)+"\n")
+        
         
         #in case of multiple ticks, the order of priority will be unknown>new>actual value, to keep the most likely scenario as a priority
         if self.ui.unkTick.isChecked():
