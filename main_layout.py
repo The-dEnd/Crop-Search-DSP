@@ -37,7 +37,7 @@ maxRecent=config["max_recents"] #max number of items in the recent_rig.conf file
 geometry = None #dimensions of the picture, to automatically align dimensions of the transparent layer for drawing and measuring lengths
 setLineColor = config["known_length"] #color for defining a length
 getLineColor = config["length_to_assess"] #color for getting the length of a line, based on the set lined
-
+rmMeasLinesPan = config["remove_measurement_for_pan"]
 
 unit = "" #the unit that has been set in setScale QLineEdit
 
@@ -1002,12 +1002,11 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
             self.statusLine[state] = None
             self.drawing = True
             self.update()
-        #BEGIN CHANGE
         elif event.button() == Qt.MiddleButton:
             self._panning = True
             self._pan_last_pos = event.pos()
-            #self.clear_lines() #the picture is about to move under any existing lines, so they would no longer measure the same spot
-        #END CHANGE
+            if rmMeasLinesPan:
+                self.clear_lines() #the picture is about to move under any existing lines
 
     def mouseMoveEvent(self, event):
         if self.drawing:

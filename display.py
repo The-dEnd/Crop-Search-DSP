@@ -325,7 +325,6 @@ class Selector_Main(QWidget):
         sherdNum, dieNum, numPic, picture, option1id, option1, option1model, proba1, option2id, option2, option2model, proba2, option3id, option3, option3model, proba3, option4id, option4, option4model, proba4, commentML, xLeft, yBot, xRight, yTop, aux1 = prepareData()
         self.data = [sherdNum, dieNum, numPic, picture]
         self.picture = picture
-        print(os.path.basename(picture))
         self.ui.namePhoto.setText(str(os.path.basename(picture)))
         writeLogs("=======================================\n")
         writeLogs("    New picture loading:"+"tmp/"+os.path.basename(picture)+"\n")
@@ -751,7 +750,8 @@ class Selector_Main(QWidget):
         writeLogs("    Checking whether this is the last die on the picture... "+str(nextPic)+" VS "+str(photo)+"\n")
         if photo != nextPic: #time to check the dictionnary
             for die, value in decoRegStatus.items():
-                if value>1:
+                print(die,value)
+                if value>1 and die != "false positive (not a sherd)0":
                     dialog = DecorativeRegisterPopup(die=die)
                     if dialog.exec() == QDialog.Accepted:
                         number = dialog.get_value()
