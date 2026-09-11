@@ -62,12 +62,9 @@ def convertTxtToLength(someText): #will convert the value for size set in setSca
 class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 ration, and with a maximum size based on window size
     def __init__(self, parent=None):
         super().__init__(parent)
-        #BEGIN CHANGE
-        #NOTE: setScaledContents is intentionally no longer used; the visible area is now computed manually in paintEvent, to support zoom/pan
         self._original_pixmap = None #full-resolution picture currently loaded; this is never itself cropped or modified
         self._view_rect = QtCore.QRectF() #sub-rectangle of the picture (in ORIGINAL picture pixel coordinates) currently visible in the widget
         self._zoom = MIN_ZOOM #current zoom factor; MIN_ZOOM = default/initial size, i.e. no zoom
-        #END CHANGE
         sizePolicy = QtWidgets.QSizePolicy(
             QtWidgets.QSizePolicy.Expanding,
             QtWidgets.QSizePolicy.Expanding
@@ -87,13 +84,11 @@ class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 
         self.resize(new_side, new_side)
 
         # tell overlay to follow
-        #BEGIN CHANGE
         if hasattr(self.parent(), "resizeOverlay"): #TODO: this is not used
             self.parent().resizeOverlay()
-        #END CHANGE
         super().resizeEvent(event)
 
-    #BEGIN CHANGE
+    #the following functions are managing the zoom and paning
     def setPixmap(self, pixmap): #overridden: stores the full picture and resets zoom/pan to the default (fit) view, instead of handing the pixmap to QLabel's own non-zoomable rendering
         self._original_pixmap = pixmap
         self._zoom = MIN_ZOOM
@@ -150,7 +145,6 @@ class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 
         new_y = max(0, min(new_y, img_h - self._view_rect.height()))
         self._view_rect.moveTo(new_x, new_y)
         self.update()
-    #END CHANGE
 
 
 
@@ -969,10 +963,8 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.start_point = None
         self.end_point = None
         self.drawing = False
-        #BEGIN CHANGE
         self._panning = False #True while a middle-click drag is in progress, used to pan the zoomed picture
         self._pan_last_pos = None #last mouse position seen during the current pan drag
-        #END CHANGE
         self.updateGeometry
         
     def updateGeometry(self): #updates overlay geometry to match die_picture
@@ -1012,12 +1004,10 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         if self.drawing:
             self.end_point = event.pos()
             self.update()  #calls paintEvent to refresh the line display
-        #BEGIN CHANGE
         elif self._panning:
             delta = event.pos() - self._pan_last_pos
             self._pan_last_pos = event.pos()
             self.main_parent.ui.die_picture.pan_by(delta.x(), delta.y())
-        #END CHANGE
 
     def getLineState(self):
         setMeasureState = MeasureState.setMeasureState
@@ -1041,7 +1031,6 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
                     logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    new line "+currentState+" drawn; status is:"+str(self.statusLine)+"\n")
                 self.refresh_length()
             #print(self.statusLine, self.start_point, self.end_point) #for debug purpose only
-        #BEGIN CHANGE
         elif event.button() == Qt.MiddleButton:
             self._panning = False
             self._pan_last_pos = None
@@ -1052,7 +1041,6 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         if changed: #only wipe the measurement lines if the zoom level actually moved (not when already at the min/max boundary)
             self.clear_lines()
         event.accept()
-    #END CHANGE
 
     def refresh_length(self): #refreshes the displayed length, if the length of set_scale or retrieve_scale changes, or if the QLineEdit SetScale value changes
         global unit
