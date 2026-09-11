@@ -9,6 +9,7 @@
         6: "Arch"
         7: "S-shape"
         8: "Figure"
+        9: "Figure"
         0: "Select a die type"
     "fr":
         1: "Rouelle"
@@ -19,6 +20,7 @@
         6: "Arceau"
         7: "S-serpentin"
         8: "Figuratif"
+        9: "Figuratif"
         0: "Sélectionner un motif"
         4: "Geometrique"
         4: "Geo."
