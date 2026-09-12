@@ -1,8 +1,15 @@
+Cliquer sur previous après avoir report un FN -> crash
 
+Dans theme relaxing, le placeholder text du qline edit est en noir
+le placeholder pour l'auteur (QLineEdit) ne change pas de couleur,; contrairement au Qtextedit
+
+réduire largeur du texte dans la popup loupe
+
+
+fusionner les imports de preferences dans une fonction dans un .py commun
 
 
 Update and rework documentation
-
 
 
 
@@ -16,15 +23,4 @@ handle the "arceau (?)" -> "arceau 0"
 
 
 
-
-
-
-
-ajouter un champ si forme inédite (dans type n°?) -> on peut déja cocher la case autre/inédit, et écrire un commendaire dans le champ "taper numéro ici"; c'est ce qu'il fallait, ou il faut autre chose?
-header de la colonne de droite: texte caché "selectioner un" -> je ne sais pas d'où le texte sort, je ne l'ai pas chez moi. Tu saurais m'envoyer ta photo de motif et ton fichier ***_output_ML.csv et ***_Final_output.csv, que je regarde?
-"Est-ce qu'on proposerait pas un champ remarque générale" -> je dirais qu'on peut utiliser le "taper commentaires ici" (en le renommant éventuellement), non?
-"Est-ce qu'on pourrait faire chercher un tesson plutôt qu'un poinçon" -> le problème c'est que dans le cas où il y a plusieurs motifs sur un tesson, on choisit lequel? ou alors on les "rappelle" tous à la suite en tête de a liste des motifs à analyser? (par exemple s'il y a 3 motifs sur un tesson et qu'on cherche le n° de tesson, ça propose le 1er en choix actif, et quand on clique sur suivant ou ignorer ça affiche le 2ème, puis le 3ème?)
-
- 
- 
 

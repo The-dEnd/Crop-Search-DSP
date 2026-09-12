@@ -140,7 +140,7 @@ class ForceTypePopup(QDialog):
     def searchedText(self, text):
         global picturesPerTag
         finallPics = []
-        searchedText = unidecode(text) #replace non-ASCII chars with their ASCII equivalent, e.g. יאטח
+        searchedText = unidecode(text) #replace non-ASCII chars with their ASCII equivalent
         finalWordComplete = False #is the user still typing the final word?
         if len(searchedText)>0:
             if searchedText[-1] in [" ", ",", "."]:

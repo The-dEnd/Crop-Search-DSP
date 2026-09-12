@@ -8,36 +8,30 @@ The GUI windows are divided in three main parts:
 
 The production source code folder contains the following files and folders:
 -resources/: folder that contains additional resources to be used for the assessment. It contains two folders, media (for the standard bictures to be used by the application, such as loading animations or die templates), and data (for static text, such as e.g. licensing, or the default localisation of archeological excavations).
--_Final_Output.csv: file that contains a CSV (semicollon separators) with output from manual assessment performed by reviewers. The following fields are present: Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification
+-*_Final_Output.csv: file that contains a CSV (semicollon separators) with output from manual assessment performed by reviewers. The following fields are present: Numero de tesson;Numero de decor;Numero de photo;Nom photo;Type de motif identifie;Numero de motif identifie;Commentaire;Pays;Region;Departement;Commune;Site/Lieu-dit;Lambert-X;Lambert-Y;Lambert-Z;Numero de fait;Numero d'US;Type de CRA;Numero de CRA;Position du tesson;Auteur de l'identification
+-*_output_ML.csv: file populated by ML algorithm, that contains the output of previous session of die recognition by Machine Learning. For more details on its content and structure, please refer to file "doc/README_interface_ML.md". To keep it simple, this file is the output of ML, and the input of all visual parts of the Application.
 -_START_APP.ps1: Powershell script that starts the application. It should only be used in a (Windows) environment with all expected packages and modules. For standalone deployment (for non-tech users), it is advised to use pyinstaller.
 -_START_APP.sh: Bash version of _START_APP.ps1 It should only be used in a (Linux) environment with all expected packages and modules. For standalone deployment (for non-tech users), it is advised to use pyinstaller.
 -ClickableQLabel.py: a Python class used for the popups where one should click somewhere to triger an action (e.g. RIG popup and force-type popup).
 -crashlog.txt: supposed output of the terminal initiation scripts in case of a crash/error.
 -display.py: main script; please refer to section "How to Edit files" for more details about its structure and functions
 -display_types.py: handles the display of the popup that shows profile types (RIG, CRAV for Fanjeaux) if user clicks on "Afficher les types", in bottom-left of the main application window; the window is built automatically based on the content of resources/media/RIG_types/ folder (3 first chars of files are integer digits used as an index for display order, then the name to be displayed)
--doc/: folder that contains additional documentation on specific aspects of this file
+-doc/: folder that contains additional documentation on specific aspects of this project
 -force_sherd.py: PyQt file that popups to set a die type automatically, and handles clicking on a die category; it is called by the buttons in other windows that use the "Magnifier" icon
 -hooks/: folder managing compilation hooks for Pyinstaller; necessary at compilation time
--license_popup.ui and license_popup.py: Qt (.ui) file and it Python compatible export (.py) that handles the display of the popup that shows licenses and legal mentions of the application if user clicks on "Afficher license"
--loading_screen.ui and loading_screen.py: Qt (.ui) file and it Python compatible export (.py) that handles the display of the progress bar and loading screen while the application ML algorithms perform pattern recognition on die pictures
+-license_popup.py: PyQt file that handles the display of the popup that shows licenses and legal mentions of the application if user clicks on "Afficher license"
+-loading_screen.py: PyQt file that handles the display of the progress bar and loading screen while the application ML algorithms perform pattern recognition on die pictures
 -logs.txt and logs.txt.*: (rather verbose) logs of current/last session, and the three previous sessions; these files are suposed to log the timestamp and almoste very action performe by the user (editing a field value, clicking a button, ...); only 4 latest logs (running session +3 last sessions) are kept, to prevent excessive disk storage
--main_layout.ui and main_layout.py: Qt (.ui) file and it Python compatible export (.py) that handles the display template of main identification window
+-main_layout.py: PyQt file that handles the display template of main identification window
 -measure_state.py: a file that keeps track of some global variables that need to be called in both display and main_layout, to avoid a circular import
 -numDecoRgister.py: a popup managing decorative registries is the same die is present multiple times on a sherd;
 -Outil_Poincons.spec: .spec file, used to store the configuration of PyInstaller compiler
--output_ML.csv: file populated by ML algorithm, that contains the output of previous session of die recognition by Machine Learning. For more details on its content and structure, please refer to file "doc/README_interface_ML.md". To keep it simple, this file is the output of ML, and the input of all visual parts of the Application.
+-picCropper.py: small script to crop a picture to a square format
 -run_ML.py: the (current) script running all the ML part
 -tmp/: folder that is used to store resized pictures of sherds, with dies reframed on them; will be empty when the application is not running
+-theme_popup.py: Python file handling the list of available themes popup (dark, light, ...)
 -translator.py: Python file that handles the translation of all the application's text, vie a translating function and a dictionnary
--undetected_die.py: Python file that handles the display of the windows that allows users to manually select an area on the picture that contains an undetected die, and that frames this area with red crosses at its edge. The Python file required many manual adjustments from the raw export of .ui file, and a diff should be made and reviewed in case you want to modify the .ui file, before editing this file (1) edit the .ui 2) export the .ui to .py with another name 3) check and assess the differences between the original .py file and your export result 4) edit your export result accordingly 5) replace the original .py file with your modified export result)
-
-The development source code folder contains the following additional files and folders (plus the ontent of production folder):
-
--tmp_pics/: folder that contains a sample of sherd pictures used as testing data
--output_ML.csv: file that appears after running machine learning scripts in theory. In development, it has been pre-populated for testing purpose
--backup/: folder that contains previous versions of source code
--TODO.txt: 1) checks to be made before each release and 2) potential improvements/bug report notes to the Application
-
+-undetected_die.py: Python file that handles the display of the windows that allows users to manually select an area on the picture that contains an undetected die, and that frames this area with red crosses at its edge.
 
 
 Most of the application "main window" "live" code (e.g. non-static display) is present in file "display.py". Should functionnal modifications be performed in the application, it is most likely that this file should be the most/single affected file. Please refer to next sections "How to edit files" for more details on this file.
@@ -48,7 +42,7 @@ HOW TO EDIT FILES
 To edit a window display layout, edit directly the corresonding .py file.
 
 
-Each Python function, and each difficultly-readable code section, are normally commented with explicit comments that explicit its purpose.
+Each Python function, and each difficultly-readable code section, are normally commented with explicit comments that describe its purpose.
 
 The file display.py contains the following functions and classes:
 -class Selector_Main: manages the main window, and the user actions once the dies have been recognized by ML algorithm
@@ -103,7 +97,7 @@ In case of a crash, every user action should (normally) be logged in the file "l
 
 
 HOW TO CHANGE THEME/UI
-In resources/styles, a few .qss ("CSS for Qt") files are already defined. Feel free to edit them or add your own styles. It is recommended to ensure that the theme is running smoothly before compiling with Pyinstaller.
+In resources/styles, a few .qss (~"CSS for Qt") files are already defined. Feel free to edit them or add your own styles. It is recommended to ensure that the theme is running smoothly before compiling with Pyinstaller.
 Note: the "accesibility" theme is designed to be accessible for color-blind people, as well as dyslexic people. It is recommended to edit it with caution.
 
 
@@ -114,7 +108,7 @@ The file "resources/data/translations.yaml" contains a dictionnary. Set a new la
 
 FUTURE EVOLUTIONS
 
-Comments labeled as "#TODO" in the Python code define additional steps to be performed. Comments labeled as "HereChangeMLAlgo" label the places where the ML picture recognition algorithms should be placed in the future. 
+Comments labeled as "#TODO" in the Python code define additional steps to be performed. Comments labeled as "#HereChangeMLAlgo" label the places where the ML picture recognition algorithms should be placed in case of change in the future. 
 
 The algorithm can be called via a Python function (ideally), or via an OS command if necessary:
 import subprocess, sys
