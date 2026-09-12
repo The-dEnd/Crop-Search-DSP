@@ -12,19 +12,9 @@ from PyQt5.QtWidgets import QWidget
 from datetime import datetime
 from force_sherd import ForceTypePopup
 from translator import tr, current_language
-import ast #needed by load_preferences, copy-pasted below (same pattern used in display.py/force_sherd.py)
+from loadPrefs import load_preferences
 
-def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
-    config = {}
-    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
-                key, value = line.split("=", 1)
-                key = key.strip()
-                value = value.strip()
-                config[key] = ast.literal_eval(value)
-    return config
+
 
 config = load_preferences()
 MAX_ZOOM = config["max_zoom"] #maximum zoom factor allowed on the die picture

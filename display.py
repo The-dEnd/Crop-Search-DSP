@@ -24,8 +24,7 @@ from translator import tr
 from measure_state import MeasureState
 import logging.config
 from numDecoRegisters import DecorativeRegisterPopup
-import ast
-
+from loadPrefs import load_preferences
 
 import run_ML #HereChangeMLAlgo
 
@@ -48,18 +47,6 @@ dict_types = tr("lMotifs")
 reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary
 
 
-
-def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
-    config = {}
-    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
-                key, value = line.split("=", 1)
-                key = key.strip()
-                value = value.strip()
-                config[key] = ast.literal_eval(value)
-    return config
 
 
 

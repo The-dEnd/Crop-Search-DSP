@@ -2,7 +2,6 @@
 
 
 #
-# Created by: PyQt5 UI code generator 5.15.9
 # This file was first created with PyQt designer, then manually edited for a standard layout in fixed window size, then adapted by AI (GPT4) to adapt to window size
 
 
@@ -10,22 +9,12 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from translator import tr, current_language
 from PyQt5.QtGui import QPainter, QPen, QColor
 from PyQt5.QtCore import Qt
-import math, re, ast
+import math, re
 from measure_state import MeasureState
 from datetime import datetime
+from loadPrefs import load_preferences
 
 
-def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
-    config = {}
-    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
-                key, value = line.split("=", 1)
-                key = key.strip()
-                value = value.strip()
-                config[key] = ast.literal_eval(value)
-    return config
 
 config = load_preferences()
 MAX_ZOOM = config["max_zoom"] #maximum zoom factor allowed on the die picture
