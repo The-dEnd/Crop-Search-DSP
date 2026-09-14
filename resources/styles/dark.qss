@@ -29,11 +29,20 @@ QLineEdit::placeholder {
   color: #949494;
 }
 
+
 /* Combo Box */
 QComboBox {
     background-color: #ffffff;
-	color: black;
+    color: #000000;
+    padding: 4px;
 }
+
+/* Combo Box drop-down list */
+QComboBox {
+    background-color: #ffffff;
+    color: #000000;
+}
+
 
 QRadioButton::indicator {
     width: 16px;

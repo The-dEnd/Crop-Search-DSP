@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QSh
 from PyQt5 import QtGui, QtWidgets, QtCore
 from PyQt5.QtGui import QFontDatabase, QKeySequence
 from PyQt5.QtCore import pyqtSignal, Qt, QObject, QThread, pyqtSignal, QTimer
+from PyQt5.QtGui import QFontDatabase, QIcon
 from main_layout import Ui_Poincons_selector, maxRecent, DrawingOverlay
 from display_types import RIG_Type
 from loading_screen import Ui_Loading
@@ -1406,8 +1407,12 @@ def launch_main_window():
 
 def run_app():
     global fold, sizeSherd, initialisation
+    if sys.platform == "win32":
+        import ctypes
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("yourcompany.cataloguepoincons.1.0")
     cleanLogs()
     app = QApplication(sys.argv)
+    app.setWindowIcon(QIcon("resources/media/icon.ico"))
     loadFonts()
     with open("resources/data/theme.conf", "r") as themeFile:
         app.setStyleSheet(loadStylesheet(themeFile.readline())) #set the initial theme to the saved theme

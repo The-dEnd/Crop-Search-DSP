@@ -6,21 +6,12 @@ from translator import tr
 import os, sys, pathlib, ast
 import json, re
 from unidecode import unidecode
+from loadPrefs import load_preferences
 
 dict_types = tr("lMotifs")
 reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary, used to find back where the user clicked
 
-def load_preferences(): #will retrieve some custom setting from a conf file, that the users may want to change (e.g. presence of some features, colors, ...)
-    config = {}
-    with open("resources/data/preferences.conf", "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if len(line)>0 and not line.startswith("#"): #not a comment or empty line
-                key, value = line.split("=", 1)
-                key = key.strip()
-                value = value.strip()
-                config[key] = ast.literal_eval(value)
-    return config
+
 
 config = load_preferences()
 displaySize = config["displaySize"] #bolean to state if you want the application to display the size of all known dies (and the site on which the die was found) in the selector or not
