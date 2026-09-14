@@ -84,6 +84,7 @@ class ForceTypePopup(QDialog):
         main_layout.addWidget(self.searchBar)
         main_layout.addWidget(scrollArea)
         self.setLayout(main_layout)
+        self.searchBar.setFocus()
 
 
     def populateTable(self, lPath):
