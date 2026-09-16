@@ -1,6 +1,10 @@
 [English version here, version Française plus bas]
 
+
 ![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
+
+This application was developed by Las Cravieros team (M. Huart, B. Favennec, C. Faisandier, C. Bacle), Together with MIASHS students from Paul Valéry University in Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+<img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
 
 A tool aiming at assisting archeologists in identifying and classifying sherd patterns on ceramics.
 
@@ -19,6 +23,9 @@ If you spot a bug, or require assistance to adapt the script to your needs, plea
 
 =========================
 
+Cette application a été développée par l'équipe de Las Cravieros (M. Huart, B. Favennec, C. Faisandier, C. Bacle), associée à des étudiants du Master MIASHS de l'Université Paul Valéry de Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+<img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
+
 Un outil destiné à assister des archéologues à identifier et classer des motifs de poinçons sur de la céramique, développé à l'origine pour le site de Las Cravieros à Fanjeaux (Aude).
 
 **Si vous souhaitez utiliser l'outil "tel quel" sans changer le code source (pour Windows), téléchargez la dernière version disponible "Outil_poincons.7z" [ici](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest), et dézipez la. Ensuite, double cliquez sur le fichier exécutable avec un logo de "tête de renard".**
@@ -31,7 +38,7 @@ Si vous avez des questions, que vous repérez un problème, ou que vous avez bes
 
 Projet-frère pour entraîner un modèle sur vos propres motifs: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
 
-<img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
+
 
 
 
