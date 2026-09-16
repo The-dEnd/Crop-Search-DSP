@@ -19,7 +19,7 @@ Si vous avez des questions, que vous repérez un problème, ou que vous avez bes
 Projet-frère pour entraîner un modèle sur vos propres motifs: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
 
 
-Citer: "Crop-Search-DSP https://github.com/The-dEnd/Crop-Search-DSP"
+La citation n'est pas requise par la license, mais serait appréciée. Citer: "Crop-Search-DSP https://github.com/The-dEnd/Crop-Search-DSP"
 
 =========================
 
@@ -44,7 +44,7 @@ If you spot a bug, or require assistance to adapt the script to your needs, plea
 
 "Sister-ship" project for training a model to recognize die patterns on your own sherds: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
 
-Cite: "Crop-Search-DSP https://github.com/The-dEnd/Crop-Search-DSP"
+Citing this source is not required by the tool's licence, but would be kindly appreciated. Cite: "Crop-Search-DSP https://github.com/The-dEnd/Crop-Search-DSP"
 
 =========================
 
