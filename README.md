@@ -21,9 +21,6 @@ Projet-frère pour entraîner un modèle sur vos propres motifs: [PoinçonLab](h
 
 
 
-
-
-
 =========================
 
 
@@ -48,7 +45,9 @@ If you spot a bug, or require assistance to adapt the script to your needs, plea
 "Sister-ship" project for training a model to recognize die patterns on your own sherds: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
 
 
+=========================
 
 
 [Pour télécharger, cliquez ici](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest)
+
 [To download, click here](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest)
