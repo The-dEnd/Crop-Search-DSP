@@ -4,6 +4,7 @@
 ![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
 
 This application was developed by Las Cravieros team (M. Huart, B. Favennec, C. Faisandier, C. Bacle), Together with MIASHS students from Paul Valéry University in Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+
 <img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
 
 A tool aiming at assisting archeologists in identifying and classifying sherd patterns on ceramics.
@@ -24,6 +25,7 @@ If you spot a bug, or require assistance to adapt the script to your needs, plea
 =========================
 
 Cette application a été développée par l'équipe de Las Cravieros (M. Huart, B. Favennec, C. Faisandier, C. Bacle), associée à des étudiants du Master MIASHS de l'Université Paul Valéry de Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+
 <img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
 
 Un outil destiné à assister des archéologues à identifier et classer des motifs de poinçons sur de la céramique, développé à l'origine pour le site de Las Cravieros à Fanjeaux (Aude).
