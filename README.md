@@ -1,8 +1,8 @@
-[Version Française ici, English version lower]
-
-Cette application a été développée par l'équipe de Las Cravieros (M. Huart, B. Favennec, C. Faisandier, C. Bacle), associée à des étudiants du Master MIASHS de l'Université Paul Valéry de Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+[Version Française ici, English version below]
 
 <img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
+
+Cette application a été développée par l'équipe de Las Cravieros (M. Huart, B. Favennec, C. Faisandier, C. Bacle), associée à des étudiants du Master MIASHS de l'Université Paul Valéry de Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
 
 Un outil destiné à assister des archéologues à identifier et classer des motifs de poinçons sur de la céramique.
 
