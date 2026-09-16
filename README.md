@@ -3,7 +3,7 @@
 
 ![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
 
-This application was developed by Las Cravieros team (M. Huart, B. Favennec, C. Faisandier, C. Bacle), Together with MIASHS students from Paul Valéry University in Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+This application was developed by Las Cravieros team (M. Huart, B. Favennec, C. Faisandier, C. Bacle), together with MIASHS students from Paul Valéry University in Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
 
 <img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
 
