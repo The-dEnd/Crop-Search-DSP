@@ -1,34 +1,12 @@
-[English version here, version Française plus bas]
-
-
-![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
-
-This application was developed by Las Cravieros team (M. Huart, B. Favennec, C. Faisandier, C. Bacle), together with MIASHS students from Paul Valéry University in Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
-
-<img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
-
-A tool aiming at assisting archeologists in identifying and classifying sherd patterns on ceramics.
-
-**If you want to download the tool without changing the source code (Windows only), download the latest release "Outil_poincons.7z" [here](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest), and unzip it. Then double click on the .exe file with a "fox" head.**
-
-If you want to edit the code, you will need Python (the tool runs on 3.11, but other versions should be compatible) and the libraries listed in doc/requirements.txt
-
-Note if you download the source code to try the tool locally: due to its size (170MB), the model "best.pt" could not be uploaded as if. Please unzip it before running the tool.
-
-If you spot a bug, or require assistance to adapt the script to your needs, please reach out to:
-ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt
-(retype manually, it contains homoglyphic characters and cannot be directly copy-pasted)
-
-"Sister-ship" project for training a model to recognize die patterns on your own sherds: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
-
-
-=========================
+[Version Française ici, English version lower]
 
 Cette application a été développée par l'équipe de Las Cravieros (M. Huart, B. Favennec, C. Faisandier, C. Bacle), associée à des étudiants du Master MIASHS de l'Université Paul Valéry de Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
 
 <img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
 
-Un outil destiné à assister des archéologues à identifier et classer des motifs de poinçons sur de la céramique, développé à l'origine pour le site de Las Cravieros à Fanjeaux (Aude).
+Un outil destiné à assister des archéologues à identifier et classer des motifs de poinçons sur de la céramique.
+
+![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
 
 **Si vous souhaitez utiliser l'outil "tel quel" sans changer le code source (pour Windows), téléchargez la dernière version disponible "Outil_poincons.7z" [ici](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest), et dézipez la. Ensuite, double cliquez sur le fichier exécutable avec un logo de "tête de renard".**
 
@@ -44,4 +22,33 @@ Projet-frère pour entraîner un modèle sur vos propres motifs: [PoinçonLab](h
 
 
 
+
+
+=========================
+
+
+This application was developed by Las Cravieros team (M. Huart, B. Favennec, C. Faisandier, C. Bacle), together with MIASHS students from Paul Valéry University in Montpellier (M. Benmouloud, Y. Benosmane, M. Carlet, J. Emanuel, G. Stephanou).
+
+<img src="https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg" width="200" />
+
+A tool aiming at assisting archeologists in identifying and classifying sherd patterns on ceramics.
+
+![screenshot](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/screnshot.jpg)
+
+**If you want to download the tool without changing the source code (Windows only), download the latest release "Outil_poincons.7z" [here](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest), and unzip it. Then double click on the .exe file with a "fox" head.**
+
+If you want to edit the code, you will need Python (the tool runs on 3.11, but other versions should be compatible) and the libraries listed in doc/requirements.txt
+
+Note if you download the source code to try the tool locally: due to its size (170MB), the model "best.pt" could not be uploaded as if. Please unzip it before running the tool.
+
+If you spot a bug, or require assistance to adapt the script to your needs, please reach out to:
+ⅿａхіⅿе.hսａгt60@ⅼａροѕtе.ոеt
+(retype manually, it contains homoglyphic characters and cannot be directly copy-pasted)
+
+"Sister-ship" project for training a model to recognize die patterns on your own sherds: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
+
+
+
+
 [Pour télécharger, cliquez ici](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest)
+[To download, click here](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest)
