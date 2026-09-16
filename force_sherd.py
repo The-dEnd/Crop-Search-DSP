@@ -8,6 +8,8 @@ import json, re
 from unidecode import unidecode
 from loadPrefs import load_preferences
 
+#small sections (individual sections below 20 lines)) of this code were written with guidelines from AI models (GPT4 by OpenAI and Claude Sonnet 4.5)
+
 dict_types = tr("lMotifs")
 reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary, used to find back where the user clicked
 

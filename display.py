@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+#small sections (individual sections below 20 lines)) of this code were written with guidelines from AI models (GPT4 by OpenAI and Claude Sonnet 4.5)
 
 import sys, glob, shutil
 import os

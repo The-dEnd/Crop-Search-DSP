@@ -8,6 +8,8 @@ numpy
 pillow
 pyqt5
 imagesize
+tqdm
+seaborn
 
 #in case you encoutered a compatibility issue, FYI the following versions were used during development:
 #opencv-python             4.11.0.86
