@@ -31,5 +31,7 @@ Si vous avez des questions, que vous repérez un problème, ou que vous avez bes
 
 Projet-frère pour entraîner un modèle sur vos propres motifs: [PoinçonLab](https://github.com/The-dEnd/PoinconLab)
 
+![logo_lascrav](https://github.com/The-dEnd/Crop-Search-DSP/blob/master/logo_lascrav.jpg)
+
 
 [Pour télécharger, cliquez ici](https://github.com/The-dEnd/Crop-Search-DSP/releases/latest)
