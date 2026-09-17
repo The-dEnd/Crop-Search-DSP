@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtCore import pyqtSignal, Qt
+from PyQt6.QtWidgets import QLabel
+from PyQt6.QtCore import pyqtSignal, Qt
 
 class ClickQLabel(QLabel):
     clicked = pyqtSignal()  # Custom signal
@@ -8,5 +8,5 @@ class ClickQLabel(QLabel):
         super().__init__(parent)
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             self.clicked.emit()  # Emit signal when clicked

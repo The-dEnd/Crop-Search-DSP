@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import Qt, pyqtSignal
 from ClickableQLabel import ClickQLabel
 import os, sys, pathlib
 from translator import tr, current_language
@@ -11,7 +11,7 @@ class RIG_Type(QDialog):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setMinimumSize(1020, 760) #minimum size of the popup to display the window correctly; it is assumed today's computers are >= 1024*768
-        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint)
         self.setWindowTitle(tr("pickRIG"))
         self.setStyleSheet("""background-color: #f0f0f0;""") #the RIG pictures have no background; we thus force the background to white, even with global dark mode
         lPath = self.getItems()
@@ -40,7 +40,7 @@ class RIG_Type(QDialog):
             oneTextMsg.clicked.connect(self.handle_click)
             onePicMsg = ClickQLabel(self.scrollAreaWidgetContents)
             pixmap = QtGui.QPixmap(oneItem)
-            scaled_pixmap = pixmap.scaledToWidth(300, Qt.SmoothTransformation)
+            scaled_pixmap = pixmap.scaledToWidth(300, Qt.TransformationMode.SmoothTransformation)
             onePicMsg.setPixmap(QtGui.QPixmap(scaled_pixmap))
             onePicMsg.setObjectName("pic"+typeRIG)
             onePicMsg.clicked.connect(self.handle_click)
@@ -53,7 +53,7 @@ class RIG_Type(QDialog):
                 case 1:
                     self.gridLayout.addWidget(oneTextMsg,int(i/2),3)
                     self.gridLayout.addWidget(onePicMsg,int(i/2),4)
-            self.gridLayout.addWidget(QtWidgets.QFrame(frameShape=QtWidgets.QFrame.VLine), int(i/2), 2) #vertical line
+            self.gridLayout.addWidget(QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.VLine), int(i/2), 2) #vertical line
             i+=1
         main_layout = QVBoxLayout()
         main_layout.addWidget(scrollArea)

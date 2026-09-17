@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QLineEdit, QDialogButtonBox
+from PyQt6.QtWidgets import QApplication, QDialog, QVBoxLayout, QLabel, QLineEdit, QDialogButtonBox
 import sys
 from translator import tr, current_language
 
@@ -13,11 +13,11 @@ class DecorativeRegisterPopup(QDialog):
         self.lineEdit = QLineEdit(self)
         self.lineEdit.setText(str(default_value))
         layout.addWidget(self.lineEdit)
-        self.buttonBox = QDialogButtonBox(QDialogButtonBox.Ok)
+        self.buttonBox = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok)
         layout.addWidget(self.buttonBox)
         self.buttonBox.accepted.connect(self.accept)
-        self.buttonBox.button(QDialogButtonBox.Ok).setDefault(True)
-        self.buttonBox.button(QDialogButtonBox.Ok).setAutoDefault(True)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setDefault(True)
+        self.buttonBox.button(QDialogButtonBox.StandardButton.Ok).setAutoDefault(True)
         self.lineEdit.selectAll()
         self.lineEdit.setFocus()
         

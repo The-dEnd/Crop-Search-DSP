@@ -4,11 +4,11 @@
 import sys, glob, shutil
 import os
 os.environ["OPENCV_SKIP_LOAD"] = "1"
-from PyQt5.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QShortcut, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox
-from PyQt5 import QtGui, QtWidgets, QtCore
-from PyQt5.QtGui import QFontDatabase, QKeySequence
-from PyQt5.QtCore import pyqtSignal, Qt, QObject, QThread, pyqtSignal, QTimer
-from PyQt5.QtGui import QFontDatabase, QIcon
+from PyQt6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox
+from PyQt6 import QtGui, QtWidgets, QtCore
+from PyQt6.QtGui import QFontDatabase, QKeySequence, QShortcut
+from PyQt6.QtCore import pyqtSignal, Qt, QObject, QThread, pyqtSignal, QTimer
+from PyQt6.QtGui import QFontDatabase, QIcon
 from main_layout import Ui_Poincons_selector, maxRecent, DrawingOverlay
 from display_types import RIG_Type
 from loading_screen import Ui_Loading
@@ -111,7 +111,7 @@ class Selector_Main(QWidget):
         writeLogs("    Application started successfully\n")
 
     def eventFilter(self, watched, event): #monitor die_picture resize, to adapt overlay correspondingly
-        if watched == self.ui.die_picture and event.type() in (QtCore.QEvent.Resize, QtCore.QEvent.Move):
+        if watched == self.ui.die_picture and event.type() in (QtCore.QEvent.Type.Resize, QtCore.QEvent.Type.Move):
             self.overlay.updateGeometry()
         return super().eventFilter(watched, event)
 
@@ -510,7 +510,7 @@ class Selector_Main(QWidget):
     def search(self): #users does a Ctrl+F to search for a previous item
         global currentIndex, headerRow
         dialog = SearchDialog(self)
-        if dialog.exec_() == QDialog.Accepted:
+        if dialog.exec() == QDialog.Accepted:
             search_text = dialog.textEdit.text()
         writeLogs("    Searched text: "+search_text+"\n")
         found=False
@@ -805,7 +805,7 @@ class Init_Window(QWidget):
         button.clicked.connect(nameDialog.accept)
         layout.addWidget(button)
         newNameRaw = ""
-        if nameDialog.exec_() == QDialog.Accepted:
+        if nameDialog.exec() == QDialog.DialogCode.Accepted:
             newNameRaw = "".join(line_edit.text())
         newNameClean = re.sub(r'[^a-zA-Z0-9_ ]+', '', newNameRaw.replace(" ", "_"))[0:25].strip("_")
         project = newNameClean
@@ -887,7 +887,7 @@ class Init_Window(QWidget):
             code_new = 0
             buttonOpen.clicked.connect(lambda: askResume.done(code_open))
             buttonNew.clicked.connect(lambda: askResume.done(code_new))
-            result = askResume.exec_()
+            result = askResume.exec()
             
             if result == code_open:
                 indexFile = combo.currentIndex()
@@ -913,7 +913,6 @@ class Init_Window(QWidget):
         self.movie.start()
         
     def select_files(self):
-        options = QFileDialog.Options()
         folderName = QFileDialog.getExistingDirectory(self, tr("folderSelector"))
         writeLogs("    Folder chosen: \""+folderName+"\"\n")
         return folderName
@@ -1000,7 +999,7 @@ class Theme_Popup():
         super().__init__()
         self.ui = Ui_themeDialog()
         self.ui.themeClicked.connect(self.clicked)
-        self.ui.exec_()
+        self.ui.exec()
 
     def clicked(self, theme): #the arguments are the actual name and # of die type actual type
         writeLogs("    Theme has been set to  "+str(theme)+"\n")
@@ -1330,11 +1329,11 @@ def properClosure(): #application is closing; log the action, save the remaining
 
 def basicWarning(txt):
     msg = QMessageBox()
-    msg.setIcon(QMessageBox.Warning)
+    msg.setIcon(QMessageBox.Icon.Warning)
     msg.setText(txt)
     msg.setWindowTitle("Information")
-    msg.setStandardButtons(QMessageBox.Ok)  # Adds an "Ok" button
-    msg.exec_()  # Show the message box
+    msg.setStandardButtons(QMessageBox.StandardButton.Ok)  # Adds an "Ok" button
+    msg.exec()  # Show the message box
 
 def loadStylesheet(theme): #loads a QSS file, for a theme, e.g. dark/light
     with open("resources/styles/"+theme+".qss", "r") as file:
@@ -1387,7 +1386,7 @@ class SearchDialog(QDialog): #popup that allows to search for a previous sherd t
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(tr("searchTitle"))
-        self.setWindowFlags(Qt.Dialog | Qt.WindowTitleHint | Qt.WindowCloseButtonHint)
+        self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.WindowTitleHint | Qt.WindowCloseButtonHint)
         self.textEdit = QtWidgets.QLineEdit(self)
         self.textEdit.setPlaceholderText(tr("searchPlaceholder"))
         self.okButton = QtWidgets.QPushButton("OK", self)

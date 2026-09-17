@@ -1,14 +1,10 @@
-# -*- coding: utf-8 -*-
-
 
 #
-# Created by: PyQt5 UI code generator 5.15.9
+# Created by: PyQt6 UI code generator 5.15.9, manually upgraded to PyQt 6
 #
-# This file was first created with PyQt designer, then manually edited for a standard layout in fixed window size, then adapted by AI (Claude Sonnet 4.5) to adapt to window size
 
-
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QWidget
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QWidget
 from datetime import datetime
 from force_sherd import ForceTypePopup
 from translator import tr, current_language
@@ -43,7 +39,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         
         # Picture container with centered square image
         picture_container = QtWidgets.QWidget(Dialog)
-        picture_container.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        picture_container.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         picture_layout = QtWidgets.QHBoxLayout(picture_container)
         picture_layout.setContentsMargins(0, 0, 0, 0)
         
@@ -51,7 +47,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         # Die picture (square, scales with window)
         self.die_picture = DrawablePictureLabel(self, self.path)
         self.die_picture.setMinimumSize(QtCore.QSize(400, 400))
-        self.die_picture.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        self.die_picture.setSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         self.die_picture.setText("")
         self.die_picture.setObjectName("die_picture")
         picture_layout.addWidget(self.die_picture)
@@ -66,7 +62,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         # Left group: set_type, set_number, HelpForce
         self.set_type = QtWidgets.QComboBox(Dialog)
         self.set_type.setMinimumSize(QtCore.QSize(150, 30))
-        self.set_type.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.set_type.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         self.set_type.setProperty("placeholderText", "")
         self.set_type.setObjectName("set_type")
         self.set_type.addItem("")
@@ -81,7 +77,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         
         self.set_number = QtWidgets.QLabel(Dialog)
         self.set_number.setMinimumSize(QtCore.QSize(137, 30))
-        self.set_number.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.set_number.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         self.set_number.setText(tr("chooseRight"))
         self.set_number.setObjectName("set_number")
         bottom_layout.addWidget(self.set_number)
@@ -89,9 +85,9 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         self.HelpForce = QtWidgets.QPushButton(Dialog)
         self.HelpForce.setMinimumSize(QtCore.QSize(30, 30))
         self.HelpForce.setMaximumSize(QtCore.QSize(30, 30))
-        self.HelpForce.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.HelpForce.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.HelpForce.setIcon(icon)
         self.HelpForce.setObjectName("HelpForce")
         self.HelpForce.clicked.connect(self.force_finder) # type: ignore
@@ -108,7 +104,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         # Right group: validate, cancel
         self.validate = QtWidgets.QPushButton(Dialog)
         self.validate.setMinimumSize(QtCore.QSize(131, 30))
-        self.validate.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.validate.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         self.validate.setObjectName("validate")
         self.validate.setDefault(True)
         self.validate.setAutoDefault(True)
@@ -116,7 +112,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         
         self.cancel = QtWidgets.QPushButton(Dialog)
         self.cancel.setMinimumSize(QtCore.QSize(130, 30))
-        self.cancel.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.cancel.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
         self.cancel.setObjectName("cancel")
         bottom_layout.addWidget(self.cancel)
         
@@ -159,7 +155,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
         self._pan_last_pos = None #last mouse position seen during the current pan drag
         self.displayed_width = 0
         self.displayed_height = 0
-        self.setAlignment(QtCore.Qt.AlignCenter)
+        self.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
         self.updatePixmap()
 
     def resizeEvent(self, event): #Handle resize events to maintain square aspect ratio and track displayed size
@@ -184,7 +180,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
         self.update()
 
     def mousePressEvent(self, event):
-        if event.button() == QtCore.Qt.LeftButton:
+        if event.button() == QtCore.Qt.MouseButton.LeftButton:
             # Calculate offset to center of the actual image
             offset_x = (self.width() - self.displayed_width) // 2
             offset_y = (self.height() - self.displayed_height) // 2
@@ -207,7 +203,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
                 if len(self.click_positions) > 2: #keep only last 2 clicks
                     self.click_positions = [self.click_positions[-2], self.click_positions[-1]]
                 self.update()
-        elif event.button() == QtCore.Qt.MiddleButton:
+        elif event.button() == QtCore.Qt.MouseButton.MiddleButton:
             self._panning = True
             self._pan_last_pos = event.pos()
 
@@ -219,7 +215,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
             self.pan_by(delta.x(), delta.y())
 
     def mouseReleaseEvent(self, event):
-        if event.button() == QtCore.Qt.MiddleButton:
+        if event.button() == QtCore.Qt.MouseButton.MiddleButton:
             self._panning = False
             self._pan_last_pos = None
 
@@ -293,7 +289,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
         
         # Draw the current zoom/pan crop of the picture, stretched to fill the displayed square
         if not self.original_pixmap.isNull() and self.displayed_width>0 and self._view_rect.width()>0:
-            painter.setRenderHint(QtGui.QPainter.SmoothPixmapTransform)
+            painter.setRenderHint(QtGui.QPainter.RenderHint.SmoothPixmapTransform)
             target_rect = QtCore.QRectF(offset_x, offset_y, self.displayed_width, self.displayed_height)
             painter.drawPixmap(target_rect, self.original_pixmap, self._view_rect)
         

@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import Qt, pyqtSignal
 from ClickableQLabel import ClickQLabel
 from translator import tr
 import os, sys, pathlib, ast
@@ -57,7 +57,7 @@ class ForceTypePopup(QDialog):
     def __init__(self, categ, parent=None):
         super().__init__(parent)
         cat = reverse_dict_types[categ] #cat is an integer that is bound to a category, see dict_types
-        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint)
         self.setWindowTitle("Pick a symbol")
         lPath = self.getItems(cat)
         self.allPaths = lPath
@@ -108,7 +108,7 @@ class ForceTypePopup(QDialog):
             oneTextMsg.setText(addSize(strCategory+" "+str(numSubCat),fullNum))
             oneTextMsg.setObjectName("txt"+str(fullNum))
             oneTextMsg.clicked.connect(self.handle_click)
-            oneTextMsg.setAlignment(QtCore.Qt.AlignRight | QtCore.Qt.AlignVCenter)
+            oneTextMsg.setAlignment(QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignVCenter)
             onePicMsg = ClickQLabel(self.scrollAreaWidgetContents)
             onePicMsg.setPixmap(QtGui.QPixmap(oneItem))
             onePicMsg.setMinimumSize(QtCore.QSize(156, 156))
@@ -127,8 +127,8 @@ class ForceTypePopup(QDialog):
                 case 2:
                     self.gridLayout.addWidget(oneTextMsg,int(i/3),6)
                     self.gridLayout.addWidget(onePicMsg,int(i/3),7)
-            self.gridLayout.addWidget(QtWidgets.QFrame(frameShape=QtWidgets.QFrame.VLine), int(i/3), 2) #vertical line
-            self.gridLayout.addWidget(QtWidgets.QFrame(frameShape=QtWidgets.QFrame.VLine), int(i/3), 5) #vertical line
+            self.gridLayout.addWidget(QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.VLine), int(i/3), 2) #vertical line
+            self.gridLayout.addWidget(QtWidgets.QFrame(frameShape=QtWidgets.QFrame.Shape.VLine), int(i/3), 5) #vertical line
             i+=1
 
     def searchedText(self, text):

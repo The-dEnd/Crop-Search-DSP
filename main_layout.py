@@ -5,10 +5,10 @@
 # This file was first created with PyQt designer, then manually edited for a standard layout in fixed window size, then adapted by AI (GPT4) to adapt to window size
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt6 import QtCore, QtGui, QtWidgets
 from translator import tr, current_language
-from PyQt5.QtGui import QPainter, QPen, QColor
-from PyQt5.QtCore import Qt
+from PyQt6.QtGui import QPainter, QPen, QColor
+from PyQt6.QtCore import Qt
 import math, re
 from measure_state import MeasureState
 from datetime import datetime
@@ -55,8 +55,8 @@ class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 
         self._view_rect = QtCore.QRectF() #sub-rectangle of the picture (in ORIGINAL picture pixel coordinates) currently visible in the widget
         self._zoom = MIN_ZOOM #current zoom factor; MIN_ZOOM = default/initial size, i.e. no zoom
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding,
-            QtWidgets.QSizePolicy.Expanding
+            QtWidgets.QSizePolicy.Policy.Expanding,
+            QtWidgets.QSizePolicy.Policy.Expanding
         )
         sizePolicy.setHeightForWidth(True)
         self.setSizePolicy(sizePolicy)
@@ -89,9 +89,9 @@ class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 
 
     def paintEvent(self, event): #draws only the currently zoomed/panned sub-rectangle (self._view_rect) of the picture, stretched to fill the widget
         painter = QPainter(self)
-        painter.setRenderHint(QPainter.SmoothPixmapTransform)
+        painter.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         if self._original_pixmap is not None and not self._original_pixmap.isNull():
-            painter.drawPixmap(QtCore.QRectF(self.rect()), self._original_pixmap, self._view_rect) #QRectF() conversion is required: unlike C++ Qt, PyQt5 does not implicitly convert QRect to QRectF for this overload
+            painter.drawPixmap(QtCore.QRectF(self.rect()), self._original_pixmap, self._view_rect) #QRectF() conversion is required: unlike C++ Qt, PyQt6 does not implicitly convert QRect to QRectF for this overload
         painter.end()
 
     def handle_zoom(self, cursor_pos, angle_delta_y): #zooms in/out, centered on cursor_pos (a widget-local QPoint); returns True if the zoom level actually changed
@@ -158,7 +158,7 @@ class Ui_Poincons_selector(object):
         
         # ===== LEFT PANEL =====
         left_panel = QtWidgets.QWidget()
-        left_panel.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        left_panel.setSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Expanding)
         left_panel.setMinimumWidth(320)
         left_layout = QtWidgets.QVBoxLayout(left_panel)
         left_layout.setContentsMargins(0, 0, 0, 0)
@@ -460,7 +460,7 @@ class Ui_Poincons_selector(object):
         picture_container = QtWidgets.QWidget()
         picture_layout = QtWidgets.QVBoxLayout(picture_container)
         picture_layout.setContentsMargins(0, 0, 0, 0)
-        picture_layout.setAlignment(Qt.AlignCenter)
+        picture_layout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         
         self.die_picture = SquarePicture(self.center_panel)
         self.die_picture.setMinimumSize(QtCore.QSize(200, 200))
@@ -469,7 +469,7 @@ class Ui_Poincons_selector(object):
         self.die_picture.setScaledContents(True)
         self.die_picture.setObjectName("die_picture")
         #keep 1:1 ratio
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Expanding, QtWidgets.QSizePolicy.Policy.Expanding)
         sizePolicy.setHeightForWidth(True)
         self.die_picture.setSizePolicy(sizePolicy)
         
@@ -497,7 +497,7 @@ class Ui_Poincons_selector(object):
         # ===== RIGHT PANEL =====
         self.right_panel = QtWidgets.QWidget()
         self.right_panel.setMinimumWidth(450)
-        self.right_panel.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Expanding)
+        self.right_panel.setSizePolicy(QtWidgets.QSizePolicy.Policy.Preferred, QtWidgets.QSizePolicy.Policy.Expanding)
 
         right_layout = QtWidgets.QVBoxLayout(self.right_panel)
         right_layout.setContentsMargins(0, 0, 0, 0)
@@ -608,8 +608,8 @@ class Ui_Poincons_selector(object):
         self.die_grid.addWidget(self.option4, 3, 3, 1, 1)
         
         self.line = QtWidgets.QFrame()
-        self.line.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.line.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.line.setObjectName("line")
         self.die_grid.addWidget(self.line, 4, 0, 1, 4)
         
@@ -646,8 +646,8 @@ class Ui_Poincons_selector(object):
         self.die_grid.addWidget(self.unknown, 8, 2, 1, 1)
         
         self.line_2 = QtWidgets.QFrame()
-        self.line_2.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_2.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_2.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.line_2.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.line_2.setObjectName("line_2")
         self.die_grid.addWidget(self.line_2, 7, 0, 1, 4)
         
@@ -676,14 +676,14 @@ class Ui_Poincons_selector(object):
         
         self.HelpForce = QtWidgets.QPushButton()
         icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
         self.HelpForce.setIcon(icon)
         self.HelpForce.setObjectName("HelpForce")
         self.die_grid.addWidget(self.HelpForce, 6, 3, 1, 1)
         
         self.line_4 = QtWidgets.QFrame()
-        self.line_4.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_4.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_4.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.line_4.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.line_4.setObjectName("line_4")
         self.die_grid.addWidget(self.line_4, 10, 0, 1, 4)
         
@@ -704,8 +704,8 @@ class Ui_Poincons_selector(object):
         self.die_grid.addWidget(self.false_pos, 11, 3, 1, 1)
         
         self.line_3 = QtWidgets.QFrame()
-        self.line_3.setFrameShape(QtWidgets.QFrame.HLine)
-        self.line_3.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.line_3.setFrameShape(QtWidgets.QFrame.Shape.HLine)
+        self.line_3.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.line_3.setObjectName("line_3")
         self.die_grid.addWidget(self.line_3, 12, 0, 1, 4)
         
@@ -838,7 +838,7 @@ class Ui_Poincons_selector(object):
         self.false_pos.clicked.connect(Poincons_selector.false_positive) # type: ignore
         self.HelpForce.clicked.connect(Poincons_selector.force_finder) # type: ignore
         self.switch_theme.clicked.connect(Poincons_selector.popup_theme) # type: ignore
-        self.recentChoices.currentIndexChanged['QString'].connect(Poincons_selector.history_force) # type: ignore
+        self.recentChoices.currentTextChanged.connect(Poincons_selector.history_force) # type: ignore
         self.setScale.textChanged.connect(Poincons_selector.edit_scale) # type: ignore
         self.setScaleButton.toggled['bool'].connect(Poincons_selector.set_scale) # type: ignore
         self.returnSizeButton.toggled['bool'].connect(Poincons_selector.retrieve_scale) # type: ignore
@@ -942,11 +942,11 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.main_parent = main_parent
         global geometry
         self.setGeometry(geometry)
-        self.setAttribute(QtCore.Qt.WA_TransparentForMouseEvents, False)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground, True)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TransparentForMouseEvents, False)
+        self.setAttribute(QtCore.Qt.WidgetAttribute.WA_TranslucentBackground, True)
         self.setMouseTracking(True)
         self.overlay_pixmap = QtGui.QPixmap(geometry.width(), geometry.height())
-        self.overlay_pixmap.fill(QtCore.Qt.transparent)
+        self.overlay_pixmap.fill(QtCore.Qt.GlobalColor.transparent)
         self.setPixmap(self.overlay_pixmap)
         self.statusLine = {"set": None, "get": None, "none": None} #dictionnary keeping track of the boolean with coordinates of lines to be drawn for set and get; "none" attribute will be a "trah" value, never read, for when the user tries to draw a line without get/set before
         self.start_point = None
@@ -961,7 +961,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.setGeometry(die_pic_geometry)
         # recreate pixmap with new size
         self.overlay_pixmap = QtGui.QPixmap(die_pic_geometry.width(), die_pic_geometry.height())
-        self.overlay_pixmap.fill(QtCore.Qt.transparent)
+        self.overlay_pixmap.fill(QtCore.Qt.GlobalColor.transparent)
         self.setPixmap(self.overlay_pixmap)
         # redraw existing lines scaled to new size
         self.update()
@@ -971,31 +971,31 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.start_point = None
         self.end_point = None
         self.drawing = False
-        self.overlay_pixmap.fill(QtCore.Qt.transparent)
+        self.overlay_pixmap.fill(QtCore.Qt.GlobalColor.transparent)
         self.setPixmap(self.overlay_pixmap)
         self.update()
 
     def mousePressEvent(self, event):
-        if event.button() == Qt.LeftButton:
-            self.start_point = event.pos()
+        if event.button() == Qt.MouseButton.LeftButton:
+            self.start_point = event.position().toPoint()
             #now we will clear the previous line with current status from the statusLine
             state = self.getLineState()
             self.statusLine[state] = None
             self.drawing = True
             self.update()
-        elif event.button() == Qt.MiddleButton:
+        elif event.button() == Qt.MouseButton.MiddleButton:
             self._panning = True
-            self._pan_last_pos = event.pos()
+            self._pan_last_pos = event.position().toPoint()
             if rmMeasLinesPan:
                 self.clear_lines() #the picture is about to move under any existing lines
 
     def mouseMoveEvent(self, event):
         if self.drawing:
-            self.end_point = event.pos()
+            self.end_point = event.position().toPoint()
             self.update()  #calls paintEvent to refresh the line display
         elif self._panning:
-            delta = event.pos() - self._pan_last_pos
-            self._pan_last_pos = event.pos()
+            delta = event.position().toPoint() - self._pan_last_pos
+            self._pan_last_pos = event.position().toPoint()
             self.main_parent.ui.die_picture.pan_by(delta.x(), delta.y())
 
     def getLineState(self):
@@ -1009,9 +1009,9 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
             return("get")
 
     def mouseReleaseEvent(self, event): #end of the line
-        if event.button() == Qt.LeftButton:
+        if event.button() == Qt.MouseButton.LeftButton:
             self.drawing = False
-            self.end_point = event.pos()
+            self.end_point = event.position().toPoint()
             self.update()
             currentState = self.getLineState()
             if self.start_point and self.end_point:
@@ -1020,13 +1020,13 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
                     logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    new line "+currentState+" drawn; status is:"+str(self.statusLine)+"\n")
                 self.refresh_length()
             #print(self.statusLine, self.start_point, self.end_point) #for debug purpose only
-        elif event.button() == Qt.MiddleButton:
+        elif event.button() == Qt.MouseButton.MiddleButton:
             self._panning = False
             self._pan_last_pos = None
 
     def wheelEvent(self, event): #the overlay sits on top of die_picture and captures mouse activity, so wheel zoom is handled here and forwarded down
         picture = self.main_parent.ui.die_picture
-        changed = picture.handle_zoom(event.pos(), event.angleDelta().y())
+        changed = picture.handle_zoom(event.position().toPoint(), event.angleDelta().y())
         if changed: #only wipe the measurement lines if the zoom level actually moved (not when already at the min/max boundary)
             self.clear_lines()
         event.accept()
@@ -1057,7 +1057,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
                     if line is None:
                         continue
                     if state == "none": #no button selected => no display => transparent line
-                        pen = QPen(QColor(Qt.transparent))
+                        pen = QPen(QColor(Qt.GlobalColor.transparent))
                     if state == "set":
                         pen = QPen(QColor(setLineColor[0], setLineColor[1], setLineColor[2]), 3)
                     if state == "get":
@@ -1069,7 +1069,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
                 if self.drawing and self.start_point and self.end_point: #draw actual line
                     state = self.getLineState()
                     if state == "none": #no button selected => no display => transparent line
-                        pen = QPen(QColor(Qt.transparent))
+                        pen = QPen(QColor(Qt.GlobalColor.transparent))
                     if state == "set":
                         pen = QPen(QColor(setLineColor[0], setLineColor[1], setLineColor[2]), 3)
                     if state == "get":

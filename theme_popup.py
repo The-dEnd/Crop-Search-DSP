@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets, QtGui, QtCore
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt6 import QtWidgets, QtGui, QtCore
+from PyQt6.QtWidgets import *
+from PyQt6.QtCore import Qt, pyqtSignal
 from ClickableQLabel import ClickQLabel
 import os, sys, pathlib
 from translator import tr, current_language
@@ -13,7 +13,7 @@ class Ui_themeDialog(QDialog):
     themeClicked = pyqtSignal(str, str) #messaged sent to parent when clicked
     def __init__(self, parent=None):
         super().__init__(parent)
-        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowContextHelpButtonHint)
+        self.setWindowFlags(self.windowFlags() & ~QtCore.Qt.WindowType.WindowContextHelpButtonHint)
         self.setWindowTitle(tr("themeSelector"))
         lPath = self.getItems()
         nRows=int(len(lPath)/2)
