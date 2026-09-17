@@ -20,4 +20,3 @@ seaborn
 #torchvision               0.22.1
 #numpy                     2.1.2
 #pillow                    11.1.0
-#PyQt5                     5.15.9
