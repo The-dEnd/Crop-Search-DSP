@@ -71,14 +71,14 @@ headerRow = tr("headerRow").split(";")
 def writeLogs(stringToLog): #will handle most of the logging
     global alternativeLogFile
     try:
-        with open("logs.txt", "a") as logFile:
+        with open("logs.txt", "a", encoding="utf-8") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+stringToLog)
     except: #if there is an error with the normal log file
         if alternativeLogFile == "": #create the alternative log file if it doesn't exist already
             alternativeLogFile = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"logs.txt"
-            with open(alternativeLogFile, "w") as logFile:
+            with open(alternativeLogFile, "w", encoding="utf-8") as logFile:
                 logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"Error writing to main file (to be investigated); resorting to alternative logFile")
-        with open(alternativeLogFile, "a") as logFile:
+        with open(alternativeLogFile, "a", encoding="utf-8") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+stringToLog)
 
 
@@ -344,7 +344,7 @@ class Selector_Main(QWidget):
         self.ui.option3_percent.setText(proba3)
         self.ui.option4_percent.setText(proba4)
         self.ui.reference1.setText("")
-        with open("resources/data/recent_rig.conf","r") as recentFile:
+        with open("resources/data/recent_rig.conf","r", encoding="utf-8") as recentFile:
             self.ui.recentChoices.clear()
             self.ui.recentChoices.addItem(tr("recent"))
             i = 1 #index of the drop down list
@@ -364,7 +364,7 @@ class Selector_Main(QWidget):
             self.ui.option3.setHidden(True)
         if proba4 == "":
             self.ui.option4.setHidden(True)
-        with open("resources/data/legal.conf","r") as file_legal: #legal mentions
+        with open("resources/data/legal.conf","r", encoding="utf-8") as file_legal: #legal mentions
             legal = file_legal.read()
         self.ui.LegalMentions.setText(legal)
         self.get_location()
@@ -441,7 +441,7 @@ class Selector_Main(QWidget):
         self.undetectedPopup.show()
 
     def get_location(self):#retrieves the saved geographical location of reviewed site
-        with open("resources/data/default_location.conf","r") as locFile:
+        with open("resources/data/default_location.conf","r", encoding="utf-8") as locFile:
             loc = locFile.read().split(",")
         self.ui.country.setPlainText(loc[0])
         self.ui.region.setPlainText(loc[1])
@@ -462,7 +462,7 @@ class Selector_Main(QWidget):
         x = self.ui.lambert_X.toPlainText()
         y = self.ui.lambert_Y.toPlainText()
         z = self.ui.lambert_Z.toPlainText()
-        with open("resources/data/default_location.conf","w") as locFile:
+        with open("resources/data/default_location.conf","w", encoding="utf-8") as locFile:
             locFile.write(",".join([ctry,rg,dpt,mnc,st,x,y,z]))
 
     def history_force(self): #the user uses an historical item from recent history list
@@ -715,7 +715,7 @@ class Selector_Main(QWidget):
         writeLogs("    Author changed to \""+value+"\"\n")
 
     def updateRecent(self, lValues):#updates the recent_rig.conf file with latest value selected
-        with open("resources/data/recent_rig.conf", "r") as recentFile:
+        with open("resources/data/recent_rig.conf", "r", encoding="utf-8") as recentFile:
             lines = recentFile.readlines()
         fancyName = (" ".join(lValues)+"\n").replace("é","e")
         if fancyName in lines:
@@ -725,7 +725,7 @@ class Selector_Main(QWidget):
             lines.remove("")#remove empty lines
         while(len(lines)>maxRecent): #if too many items, remove last item
             a = lines.pop()
-        with open("resources/data/recent_rig.conf", "w") as recentFile:
+        with open("resources/data/recent_rig.conf", "w", encoding="utf-8") as recentFile:
             recentFile.writelines(lines)
         writeLogs("    History updated to "+str(lines)+"\n")
 
@@ -1010,7 +1010,7 @@ class Theme_Popup():
 
     def clicked(self, theme): #the arguments are the actual name and # of die type actual type
         writeLogs("    Theme has been set to  "+str(theme)+"\n")
-        with open("resources/data/theme.conf", "w") as themeFile:
+        with open("resources/data/theme.conf", "w", encoding="utf-8") as themeFile:
             themeFile.write(theme) #change default theme
         app = QApplication.instance()
         app.setStyleSheet(loadStylesheet(theme))
@@ -1116,10 +1116,10 @@ class Undetected_Die(QWidget):
         return(comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author)
 
 '''def doSomething(filename):#TODO: remove when linked to ML algo
-    with open("logs.txt", "a") as logFile:
+    with open("logs.txt", "a", encoding="utf-8") as logFile:
         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML loading started.\n")
     time.sleep(5)
-    with open("logs.txt", "a") as logFile:
+    with open("logs.txt", "a", encoding="utf-8") as logFile:
         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML loading completed.\n")
     return()'''
 
@@ -1132,7 +1132,7 @@ def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data
         for aMlFile in files:
             fileObject = csv.reader(aMlFile)
             row_count = 0
-            for row in open(aMlFile):
+            for row in open(aMlFile, "r", encoding="utf-8"):
                 row_count+= 1
             if row_count>1:
                 (mode, ino, dev, nlink, uid, gid, size, atime, mtime, ctime) = os.stat(aMlFile)
@@ -1180,7 +1180,7 @@ def output_application_files(lOut,numDie,numDecor,numPhoto,namePhoto):#TODO pas 
     photo_filename = os.path.basename(namePhoto).split('/')[-1]
     shutil.copy2(namePhoto, newPath+"/"+photo_filename)
     if len(comment)>0:
-        with open(newPath+"/"+photo_filename+"_comment.txt", "w") as commentFile:
+        with open(newPath+"/"+photo_filename+"_comment.txt", "w", encoding="utf-8") as commentFile:
             commentFile.write(comment)
 
 
@@ -1206,7 +1206,7 @@ def cleanLogs():#stores a backup of the last 3 sessions, removes the previous se
 
 def readDataCsvML(): #open the list of suggestions of die that was provided by ML algorithm
     global mlFile
-    with open(mlFile) as csv_file:
+    with open(mlFile, encoding="utf-8") as csv_file:
         csv_read=csv.reader(csv_file, delimiter=';')
         header = next(csv_read, None)#skip header line, and keep it as a backup
         rawList = []
@@ -1328,7 +1328,7 @@ def properClosure(): #application is closing; log the action, save the remaining
     writeLogs("    Closure process started.\n")
     global mlFile
     if mlFile != config["mlFile"]: #if both are equal, then project name is empty
-        with open(mlFile, 'w', newline='') as f:
+        with open(mlFile, 'w', encoding="utf-8", newline='') as f:
             writer = csv.writer(f, delimiter=';')
             merged = [[header]]+rawData
             out = [x for l in merged for x in l]
@@ -1345,7 +1345,7 @@ def basicWarning(txt):
     msg.exec()  # Show the message box
 
 def loadStylesheet(theme): #loads a QSS file, for a theme, e.g. dark/light
-    with open("resources/styles/"+theme+".qss", "r") as file:
+    with open("resources/styles/"+theme+".qss", "r", encoding="utf-8") as file:
         return file.read()
 
 def loadFonts(): #loads all non-standard fonts in the correct directory, before applying style sheets to PyQt
@@ -1353,10 +1353,10 @@ def loadFonts(): #loads all non-standard fonts in the correct directory, before 
         if font_file.lower().endswith((".ttf", ".otf")):
             font_id = QFontDatabase.addApplicationFont("resources/styles/fonts/"+font_file)
             if font_id == -1:
-                with open("logs.txt", "a") as logFile:
+                with open("logs.txt", "a", encoding="utf-8") as logFile:
                         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Font file "+font_file+" did not load correctly.\n")
             else:
-                with open("logs.txt", "a") as logFile:
+                with open("logs.txt", "a", encoding="utf-8") as logFile:
                         logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Font file "+font_file+" loaded.\n")
 
 def addSize(sherdId): #adds the size of the sherds in the name (and reuses the sherdId to assess a translated name)
@@ -1423,10 +1423,10 @@ def run_app():
     app = QApplication(sys.argv)
     app.setWindowIcon(QIcon("resources/media/icon.ico"))
     loadFonts()
-    with open("resources/data/theme.conf", "r") as themeFile:
+    with open("resources/data/theme.conf", "r", encoding="utf-8") as themeFile:
         app.setStyleSheet(loadStylesheet(themeFile.readline())) #set the initial theme to the saved theme
     fold = ""
-    with open("resources/data/sizes.conf", "r") as sizeFile:
+    with open("resources/data/sizes.conf", "r", encoding="utf-8") as sizeFile:
         sizeSherd = dict(line.strip().split(':', 1) for line in sizeFile)
     initialisation = Init_Window()
     initialisation.finished.connect(launch_main_window)
