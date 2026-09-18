@@ -272,7 +272,7 @@
 
 "falseNegIntro":
     "en": "Click on both corners of the pattern; if you misclicked, keep clicking: only the latest 2 clicks will be kept.\nLocation data will be copied from main window; if they are incorrect, please change them in main window first before returning here."
-    "fr": "Cliquez aux deux coins opposés du motif; en cas d'erreur, continuez à cliquer aux bons endroits: seuls les deux derniers points seront conservés en mémoire\nLes coordonées, n° de faits et autre seront reprises de la denêtre principale; changez les là bas puis revenez ici au besoin"
+    "fr": "Cliquez aux deux coins opposés du motif; en cas d'erreur, continuez à cliquer aux bons endroits: seuls les deux derniers points seront conservés en mémoire\nLes coordonées, n° de faits et autre seront reprises de la fenêtre principale; changez les là bas puis revenez ici au besoin"
 
 "typeNrHere":
     "en": "Type Number here"

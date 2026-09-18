@@ -27,6 +27,7 @@ from measure_state import MeasureState
 import logging.config
 from numDecoRegisters import DecorativeRegisterPopup
 from loadPrefs import load_preferences
+from iconColor import colorIcon, updateIcon, colorPixmap
 
 import run_ML #HereChangeMLAlgo
 
@@ -432,7 +433,7 @@ class Selector_Main(QWidget):
         
     def popup_theme(self):#open the popup with theme picker
         writeLogs("    Button \"Theme picker\" clicked\n")
-        self.themePopup = Theme_Popup()
+        self.themePopup = Theme_Popup(self)
         
     def false_negative(self):#open the popup to report an undetected sherd
         writeLogs("    Button \"Undetected die\" clicked\n")
@@ -995,8 +996,9 @@ class License_Popup(QWidget):
         self.show()
 
 class Theme_Popup():
-    def __init__(self):
+    def __init__(self, parent=None):
         super().__init__()
+        self.parent=parent
         self.ui = Ui_themeDialog()
         self.ui.themeClicked.connect(self.clicked)
         self.ui.exec()
@@ -1007,6 +1009,7 @@ class Theme_Popup():
             themeFile.write(theme) #change default theme
         app = QApplication.instance()
         app.setStyleSheet(loadStylesheet(theme))
+        self.parent.ui.updateIcons()
 
 class Undetected_Die(QWidget):
     def __init__(self, pic, parent):
@@ -1014,8 +1017,8 @@ class Undetected_Die(QWidget):
         self.uid = ""
         self.parent = parent
         self.pic = pic
-        self.ui = Ui_AddDieDialog()
-        self.ui.setupUi(self, pic)
+        self.ui = Ui_AddDieDialog(self)
+        self.ui.setupUi(self, pic, self)
         self.show() # show the window
         
     def exit(self):
@@ -1319,11 +1322,12 @@ def setCurrent(pic, xy): #prepares the current picture to be reviewed, by overwr
 def properClosure(): #application is closing; log the action, save the remaining unclassified die list for next session
     writeLogs("    Closure process started.\n")
     global mlFile
-    with open(mlFile, 'w', newline='') as f:
-        writer = csv.writer(f, delimiter=';')
-        merged = [[header]]+rawData
-        out = [x for l in merged for x in l]
-        writer.writerows(out)
+    if mlFile != config["mlFile"]: #if both are equal, then project name is empty
+        with open(mlFile, 'w', newline='') as f:
+            writer = csv.writer(f, delimiter=';')
+            merged = [[header]]+rawData
+            out = [x for l in merged for x in l]
+            writer.writerows(out)
     for f in glob.glob("tmp/*"): #empty tmp folder
         os.remove(f)
 

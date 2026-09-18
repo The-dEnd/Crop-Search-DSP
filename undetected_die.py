@@ -4,11 +4,13 @@
 #
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtGui import QPalette
 from PyQt6.QtWidgets import QWidget
 from datetime import datetime
 from force_sherd import ForceTypePopup
 from translator import tr, current_language
 from loadPrefs import load_preferences
+from iconColor import colorIcon, updateIcon, colorPixmap
 
 
 
@@ -20,11 +22,12 @@ ZOOM_STEP = config["zoom_step"] #zoom multiplier applied per mouse wheel "notch"
 
 
 class Ui_AddDieDialog(QtWidgets.QDialog):
-    def setupUi(self, Dialog, path):
+    def setupUi(self, Dialog, path, parent=None):
         Dialog.setObjectName("Dialog")
         Dialog.setMinimumSize(QtCore.QSize(782, 800))
         self.Dialog = Dialog
         self.path = path
+        self.parent=parent
         
         # Main vertical layout
         main_layout = QtWidgets.QVBoxLayout(Dialog)
@@ -86,9 +89,10 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         self.HelpForce.setMinimumSize(QtCore.QSize(30, 30))
         self.HelpForce.setMaximumSize(QtCore.QSize(30, 30))
         self.HelpForce.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.HelpForce.setIcon(icon)
+        palCol2 = self.parent.palette().color(QPalette.ColorRole.Base)
+        self.icon = QtGui.QIcon()
+        self.icon.addPixmap(QtGui.QPixmap(colorPixmap("resources/media/magnifier.png",palCol2)), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.HelpForce.setIcon(self.icon)
         self.HelpForce.setObjectName("HelpForce")
         self.HelpForce.clicked.connect(self.force_finder) # type: ignore
         bottom_layout.addWidget(self.HelpForce)

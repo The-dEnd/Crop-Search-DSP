@@ -7,12 +7,13 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from translator import tr, current_language
-from PyQt6.QtGui import QPainter, QPen, QColor
+from PyQt6.QtGui import QPainter, QPen, QColor, QPalette
 from PyQt6.QtCore import Qt
 import math, re
 from measure_state import MeasureState
 from datetime import datetime
 from loadPrefs import load_preferences
+from iconColor import colorIcon, updateIcon, colorPixmap
 
 
 
@@ -675,9 +676,10 @@ class Ui_Poincons_selector(object):
         self.die_grid.addWidget(self.force_number, 6, 2, 1, 1)
         
         self.HelpForce = QtWidgets.QPushButton()
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("resources/media/magnifier.png"), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
-        self.HelpForce.setIcon(icon)
+        palCol2 = Poincons_selector.palette().color(QPalette.ColorRole.Base)
+        self.icon = QtGui.QIcon()
+        self.icon.addPixmap(QtGui.QPixmap(colorPixmap("resources/media/magnifier.png",palCol2)), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+        self.HelpForce.setIcon(self.icon)
         self.HelpForce.setObjectName("HelpForce")
         self.die_grid.addWidget(self.HelpForce, 6, 3, 1, 1)
         
@@ -849,6 +851,13 @@ class Ui_Poincons_selector(object):
         top_layout.setStretch(0, 3)
         top_layout.setStretch(1, 6)
         top_layout.setStretch(2, 3)
+        
+    def updateIcons(self):
+        buttons = [
+            (self.HelpForce, "resources/media/magnifier.png")
+        ]
+        for button, path in buttons:
+            updateIcon(button, path)
 
     def retranslateUi(self, Poincons_selector):
         _translate = QtCore.QCoreApplication.translate
@@ -927,7 +936,7 @@ class Ui_Poincons_selector(object):
         self.LegalMentions.setText(_translate("Poincons_selector", "INIT"))
         self.licenses.setText(_translate("Poincons_selector", tr("displayLicense")))
         self.comment_box.setPlaceholderText(_translate("Poincons_selector", tr("typeComment")))
-        self.switch_theme.setText(_translate("Poincons_selector", "☀️"))
+        self.switch_theme.setText(_translate("Poincons_selector", "☀"))
         self.setScaleButton.setText(_translate("Poincons_selector", tr("setScale")))
         self.returnSizeButton.setText(_translate("Poincons_selector", tr("measureLength")))
         self.setScale.setPlaceholderText(_translate("Poincons_selector", tr("typeLength")))
