@@ -511,7 +511,8 @@ class Selector_Main(QWidget):
     def search(self): #users does a Ctrl+F to search for a previous item
         global currentIndex, headerRow
         dialog = SearchDialog(self)
-        if dialog.exec() == QDialog.Accepted:
+        search_text = "None"
+        if dialog.exec() == QDialog.DialogCode.Accepted:
             search_text = dialog.textEdit.text()
         writeLogs("    Searched text: "+search_text+"\n")
         found=False
@@ -541,6 +542,8 @@ class Selector_Main(QWidget):
         currentIndex = max(0, currentIndex-1)#rollback from one index
         rawData.insert(currentIndex, [transformed_data]) #insert the item in the index
         self.newPart()
+        self.ui.dieTxtId.setText(transformed_data[0])
+        self.ui.sherdTxtId.setText(transformed_data[1])
 
 
     def previous(self): #users does a Ctrl+Z to search for a previous item
@@ -571,6 +574,8 @@ class Selector_Main(QWidget):
         currentIndex = max(0, currentIndex-1)#rollback from one index
         rawData.insert(currentIndex, [transformed_data]) #insert the item in the index
         self.newPart()
+        self.ui.dieTxtId.setText(transformed_data[0])
+        self.ui.sherdTxtId.setText(transformed_data[1])
 
 
 
@@ -740,10 +745,10 @@ class Selector_Main(QWidget):
         writeLogs("    Checking whether this is the last die on the picture... "+str(nextPic)+" VS "+str(photo)+"\n")
         if photo != nextPic: #time to check the dictionnary
             for die, value in decoRegStatus.items():
-                print(die,value)
+                #print(die,value)
                 if value>1 and die != "false positive (not a sherd)0":
                     dialog = DecorativeRegisterPopup(die=die)
-                    if dialog.exec() == QDialog.Accepted:
+                    if dialog.exec() == QDialog.DialogCode.Accepted:
                         number = dialog.get_value()
                     writeLogs("    Die "+die+" present in "+str(number)+" decorative registry; rolling back to get its previous occurence...\n")
                     decoRegStatus[die] = number
@@ -1045,7 +1050,7 @@ class Undetected_Die(QWidget):
         numberDie = self.ui.set_number.text()
         if len(numberDie)>5: #not a number
             numberDie = "empty"
-        print(str(typeDie)+" "+str(numberDie))
+        #print(str(typeDie)+" "+str(numberDie))
         writeLogs("    false negative (undetected die) is a: "+str(typeDie)+" "+str(numberDie)+"\n")
         
         
@@ -1141,7 +1146,7 @@ def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data
 
 def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):#writes manual review results in Final_Output.csv
     [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML, nDie] = lOut
-    print(lOut)
+    #print(lOut)
     global headerRow
     x1,y1,x2,y2 = coords
     writeLogs("    Writing CSV file... "+str(lOut)+"\n")
@@ -1155,7 +1160,7 @@ def output_application_csv(lOut,numDie,numDecor,numPhoto,namePhoto,path,coords):
 
 
 def output_application_files(lOut,numDie,numDecor,numPhoto,namePhoto):#TODO pas encore fini
-    print(namePhoto)
+    #print(namePhoto)
     [typeDie, numberDie, comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author, resML, nDie] = lOut
     writeLogs("    Copying files... "+str(lOut)+"\n")
     path=os.path.dirname(namePhoto)
@@ -1390,7 +1395,7 @@ class SearchDialog(QDialog): #popup that allows to search for a previous sherd t
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setWindowTitle(tr("searchTitle"))
-        self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.WindowTitleHint | Qt.WindowCloseButtonHint)
+        self.setWindowFlags(Qt.WindowType.Dialog | Qt.WindowType.WindowTitleHint | Qt.WindowType.WindowCloseButtonHint)
         self.textEdit = QtWidgets.QLineEdit(self)
         self.textEdit.setPlaceholderText(tr("searchPlaceholder"))
         self.okButton = QtWidgets.QPushButton("OK", self)
