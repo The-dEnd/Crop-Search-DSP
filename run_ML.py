@@ -130,7 +130,7 @@ def predict(path_to_pictures, callback=None, projectName=""):
             tensor = resnetTransform(Image.fromarray(roi)).unsqueeze(0).to(DEVICE)
             with torch.no_grad():
                 probs = torch.softmax(resnet(tensor), 1).squeeze(0)
-                top5_prob, top5_idx = torch.topk(probs, k=5)
+                top5_prob, top5_idx = torch.topk(probs, k=min(5,NUM_CLASSES))
 
             top5_labels = LE.inverse_transform(top5_idx.cpu().numpy())
             top5_probs = top5_prob.cpu().numpy()

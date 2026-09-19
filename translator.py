@@ -1,5 +1,4 @@
 #This file is a large dictionnary that manages translation of PyQt messages. It also contains a translation function.
-import time
 from datetime import datetime
 import yaml
 
@@ -37,5 +36,9 @@ def tr(key): #returns the value associated to the key, for current_language
     else: #if current_language translation is unavailable, return default_language instead
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Translation key "+key+"not found for language "+current_language+"; defaulting to "+default_language+"\n")
-        return msg[default_language]
+        try:
+            return msg[default_language]
+        except:
+            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Translation key "+key+"not found for default language"+default_language+"; dropping the translation\n")
+            return("-")
     return f"[{key}]"

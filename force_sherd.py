@@ -1,6 +1,6 @@
 from PyQt6 import QtWidgets, QtGui, QtCore
 from PyQt6.QtWidgets import *
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtCore import Qt, pyqtSignal, QTimer
 from ClickableQLabel import ClickQLabel
 from translator import tr
 import os, sys, pathlib, ast
@@ -17,6 +17,8 @@ reverse_dict_types = {v: k for k, v in dict_types.items()} #reverse dictionnary,
 
 config = load_preferences()
 displaySize = config["displaySize"] #bolean to state if you want the application to display the size of all known dies (and the site on which the die was found) in the selector or not
+debounceTime = config["tagsSearchDelay"] #time (in ms) before starting to search for a keyword in the list; designed to reduce lag when fast-typers search for a tag
+
 
 try:
     with open("resources/data/tags.conf") as tagsFile: #tagging feature
@@ -74,7 +76,15 @@ class ForceTypePopup(QDialog):
 
         self.searchBar = QtWidgets.QLineEdit()
         self.searchBar.setPlaceholderText("Type keywords separated by space")
-        self.searchBar.textChanged.connect(self.searchedText)
+
+
+
+        self.searchTimer = QtCore.QTimer(self) #debouncing time for fast typers
+        self.searchTimer.setSingleShot(True)
+        self.searchTimer.setInterval(debounceTime)
+        self.searchBar.textChanged.connect(self.searchTextChanged)
+        self.searchTimer.timeout.connect(self.performSearch)
+
         scrollArea = QtWidgets.QScrollArea(self)
         scrollArea.setWidgetResizable(True)
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
@@ -88,13 +98,20 @@ class ForceTypePopup(QDialog):
         self.setLayout(main_layout)
         self.searchBar.setFocus()
 
+    def searchTextChanged(self, text): # Restart the timer every time the user types in the search bar
+        # The search only happens after timer ends without typing.
+        self.searchTimer.start()
+
+
+    def performSearch(self):
+        self.searchedText(self.searchBar.text())
 
     def populateTable(self, lPath):
-        while self.gridLayout.count(): #start by removing current grid items before adding new ones
+        '''while self.gridLayout.count(): #start by removing current grid items before adding new ones
             child = self.gridLayout.takeAt(0)
 
             if child.widget():
-                child.widget().setParent(None)
+                child.widget().setParent(None)'''
 
         i=0 #counter of %3, for repartition of columns
         nRows=int(len(lPath)/3)

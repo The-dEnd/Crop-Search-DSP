@@ -6,9 +6,8 @@ import os
 os.environ["OPENCV_SKIP_LOAD"] = "1"
 from PyQt6.QtWidgets import QApplication, QWidget, QFileDialog, QMessageBox, QDialog, QVBoxLayout, QLabel, QLineEdit, QPushButton, QComboBox
 from PyQt6 import QtGui, QtWidgets, QtCore
-from PyQt6.QtGui import QFontDatabase, QKeySequence, QShortcut
-from PyQt6.QtCore import pyqtSignal, Qt, QObject, QThread, pyqtSignal, QTimer
-from PyQt6.QtGui import QFontDatabase, QIcon
+from PyQt6.QtGui import QFontDatabase, QKeySequence, QShortcut, QIcon
+from PyQt6.QtCore import pyqtSignal, Qt, QObject, QThread, QTimer
 from main_layout import Ui_Poincons_selector, maxRecent, DrawingOverlay
 from display_types import RIG_Type
 from loading_screen import Ui_Loading
@@ -97,6 +96,7 @@ class Selector_Main(QWidget):
         self.overlay = DrawingOverlay(self)
         self.overlay.setGeometry(self.ui.die_picture.geometry())
         self.overlay.raise_()
+        self.overlay.setAttribute(QtCore.Qt.WidgetAttribute.WA_TransparentForMouseEvents, False )
         self.ui.die_picture.installEventFilter(self) #listen to die_picture modification, to adapt the overlay accordingly
         self.newPart()
         self.popupTypology = None #additional argument for child window (popups) that displays the shape/typology of pottery (RIG/CRAV)
@@ -215,21 +215,21 @@ class Selector_Main(QWidget):
                 typeDie = "false positive (not a sherd)"
                 nDie = typeDie
         comment = self.ui.comment_box.toPlainText().replace(";",",").replace("\n","\t").replace("\r","") #semi-collon are reserved as separators in output CSV, so we sanitize the field
-        country = self.ui.country.toPlainText()
-        region = self.ui.region.toPlainText()
-        department = self.ui.department.toPlainText()
-        municipality = self.ui.municipality.toPlainText()
-        site = self.ui.site.toPlainText()
-        x = self.ui.lambert_X.toPlainText()
-        y = self.ui.lambert_Y.toPlainText()
-        z = self.ui.lambert_Z.toPlainText()
-        fait = self.ui.numFait.toPlainText()
-        us = self.ui.numUs.toPlainText()
+        country = self.ui.country.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        region = self.ui.region.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        department = self.ui.department.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        municipality = self.ui.municipality.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        site = self.ui.site.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        x = self.ui.lambert_X.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        y = self.ui.lambert_Y.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        z = self.ui.lambert_Z.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        fait = self.ui.numFait.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
+        us = self.ui.numUs.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
         craType = self.ui.mode_CRA.currentText().split(" ")[0]
-        craNum = self.ui.rig_num.toPlainText()
+        craNum = self.ui.rig_num.toPlainText().replace(";",",").replace("\n","\t").replace("\r","")
         if self.ui.unknownCRA.isChecked():
             craNum = tr("otherType")
-        author = self.ui.author.displayText()
+        author = self.ui.author.displayText().replace(";",",").replace("\n","\t").replace("\r","")
         lLocations = []
         if self.ui.checkBox_edge.isChecked():
             lLocations.append(tr("edge"))
@@ -628,7 +628,7 @@ class Selector_Main(QWidget):
         value = self.ui.comment_box.toPlainText()
         writeLogs("    Comment box changed to \""+value+"\"\n")
             
-    def false_positive(self):#open the popup to report an undetected sherd
+    def false_positive(self):#function to log user actions; no direct fonctionnal use
         writeLogs("    Button \"Not a die\" clicked\n")
             
     def radioboxUnk_ticked(self):#function to log user actions; no direct fonctionnal use
@@ -748,6 +748,7 @@ class Selector_Main(QWidget):
                 #print(die,value)
                 if value>1 and die != "false positive (not a sherd)0":
                     dialog = DecorativeRegisterPopup(die=die)
+                    number = 0
                     if dialog.exec() == QDialog.DialogCode.Accepted:
                         number = dialog.get_value()
                     writeLogs("    Die "+die+" present in "+str(number)+" decorative registry; rolling back to get its previous occurence...\n")
@@ -965,7 +966,6 @@ class Display_Types(QWidget):
     
     def __init__(self, parent=None):
         super().__init__()
-        self.ui = RIG_Type()
         self.parent = parent
         self.ui = RIG_Type(None)
         self.ui.imageClicked.connect(self.clicked)
@@ -1115,22 +1115,13 @@ class Undetected_Die(QWidget):
         location = "/".join(lLocations)#merge the active parts of edge/belly/bottom/handle
         return(comment, country, region, department, municipality, site, x, y, z, fait, us, craType, craNum, location, author)
 
-'''def doSomething(filename):#TODO: remove when linked to ML algo
-    with open("logs.txt", "a", encoding="utf-8") as logFile:
-        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML loading started.\n")
-    time.sleep(5)
-    with open("logs.txt", "a", encoding="utf-8") as logFile:
-        logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ML loading completed.\n")
-    return()'''
 
 
 def outputML_CSV_exists(): #check if the ML output CSV exists, and contains data; this allows user to skip the ML process if data remains from last asssessment; also returns number of lines (header excluded) and date of last modification
-    file_path = mlFile
     files = glob.glob("*_"+mlFile) 
     if len(files)>0:
         outputList = [False, [], [], []]
         for aMlFile in files:
-            fileObject = csv.reader(aMlFile)
             row_count = 0
             for row in open(aMlFile, "r", encoding="utf-8"):
                 row_count+= 1
@@ -1261,27 +1252,31 @@ def prepareData(): #takes first item from list of ML output, and outputs the exp
     return(numSherd,numDie,picNum,picPath,choice1,choice1pretty,path1,prob1,choice2,choice2pretty,path2,prob2,choice3,choice3pretty,path3,prob3,choice4,choice4pretty,path4,prob4,comm,xLeft,yBot,xRight,yTop, aux1)
 
 def preparePictures(dataList): #takes the raw ML output, and prepares temporary pictures for review, with die areas being cornered
-    newList = dataList
-    listPathPicture = list(set([x[0][3] for x in newList]))
-    for aPic in listPathPicture: #TODO: this is a quadratic O(n²) approach, and should be improved
+    records_by_picture = {}
+    for recordTmp in dataList:
+        aRecord = recordTmp[0]
+        picPath = aRecord[3]
+        if all([aRecord[36], aRecord[37], aRecord[38], aRecord[39]]): 
+            records_by_picture.setdefault(picPath, []).append(aRecord)
+    
+    for aPic, records in records_by_picture.items():
         if not(os.path.exists(aPic)):
             basicWarning(tr("noPic").replace("$IMG",str(aPic)))
             sys.exit()
         writeLogs("    Starting to draw rectangle(s) on picture "+aPic+".\n")
-        im = PIL.Image.open(aPic)
-        newPath = "tmp/"+os.path.basename(aPic)
-        w,l=im.size
-        if w!=l: #if the picture is not square, crop it to a square
-            cropArea = picCropper.cropToSquare(w,l)
-            im2 = im.crop(cropArea)
-        else:
-            im2=im
-        for i in range(len(newList)):
-            aRecord = newList[i][0]
-            if aRecord[3]==aPic and all([aRecord[36],aRecord[37],aRecord[38],aRecord[39]]):
-                PIL.ImageDraw.Draw(im2).rectangle((min(int(aRecord[36]),int(aRecord[38])),min(int(aRecord[37]),int(aRecord[39])),max(int(aRecord[36]),int(aRecord[38])),max(int(aRecord[37]),int(aRecord[39]))), outline=normalColor, width=4) #colors adjusted to be recognizable by most colorblind people
-        im2.save(newPath)
-    return newList
+        with PIL.Image.open(aPic) as im:
+            newPath = "tmp/"+os.path.basename(aPic)
+            w,l=im.size
+            if w!=l: #if the picture is not square, crop it to a square
+                cropArea = picCropper.cropToSquare(w,l)
+                im2 = im.crop(cropArea)
+            else:
+                im2=im.copy()
+            draw = PIL.ImageDraw.Draw(im2)
+            for aRecord in records:
+                draw.rectangle((min(int(aRecord[36]),int(aRecord[38])),min(int(aRecord[37]),int(aRecord[39])),max(int(aRecord[36]),int(aRecord[38])),max(int(aRecord[37]),int(aRecord[39]))), outline=normalColor, width=4) #colors adjusted to be recognizable by most colorblind people
+            im2.save(newPath)
+    return dataList
 
 def addRectangleToPicture(pic, coords): #when a false negative is added, draw an extra rectangle to take it into account
     newPath = "tmp/" + os.path.basename(pic)

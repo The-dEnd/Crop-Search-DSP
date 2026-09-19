@@ -1,12 +1,13 @@
-Cliquer sur previous après avoir report un FN -> crash
-
-Dans theme relaxing, le placeholder text du qline edit est en noir
-le placeholder pour l'auteur (QLineEdit) ne change pas de couleur,; contrairement au Qtextedit
-
+si on force un type, remplacer la vue des suggestions par le motif choisi
 réduire largeur du texte dans la popup loupe
+conserver les réglettes en zoomant
+dans le "donner échelle", monter/baisser de 1 si le user utilise les flèches haut/bas du clavier au lieu de retaper
 
 
-fusionner les imports de preferences dans une fonction dans un .py commun
+
+
+
+pouvoir drag and drop le calque du poinçon suggéré pour le comparer au vrai dessin
 
 
 Update and rework documentation

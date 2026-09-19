@@ -963,7 +963,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.drawing = False
         self._panning = False #True while a middle-click drag is in progress, used to pan the zoomed picture
         self._pan_last_pos = None #last mouse position seen during the current pan drag
-        self.updateGeometry
+        self.updateGeometry()
         
     def updateGeometry(self): #updates overlay geometry to match die_picture
         die_pic_geometry = self.main_parent.ui.die_picture.geometry()
@@ -984,7 +984,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         self.setPixmap(self.overlay_pixmap)
         self.update()
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.MouseButton.LeftButton:
             self.start_point = event.position().toPoint()
             #now we will clear the previous line with current status from the statusLine
@@ -998,7 +998,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
             if rmMeasLinesPan:
                 self.clear_lines() #the picture is about to move under any existing lines
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event: QMouseEvent):
         if self.drawing:
             self.end_point = event.position().toPoint()
             self.update()  #calls paintEvent to refresh the line display
@@ -1017,7 +1017,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
         if getMeasureState:
             return("get")
 
-    def mouseReleaseEvent(self, event): #end of the line
+    def mouseReleaseEvent(self, event: QMouseEvent): #end of the line
         if event.button() == Qt.MouseButton.LeftButton:
             self.drawing = False
             self.end_point = event.position().toPoint()
@@ -1033,7 +1033,7 @@ class DrawingOverlay(QtWidgets.QLabel): #handles the measures of size in the 2 b
             self._panning = False
             self._pan_last_pos = None
 
-    def wheelEvent(self, event): #the overlay sits on top of die_picture and captures mouse activity, so wheel zoom is handled here and forwarded down
+    def wheelEvent(self, event: QMouseEvent): #the overlay sits on top of die_picture and captures mouse activity, so wheel zoom is handled here and forwarded down
         picture = self.main_parent.ui.die_picture
         changed = picture.handle_zoom(event.position().toPoint(), event.angleDelta().y())
         if changed: #only wipe the measurement lines if the zoom level actually moved (not when already at the min/max boundary)
