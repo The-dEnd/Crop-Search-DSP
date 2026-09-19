@@ -14,6 +14,7 @@ from measure_state import MeasureState
 from datetime import datetime
 from loadPrefs import load_preferences
 from iconColor import colorIcon, updateIcon, colorPixmap
+from decimal import Decimal, InvalidOperation
 
 
 
@@ -27,7 +28,11 @@ maxRecent=config["max_recents"] #max number of items in the recent_rig.conf file
 geometry = None #dimensions of the picture, to automatically align dimensions of the transparent layer for drawing and measuring lengths
 setLineColor = config["known_length"] #color for defining a length
 getLineColor = config["length_to_assess"] #color for getting the length of a line, based on the set lined
-rmMeasLinesPan = config["remove_measurement_for_pan"]
+rmMeasLinesPan = config["remove_measurement_for_pan"] #enables/disables keeing the measurement lines while panning #TODO use this for zooming as well when zooming will work
+scaleUpWheelEnabled = config["scale_change_with_wheel"] #enables/disables that the mouse wheel over the setScale field increments/decrements its value
+scaleUpWheelStep = config["scale_change_with_wheel_interval"] #amount added/removed to the value per wheel notch
+scaleUpArrowEnabled = config["scale_change_with_up_down_arrow"] #boolean that enables/disables that tying up/down keys on the keyboard in the field to measure a known length increments/decrements its value
+scaleUpArrowStep = config["scale_change_with_up_down_arrow_interval"] #interval of the increment/decrement of the scale setting for up/down arrows
 
 unit = "" #the unit that has been set in setScale QLineEdit
 
@@ -48,6 +53,73 @@ def convertTxtToLength(someText): #will convert the value for size set in setSca
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    ERROR: could not interprete value \""+str(result.group(1))+"\" as float; defaulting to 0\n")
         return 0.0
+
+_SCALE_TEXT_PATTERN = re.compile(r"^(\s*)(\d+)(?:([ ,.;])(\d+))?(.*)$") #same regex than convertTxtToLength
+def step_scale_text(text, notches, steps): #returns `text` with its number moved by notches*step (unit and decimal separator kept as typed), or None if the text should not change
+    match = _SCALE_TEXT_PATTERN.match(text)
+    step = Decimal(str(steps))
+    if match is not None:
+        lead, int_part, sep, frac_part, suffix = match.groups()
+        sep = sep or "."
+        frac_part = frac_part or ""
+    elif text.strip() == "" and notches > 0: #empty field: start counting from 0
+        lead, int_part, sep, frac_part, suffix = "", "0", ".", "", ""
+    else: #not a number (or empty field and scrolling down): leave the text untouched
+        return None
+    value = Decimal(int_part + "." + (frac_part or "0")) #Decimal, not float: avoids 0.1+0.2=0.30000000000000004
+    decimals = max(len(frac_part), -step.as_tuple().exponent, 0) #keep the decimals already typed, and at least those of the step
+    new_value = max(Decimal(0), value + step * notches) #convertTxtToLength does not accept negative numbers, so stop at 0
+    new_text = f"{new_value.quantize(Decimal(1).scaleb(-decimals)):f}"
+    return lead + new_text.replace(".", sep) + suffix
+
+class ScaleLineEdit(QtWidgets.QLineEdit): #the setScale field: the mouse wheel (hovering) and the Up/Down keys (focused) increment/decrement the number it contains
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self._wheel_remainder = 0 #wheel movement not yet converted into a whole step (touchpads send many small deltas)
+
+    def apply_step(self, notches, src): #moves the value by notches * step (negative = decrement); the text is left untouched if it is not a number
+        #try:
+        if src == "wheel":
+            step = Decimal(str(scaleUpWheelStep))
+            if not step.is_finite() or step <= 0:
+                raise InvalidOperation
+        elif src == "arrow":
+            step = Decimal(str(scaleUpArrowStep))
+            if not step.is_finite() or step <= 0:
+                raise InvalidOperation
+        else:
+            step = Decimal(0)
+        #except InvalidOperation:
+        #    step = Decimal(0) #invalid preference value
+        new_text = step_scale_text(self.text(), notches, step)
+        if new_text is None:
+            return
+        chars_after_cursor = len(self.text()) - self.cursorPosition() #keep the cursor at the same distance from the end, i.e. next to the number even if it gains or loses a digit
+        self.setText(new_text) #textChanged -> edit_scale -> refresh_length() updates the measured size
+        self.setCursorPosition(max(0, len(new_text) - chars_after_cursor))
+
+    def wheelEvent(self, event: QtGui.QWheelEvent):
+        if not scaleUpWheelEnabled:
+            super().wheelEvent(event) #feature disabled: default behaviour
+            return
+        delta = event.angleDelta().y()
+        if delta * self._wheel_remainder < 0: #direction changed: forget the leftover
+            self._wheel_remainder = 0
+        self._wheel_remainder += delta
+        notches = int(self._wheel_remainder / 120) #120 = one "notch" on most mice wheels, same convention as handle_zoom
+        self._wheel_remainder -= notches * 120
+        if notches != 0:
+            self.apply_step(notches,"wheel")
+        event.accept()
+
+    def keyPressEvent(self, event: QtGui.QKeyEvent):
+        if (scaleUpArrowEnabled and event.key() in (Qt.Key.Key_Up, Qt.Key.Key_Down)
+                and event.modifiers() in (Qt.KeyboardModifier.NoModifier, Qt.KeyboardModifier.KeypadModifier)): #plain arrows only (numpad ones included); Shift/Ctrl/Alt + arrow keep their usual meaning
+            self.apply_step(1 if event.key() == Qt.Key.Key_Up else -1,"arrow") #holding the key repeats the step, like a spin box
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
 
 class SquarePicture(QtWidgets.QLabel): #class for a picture (QLabel) with a 1:1 ration, and with a maximum size based on window size
     def __init__(self, parent=None):
@@ -422,7 +494,7 @@ class Ui_Poincons_selector(object):
         
         self.gridLayout_2r.addWidget(self.measureGroup, 0, 0, 2, 1)
         
-        self.setScale = QtWidgets.QLineEdit()
+        self.setScale = ScaleLineEdit()
         self.setScale.setMaximumSize(QtCore.QSize(200, 20))
         self.setScale.setObjectName("setScale")
         self.gridLayout_2r.addWidget(self.setScale, 0, 1)
