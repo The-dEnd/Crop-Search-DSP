@@ -78,19 +78,19 @@ class ScaleLineEdit(QtWidgets.QLineEdit): #the setScale field: the mouse wheel (
         self._wheel_remainder = 0 #wheel movement not yet converted into a whole step (touchpads send many small deltas)
 
     def apply_step(self, notches, src): #moves the value by notches * step (negative = decrement); the text is left untouched if it is not a number
-        #try:
-        if src == "wheel":
-            step = Decimal(str(scaleUpWheelStep))
-            if not step.is_finite() or step <= 0:
-                raise InvalidOperation
-        elif src == "arrow":
-            step = Decimal(str(scaleUpArrowStep))
-            if not step.is_finite() or step <= 0:
-                raise InvalidOperation
-        else:
-            step = Decimal(0)
-        #except InvalidOperation:
-        #    step = Decimal(0) #invalid preference value
+        try:
+            if src == "wheel":
+                step = Decimal(str(scaleUpWheelStep))
+                if not step.is_finite() or step <= 0:
+                    raise InvalidOperation
+            elif src == "arrow":
+                step = Decimal(str(scaleUpArrowStep))
+                if not step.is_finite() or step <= 0:
+                    raise InvalidOperation
+            else:
+                step = Decimal(0)
+        except InvalidOperation:
+            step = Decimal(0) #invalid preference value
         new_text = step_scale_text(self.text(), notches, step)
         if new_text is None:
             return
