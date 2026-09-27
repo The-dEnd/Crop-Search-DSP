@@ -224,7 +224,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
             self._pan_last_pos = None
 
     def wheelEvent(self, event): #zooms in/out, centered on the cursor
-        self.handle_zoom(event.pos(), event.angleDelta().y())
+        self.handle_zoom(event.position().toPoint(), event.angleDelta().y())
         event.accept()
 
     def handle_zoom(self, cursor_pos, angle_delta_y): #returns True if the zoom level actually changed

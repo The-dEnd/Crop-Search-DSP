@@ -7,7 +7,7 @@
 
 from PyQt6 import QtCore, QtGui, QtWidgets
 from translator import tr, current_language
-from PyQt6.QtGui import QPainter, QPen, QColor, QPalette
+from PyQt6.QtGui import QPainter, QPen, QColor, QPalette, QMouseEvent
 from PyQt6.QtCore import Qt
 import math, re
 from measure_state import MeasureState
