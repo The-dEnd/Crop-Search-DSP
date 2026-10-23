@@ -18,7 +18,7 @@
         4: "Géométrique"
         5: "Réticulé"
         6: "Arceau"
-        7: "S-serpentin"
+        7: "Esse-S"
         8: "Figuratif"
         9: "Figuratif"
         0: "Sélectionner un motif"
@@ -356,7 +356,7 @@
 
 "chooseRight":
     "en": "Choose a die number →"
-    "fr": "Choisissez un nombre →"
+    "fr": "Choisissez un type →"
 
 
 "okMsg":
