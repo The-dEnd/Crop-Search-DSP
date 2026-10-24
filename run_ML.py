@@ -150,7 +150,7 @@ def predict(path_to_pictures, callback=None, projectName=""):
             line += [int(W * x1n), int(H * y1n), int(W * x2n), int(H * y2n)]
             rows.append(line)
             
-        if noDetection: #if nothing detected on apic, we display it anyway, in case of a false negative
+        if noDetection: #if nothing detected on a pic, we display it anyway, in case of a false negative
             line = ["", "", "", aPath]
             line += [""] * 32
             line += [0,0,0,0]

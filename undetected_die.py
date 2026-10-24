@@ -18,8 +18,8 @@ config = load_preferences()
 MAX_ZOOM = config["max_zoom"] #maximum zoom factor allowed on the die picture
 MIN_ZOOM = 1.0 #minimum zoom factor: the default/initial (fit-to-widget) picture size; unzooming stops here so the picture never shrinks below its normal size
 ZOOM_STEP = config["zoom_step"] #zoom multiplier applied per mouse wheel "notch" (120 units of angleDelta)
-
-
+crosshairColor = config["crosshairColor"]
+showMLAutodetect = config["showMLAutodetect"]
 
 class Ui_AddDieDialog(QtWidgets.QDialog):
     def setupUi(self, Dialog, path, parent=None):
@@ -102,6 +102,18 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         self.newTick = QtWidgets.QCheckBox(text=tr("new"))
         bottom_layout.addWidget(self.newTick) #in case of multiple ticks, the order of priority will be unknown>new>actual value, to keep the most likely scenario as a priority
         
+        if showMLAutodetect:
+            self.AutoML = QtWidgets.QPushButton(Dialog)
+            self.AutoML.setMinimumSize(QtCore.QSize(30, 30))
+            self.AutoML.setMaximumSize(QtCore.QSize(30, 30))
+            self.AutoML.setSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
+            self.AutoML.setObjectName("AutoML")
+            self.iconML = QtGui.QIcon()
+            self.iconML.addPixmap(QtGui.QPixmap(colorPixmap("resources/media/brain.png",palCol2)), QtGui.QIcon.Mode.Normal, QtGui.QIcon.State.Off)
+            self.AutoML.setIcon(self.iconML)
+            self.AutoML.clicked.connect(Dialog.detectMLAutoFalseNeg) # type: ignore
+            bottom_layout.addWidget(self.AutoML)
+        
         # Spacer between left and right groups
         bottom_layout.addStretch(1)
         
@@ -147,6 +159,7 @@ class Ui_AddDieDialog(QtWidgets.QDialog):
         with open("logs.txt", "a") as logFile:
             logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Within false negative popup, force type popup opened with category \""+value+"\"\n")
         self.popupForceType = Force_Type_Class(dialog=self.Dialog, categ=value)
+        
 
 class DrawablePictureLabel(QtWidgets.QLabel):
     def __init__(self, parent=None, path=""):
@@ -300,7 +313,7 @@ class DrawablePictureLabel(QtWidgets.QLabel):
         
         # Draw crosshairs if present
         if self.click_positions and self.displayed_width > 0:
-            pen = QtGui.QPen(QtGui.QColor("red"), 2)
+            pen = QtGui.QPen(QtGui.QColor(crosshairColor[0],crosshairColor[1],crosshairColor[2]), 2)
             painter.setPen(pen)
             
             # Draw crosshairs only within the image bounds

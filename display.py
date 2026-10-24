@@ -784,7 +784,6 @@ class Selector_Main(QWidget):
                     writer.writerow(row)
 
 
-
 class Init_Window(QWidget):
     #following code is to open a folder selector, start the ML algorithm on its content, and display a loading window
     finished = pyqtSignal()
@@ -1076,6 +1075,29 @@ class Undetected_Die(QWidget):
         addRectangleToPicture(self.pic, final_frame)
         self.parent.ui.die_picture.setPixmap(QtGui.QPixmap("tmp/current.png"))
         self.close()
+    
+    def detectMLAutoFalseNeg(self): #the user runs an automatic detection in the crosshair area
+        with open("logs.txt", "a") as logFile:
+            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Within false negative popup, automated die detection is made.\n")
+        coord_raw = self.ui.die_picture.click_positions
+        dispW = self.ui.die_picture.displayed_width
+        dispH = self.ui.die_picture.displayed_height
+        width, heigth = imagesize.get(self.pic)
+        if len(coord_raw)<2:
+            basicWarning(tr("noFalseNegTwoPoints"))
+        [(x1,y1),(x2,y2)] = coord_raw
+        final_frame = [int(min(x1, x2)*(float(width)/float(dispW))), int(min(y1, y2)*(float(heigth)/float(dispH))), int(max(x1, x2)*(float(width)/float(dispW))), int(max(y1, y2)*(float(heigth)/float(dispH)))]
+        croppedImage = PIL.Image.open(self.parent.picture).copy().crop(final_frame)
+        croppedImage.save("tmp/ccc55bf6f38f21c8fcce3678c90c9caf.png") #an arbitrary UID to prevent a duplication of file name with existing file; MD5 of "This is an arbitrary string for a filename"
+        resultMLAuto = run_ML.predict(["tmp/ccc55bf6f38f21c8fcce3678c90c9caf.png"]) #HereChangeMLAlgo
+        try:
+            idDetected = resultMLAuto[0][4] #now that we have the most likely result, let's autofill it on the false negative popup
+            with open("logs.txt", "a") as logFile:
+                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Automatic detection of cropped area: "+idDetected+" with confidence %: "+str(resultMLAuto[0][6])+".\n")
+            self.ui.set_type.setCurrentText(tr("lMotifs")[int(idDetected[0])])
+            self.ui.set_number.setText(str(int(idDetected[1:])))
+        except:
+            basicWarning(tr("warnNoDetec"))
     
     def getParentAttributes(self):
         country = ""

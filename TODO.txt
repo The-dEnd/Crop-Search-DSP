@@ -1,7 +1,7 @@
 si on force un type, remplacer la vue des suggestions par le motif choisi
 réduire largeur du texte dans la popup loupe
 conserver les réglettes en zoomant
-dans le "donner échelle", monter/baisser de 1 si le user utilise les flèches haut/bas du clavier au lieu de retaper
+
 
 
 
