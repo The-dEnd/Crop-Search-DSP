@@ -186,7 +186,7 @@ def main(argv=None, callback=None, outputFile=None):
         projectName = f.readline().replace("\n","").replace("\r","")
     rows = predict(argv, callback, projectName)
 
-    with open(outputFile, "w", newline="") as outputML:
+    with open(outputFile, "w", newline="", encoding="latin-1") as outputML:
         outputMLWriter = csv.writer(outputML, delimiter=";")
         outputMLWriter.writerow("NumTesson;NumDecor;NumPhoto;NamePhoto;Choice1Id;Choice1Pretty;Proba1;Choice2Id;Choice2Pretty;Proba2;Choice3Id;Choice3Pretty;Proba3;Choice4Id;Choice4Pretty;Proba4;Choice5Id;Choice5Pretty;Proba5;Choice6Id;Choice6Pretty;Proba6;Choice7Id;Choice7Pretty;Proba7;Comment;Aux1;Aux2;Aux3;Aux4;Aux5;Aux6;Aux7;Aux8;Aux9;Aux10;xLeft;yBottom;xRight;yTop".split(";"))
         outputMLWriter.writerows(rows)

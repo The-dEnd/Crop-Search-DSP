@@ -1077,8 +1077,7 @@ class Undetected_Die(QWidget):
         self.close()
     
     def detectMLAutoFalseNeg(self): #the user runs an automatic detection in the crosshair area
-        with open("logs.txt", "a") as logFile:
-            logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Within false negative popup, automated die detection is made.\n")
+        writeLogs("    Within false negative popup, automated die detection is made.\n")
         coord_raw = self.ui.die_picture.click_positions
         dispW = self.ui.die_picture.displayed_width
         dispH = self.ui.die_picture.displayed_height
@@ -1092,8 +1091,7 @@ class Undetected_Die(QWidget):
         resultMLAuto = run_ML.predict(["tmp/ccc55bf6f38f21c8fcce3678c90c9caf.png"]) #HereChangeMLAlgo
         try:
             idDetected = resultMLAuto[0][4] #now that we have the most likely result, let's autofill it on the false negative popup
-            with open("logs.txt", "a") as logFile:
-                logFile.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")+"    Automatic detection of cropped area: "+idDetected+" with confidence %: "+str(resultMLAuto[0][6])+".\n")
+            writeLogs("    Automatic detection of cropped area: "+idDetected+" with confidence %: "+str(resultMLAuto[0][6])+".\n")
             self.ui.set_type.setCurrentText(tr("lMotifs")[int(idDetected[0])])
             self.ui.set_number.setText(str(int(idDetected[1:])))
         except:
@@ -1193,7 +1191,7 @@ def output_application_files(lOut,numDie,numDecor,numPhoto,namePhoto):#TODO pas 
     photo_filename = os.path.basename(namePhoto).split('/')[-1]
     shutil.copy2(namePhoto, newPath+"/"+photo_filename)
     if len(comment)>0:
-        with open(newPath+"/"+photo_filename+"_comment.txt", "w", encoding="latin-1") as commentFile:
+        with open(newPath+"/"+photo_filename+"_comment.txt", "w", encoding="latin-1", errors="replace") as commentFile:
             commentFile.write(comment)
 
 
