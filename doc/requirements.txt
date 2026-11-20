@@ -6,7 +6,9 @@ opencv-python
 torchvision
 numpy
 pillow
-pyqt5
+pyqt6
+unidecode
+setuptools
 imagesize
 tqdm
 seaborn
