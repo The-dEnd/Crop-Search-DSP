@@ -8,7 +8,7 @@ numpy
 pillow
 pyqt6
 unidecode
-setuptools
+setuptools<81
 imagesize
 tqdm
 seaborn
